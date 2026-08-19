@@ -1,0 +1,26 @@
+{
+  "lede": "Selected work. Public repos and local labs only — no private family systems on this site.",
+  "items": [
+    {
+      "name": "This site (ettiene-wium.co.za)",
+      "role": "Public CV / profile",
+      "status": "local v1",
+      "url": "https://github.com/EttieneW/ettiene-wium.co.za",
+      "blurb": "Static JSON-driven profile. Syncs from UpSkill. Planned AWS: S3 + CloudFront + ACM. Terraform in /iac is not applied until asked."
+    },
+    {
+      "name": "UpSkill",
+      "role": "Study + career path (local)",
+      "status": "active",
+      "url": "http://localhost:8095",
+      "blurb": "AWS certs trainer, 14-week career-switch SRE path, Job Finder, and a locked original CV with generate-copy."
+    },
+    {
+      "name": "tf-fleet-iac (Siyabonwa)",
+      "role": "AWS IaC + PHP fleet app",
+      "status": "hosted",
+      "url": "https://github.com/EttieneW/tf-fleet-iac",
+      "blurb": "Terraform in af-south-1: VPC, EC2, RDS, CodePipeline. App lives in CodeCommit. Fleet stays on its current hostname until an explicit cutover to fleet.wium.co.za."
+    }
+  ]
+}

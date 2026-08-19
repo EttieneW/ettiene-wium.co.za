@@ -1,0 +1,13 @@
+You are starting a brand-new project.
+
+Folder: C:\projects\Ettiene-wium.co.za
+Name: Ettiene-wium.co.za
+
+Original idea from the user:
+This will be my own personal website that will be my own personal profile that has my cv and all my project details and skills I have.
+
+Read AGENTS.md and PROJECT.md in this folder first.
+
+Build from this idea. Ask if anything is unclear — do not invent product scope, stack, or URLs without asking. Keep PROJECT.md and C:\projects\projects-dashboard\data\projects.json in sync as the project takes shape (match entry id by folder `Ettiene-wium.co.za`).
+
+Start now: propose a short plan, then begin the first concrete files.
