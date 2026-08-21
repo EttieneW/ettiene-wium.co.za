@@ -1,5 +1,7 @@
 # Push this GitHub repo to the CodeCommit pipeline source (us-east-1).
 # Mirrors fleet: GitHub is the public remote; CodeCommit is what CodePipeline polls.
+# Uses git-remote-codecommit (pip install git-remote-codecommit) so Windows
+# does not hang on the HTTPS credential helper.
 param(
     [string]$Region = "us-east-1",
     [string]$Repo = "ettiene-wium-profile"
@@ -9,17 +11,7 @@ $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
 Set-Location $root
 
-git config --local credential.helper '!aws codecommit credential-helper $@'
-git config --local credential.UseHttpPath true
-
-$url = "https://git-codecommit.$Region.amazonaws.com/v1/repos/$Repo"
-$existing = git remote get-url codecommit 2>$null
-if (-not $existing) {
-    git remote add codecommit $url
-} elseif ($existing -ne $url) {
-    git remote set-url codecommit $url
-}
-
-Write-Host "Pushing main -> $url"
+$url = "codecommit::${Region}://$Repo"
+Write-Host "Pushing main -> origin and $url"
 git push origin main
-git push codecommit main
+git push $url main
