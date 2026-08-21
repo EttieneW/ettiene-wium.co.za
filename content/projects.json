@@ -2,11 +2,11 @@
   "lede": "Selected work. Public repos and local labs only — no private family systems on this site.",
   "items": [
     {
-      "name": "This site (ettiene-wium.co.za)",
+      "name": "This site (ettiene-wium.com)",
       "role": "Public CV / profile",
-      "status": "local v1",
-      "url": "https://github.com/EttieneW/ettiene-wium.co.za",
-      "blurb": "Static JSON-driven profile. Syncs from UpSkill. Planned AWS: S3 + CloudFront + ACM. Terraform in /iac is not applied until asked."
+      "status": "hosted",
+      "url": "https://ettiene-wium.com",
+      "blurb": "JSON-driven profile on S3 + CloudFront. Syncs from UpSkill. GitHub repo stays EttieneW/ettiene-wium.co.za; CodePipeline + CustomCodeScanner deploy from CodeCommit."
     },
     {
       "name": "UpSkill",
@@ -20,7 +20,7 @@
       "role": "AWS IaC + PHP fleet app",
       "status": "hosted",
       "url": "https://github.com/EttieneW/tf-fleet-iac",
-      "blurb": "Terraform in af-south-1: VPC, EC2, RDS, CodePipeline. App lives in CodeCommit. Fleet stays on its current hostname until an explicit cutover to fleet.wium.co.za."
+      "blurb": "Terraform in af-south-1: VPC, EC2, RDS, CodePipeline. App lives in CodeCommit. Hosted at https://fleet.wiums.co.za with HTTPS and Apache Basic Auth during construction."
     }
   ]
 }

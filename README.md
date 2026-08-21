@@ -1,6 +1,8 @@
-# ettiene-wium.co.za
+# ettiene-wium.com
 
 Public CV and selected work. **No logins. No private family data.**
+
+Live site: **https://ettiene-wium.com** (S3 + CloudFront). Local folder/GitHub name stays `ettiene-wium.co.za`.
 
 ## Run locally
 
@@ -16,18 +18,27 @@ Open http://localhost:8097
 |------|------|
 | `content/profile.json` | CV fields (synced from UpSkill by wium-sync) |
 | `content/projects.json` | Public project cards |
-| `public/` | PHP site |
-| `iac/` | Planned S3 + CloudFront + ACM — **do not apply until asked** |
+| `public/` | PHP site (rendered to static HTML at deploy) |
+| `iac/` | S3 + CloudFront + ACM + CodePipeline + CCS |
+
+## Deploy
+
+```powershell
+cd C:\projects\Ettiene-wium.co.za
+git push origin main
+.\scripts\push-codecommit.ps1
+```
+
+CodePipeline: Source (CodeCommit) → Review (CustomCodeScanner) → Deploy (PHP render + S3 + CloudFront invalidation).
+
+Upload the CCS zip once after the CCS bucket exists:
+
+```powershell
+py C:\projects\CustomCodeScanner\scripts\pack_cli.py --upload ettiene-wium-profile-ccs-reports
+```
 
 ## GitHub
 
-Intended public repo: `https://github.com/EttieneW/ettiene-wium.co.za`
+Public repo: `https://github.com/EttieneW/ettiene-wium.co.za`
 
-If Cursor GitHub MCP is not logged in, from Warp:
-
-```bat
-cd C:\projects\wium-sync
-grok -p "Create GitHub repos per GITHUB.md"
-```
-
-Or: `gh auth login` then `pwsh C:\projects\wium-sync\create-github-repos.ps1`
+Fleet (separate project): https://fleet.wiums.co.za

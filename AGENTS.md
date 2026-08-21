@@ -8,7 +8,11 @@
 
 ## What this project is
 
-Public CV/profile for **ettiene-wium.co.za**. Content lives in `content/profile.json` and `content/projects.json`. `wium-sync` overwrites profile JSON from UpSkill.
+Public CV/profile for **https://ettiene-wium.com**. Content lives in `content/profile.json` and `content/projects.json`. `wium-sync` overwrites profile JSON from UpSkill.
+
+The local folder and GitHub repo stay named `Ettiene-wium.co.za` / `ettiene-wium.co.za`. The live hostname is **ettiene-wium.com**.
+
+Fleet lives at **https://fleet.wiums.co.za** (`C:\projects\tf-fleet-iac`). Do not retarget fleet from this folder.
 
 ## Dashboard sync
 
@@ -23,7 +27,7 @@ After heavy changes, update `summary`, `description`, `goals`, `completeness`, `
 ## Working style
 
 - Keep the site static-shaped (no auth).
-- IaC under `iac/` is planned only until apply is requested.
+- Hosting is S3 + CloudFront (Terraform in `iac/`). PHP is only for local preview and the CodeBuild render step.
 - Prefer editing `content/*.json` over hard-coding copy in PHP.
 
 ## LuckyLuke (local offload)
@@ -43,5 +47,7 @@ This project lives under `C:\projects\`. The multi-project hub is:
 ## Git
 
 This project should have its own git repo and a GitHub remote (`EttieneW`). After meaningful work: commit, then push. Prefer the dashboard Git pills (Commit / Push / Pull) or `git` in this folder. Never force-push unless the user clearly asked. Do not commit `.env`, `config/token`, `.venv`, or `node_modules`.
+
+Pipeline source is AWS CodeCommit (`ettiene-wium-profile` in us-east-1). After pushing GitHub, run `scripts/push-codecommit.ps1` so CodePipeline + CCS run.
 
 The universal starter files (`AGENTS.md`, `PROJECT.md`, `README.md`) come from `C:\projects\_project-template`. When cloning a repo onto a new PC, the dashboard **All repos** flow refreshes missing universal sections from that template.

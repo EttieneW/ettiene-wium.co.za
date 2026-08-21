@@ -6,8 +6,8 @@ Thumbs.db
 *.tfstate
 *.tfstate.*
 .terraform/
-.terraform.lock.hcl
 iac/.terraform/
+iac/tfplan*
 *.log
 data/*.local.json
 .venv/
@@ -21,6 +21,7 @@ __pycache__/
 logs/
 storage/logs/
 config/token
+dist/
 Saved/
 Intermediate/
 Binaries/
