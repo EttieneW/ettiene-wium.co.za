@@ -40,3 +40,29 @@ ul { padding-left: 1.1rem; }
 .plain { list-style: none; padding: 0; }
 a { color: var(--accent); }
 footer { padding: 1rem 8vw 3rem; border-top: 1px solid var(--line); }
+.skip {
+  position: absolute; left: -999px; top: 0;
+}
+.skip:focus { left: 1rem; top: 1rem; background: var(--panel); padding: .4rem .7rem; z-index: 2; }
+.chip {
+  display: inline-block; font-size: .85rem; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 999px; padding: .2rem .7rem;
+}
+.letter p { max-width: 62ch; }
+@media (max-width: 720px) {
+  .top { flex-direction: column; align-items: flex-start; gap: .6rem; }
+  nav { flex-wrap: wrap; }
+}
+.admin main { max-width: 820px; }
+.admin label { display: block; margin: .75rem 0; color: var(--muted); }
+.admin input, .admin textarea {
+  display: block; width: 100%; margin-top: .3rem;
+  background: var(--panel); color: var(--text); border: 1px solid var(--line);
+  border-radius: 8px; padding: .5rem .6rem; font: inherit;
+}
+.admin .error { color: #f08a8a; }
+button.linkish {
+  background: none; border: 0; color: var(--muted); cursor: pointer; font: inherit;
+}
+button.linkish:hover { color: var(--text); }
+.admin button.btn { cursor: pointer; border: 0; font: inherit; }

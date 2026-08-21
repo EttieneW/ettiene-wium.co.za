@@ -8,6 +8,14 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
+    archive = {
+      source  = "hashicorp/archive"
+      version = "~> 2.4"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.6"
+    }
   }
 }
 
@@ -128,14 +136,41 @@ resource "aws_cloudfront_distribution" "site" {
     origin_access_control_id = aws_cloudfront_origin_access_control.site.id
   }
 
+  origin {
+    domain_name = replace(aws_apigatewayv2_api.api.api_endpoint, "https://", "")
+    origin_id   = "api"
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
+  ordered_cache_behavior {
+    path_pattern               = "/api/*"
+    allowed_methods            = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods             = ["GET", "HEAD"]
+    target_origin_id           = "api"
+    viewer_protocol_policy     = "redirect-to-https"
+    compress                   = true
+    cache_policy_id            = aws_cloudfront_cache_policy.api.id
+    origin_request_policy_id   = aws_cloudfront_origin_request_policy.api.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.security.id
+  }
+
   default_cache_behavior {
     allowed_methods            = ["GET", "HEAD", "OPTIONS"]
     cached_methods             = ["GET", "HEAD"]
     target_origin_id           = "s3-site"
     viewer_protocol_policy     = "redirect-to-https"
     compress                   = true
-    cache_policy_id            = "658327ea-f89d-4fab-a63d-7e88639e58f6" # CachingOptimized
-    response_headers_policy_id = "67f7725c-6f97-4210-82d7-5512b31e9d03" # SecurityHeadersPolicy
+    cache_policy_id            = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.security.id
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.rewrites.arn
+    }
   }
 
   custom_error_response {
@@ -413,17 +448,13 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      php: 8.3
+      python: 3.11
     commands:
-      - echo "PHP $(php -v | head -n 1)"
+      - python3 --version
   build:
     commands:
-      - mkdir -p dist
-      - php public/index.php > dist/index.html
-      - cp -a public/assets dist/assets
-      - cp -a public/robots.txt dist/robots.txt
-      - cp dist/index.html dist/404.html
-      - aws s3 sync dist "s3://$SITE_BUCKET" --delete --cache-control "public,max-age=300"
+      - python3 api/publish.py
+      - aws s3 sync dist "s3://$SITE_BUCKET" --delete --cache-control "public,max-age=60"
       - aws cloudfront create-invalidation --distribution-id "$CLOUDFRONT_ID" --paths "/*"
 EOT
   }
@@ -521,4 +552,12 @@ output "public_url" {
 
 output "attach_apex_dns" {
   value = var.attach_apex_dns
+}
+
+output "admin_username" {
+  value = "Ettiene.SRE"
+}
+
+output "admin_password_ssm" {
+  value = aws_ssm_parameter.admin_password.name
 }

@@ -1,43 +1,41 @@
 # Ettiene-wium.co.za
 
-Public CV and project profile for Ettiene Wium. No logins. No family or vault data.
+Public CV and project profile for Ettiene Wium. No family or vault data.
 
 ## Summary
 
-JSON-driven PHP site at **http://localhost:8097**. Production: **https://ettiene-wium.com** on S3 + CloudFront (us-east-1). Content is overwritten by `C:\projects\wium-sync` from the UpSkill CV draft.
+Junior SRE / DevOps profile at **https://ettiene-wium.com**. Local **http://localhost:8097**. Editor at `/admin` updates CV and cover letter and regenerates PDF/DOCX.
 
 ## Description
 
-This is the public hireable profile: headline, summary, skills, two jobs (Silicon Overdrive, RogerWilco), certs, education, and selected public work. Fleet is on **https://fleet.wiums.co.za**. Private systems (info.wium.co.za, dts.wium.co.za) are not hosted here.
-
-The Windows folder and GitHub repo stay `Ettiene-wium.co.za` / `ettiene-wium.co.za`. The public URL is **ettiene-wium.com**.
+Hireable profile: headline, summary, skills, jobs (Silicon Overdrive, RogerWilco), AWS certs, cover letter, selected public work. Fleet is on **https://fleet.wiums.co.za**. Private systems are not hosted here.
 
 ## Status
 
 - **Status:** active
-- **Completeness:** 80%
+- **Completeness:** 88%
 - **Last dashboard sync:** 2026-08-21
 
 ## Goals
 
-1. Local public profile that matches the UpSkill CV draft
-2. GitHub repo `EttieneW/ettiene-wium.co.za` (public)
-3. Cheap AWS hosting on ettiene-wium.com (S3 + CloudFront + ACM)
-4. Fleet-shaped CI/CD: CodeCommit → CustomCodeScanner → static deploy
-5. Stay in sync via wium-sync
+1. Junior SRE positioning (honest: k3s lab in progress, not production K8s years)
+2. HTTPS + CSP + HSTS
+3. Authenticated editor for CV/cover letter
+4. PDF and DOCX downloads
+5. Cheap S3/CloudFront + Lambda API
+6. CCS pipeline
 
 ## Next steps
 
-1. Run `start_server.bat` and review copy
-2. After content changes: `git push` then `scripts/push-codecommit.ps1`
-3. Keep fleet on fleet.wiums.co.za — do not terraform apply fleet from this folder
+1. Edit copy at https://ettiene-wium.com/admin/
+2. After code changes: `git push` then `scripts/push-codecommit.ps1`
+3. Keep fleet on fleet.wiums.co.za
 
 ## Tech stack
 
-- PHP 8 (local preview + CodeBuild render)
-- JSON content
-- Terraform (S3, CloudFront, ACM, CodePipeline, CCS)
-- CustomCodeScanner
+- Static HTML/CSS/JS
+- Python API (local + Lambda)
+- Terraform (S3, CloudFront, ACM, API Gateway, Lambda, CodePipeline, CCS)
 
 ## How to run
 
@@ -45,9 +43,9 @@ The Windows folder and GitHub repo stay `Ettiene-wium.co.za` / `ettiene-wium.co.
 C:\projects\Ettiene-wium.co.za\start_server.bat
 ```
 
-Local URL: http://localhost:8097
-
-Production: https://ettiene-wium.com
+Local URL: http://localhost:8097  
+Production: https://ettiene-wium.com  
+Editor: https://ettiene-wium.com/admin/
 
 ## Dashboard registry
 

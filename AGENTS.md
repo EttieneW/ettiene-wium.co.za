@@ -26,9 +26,9 @@ After heavy changes, update `summary`, `description`, `goals`, `completeness`, `
 
 ## Working style
 
-- Keep the site static-shaped (no auth).
-- Hosting is S3 + CloudFront (Terraform in `iac/`). PHP is only for local preview and the CodeBuild render step.
-- Prefer editing `content/*.json` over hard-coding copy in PHP.
+- Public site stays static (S3 + CloudFront). The **editor** at `/admin` is authenticated (one user in SSM). Do not put vault, banking, or family data in content JSON.
+- Prefer editing `content/*.json` (or the editor) over hard-coding copy.
+- Do not invent certs, employers, or Kubernetes years. K8s is a lab in progress.
 
 ## LuckyLuke (local offload)
 

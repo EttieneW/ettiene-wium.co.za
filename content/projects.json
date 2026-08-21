@@ -1,26 +1,29 @@
 {
-  "lede": "Selected work. Public repos and local labs only — no private family systems on this site.",
+  "lede": "Public work only. Each card is something you can open or inspect — no private family systems.",
   "items": [
     {
       "name": "This site (ettiene-wium.com)",
       "role": "Public CV / profile",
       "status": "hosted",
       "url": "https://ettiene-wium.com",
-      "blurb": "JSON-driven profile on S3 + CloudFront. Syncs from UpSkill. GitHub repo stays EttieneW/ettiene-wium.co.za; CodePipeline + CustomCodeScanner deploy from CodeCommit."
-    },
-    {
-      "name": "UpSkill",
-      "role": "Study + career path (local)",
-      "status": "active",
-      "url": "http://localhost:8095",
-      "blurb": "AWS certs trainer, 14-week career-switch SRE path, Job Finder, and a locked original CV with generate-copy."
+      "stack": "S3, CloudFront, ACM, CodePipeline, CustomCodeScanner",
+      "blurb": "HTTPS profile on private S3 + CloudFront. Content is JSON; an authenticated editor updates CV and cover letter and regenerates PDF/DOCX. Pipeline: CodeCommit → CCS scan → deploy."
     },
     {
       "name": "tf-fleet-iac (Siyabonwa)",
       "role": "AWS IaC + PHP fleet app",
       "status": "hosted",
       "url": "https://github.com/EttieneW/tf-fleet-iac",
-      "blurb": "Terraform in af-south-1: VPC, EC2, RDS, CodePipeline. App lives in CodeCommit. Hosted at https://fleet.wiums.co.za with HTTPS and Apache Basic Auth during construction."
+      "stack": "Terraform, EC2, RDS MySQL 8.4, CodePipeline, CodeDeploy, CCS",
+      "blurb": "Reproducible AWS stack in af-south-1. Live at fleet.wiums.co.za with Let's Encrypt and Apache Basic Auth during construction. App deploys from CodeCommit."
+    },
+    {
+      "name": "UpSkill",
+      "role": "Study + career path (local)",
+      "status": "active",
+      "url": "https://github.com/EttieneW",
+      "stack": "PHP, JSON, AWS cert banks",
+      "blurb": "Local AWS certs trainer and a 14-week SRE career-switch path. Locked original CV lives here; this site publishes the junior-SRE draft, not the old backend-developer headline."
     }
   ]
 }

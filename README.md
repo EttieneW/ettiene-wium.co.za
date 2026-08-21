@@ -2,7 +2,9 @@
 
 Public CV and selected work. **No logins. No private family data.**
 
-Live site: **https://ettiene-wium.com** (S3 + CloudFront). Local folder/GitHub name stays `ettiene-wium.co.za`.
+Live site: **https://ettiene-wium.com** (S3 + CloudFront + editor API). Local folder/GitHub name stays `ettiene-wium.co.za`.
+
+Editor: **https://ettiene-wium.com/admin/** — username `Ettiene.SRE`, password in SSM `/ettiene-wium-profile/admin/password`. Local: `config/admin.local.json`.
 
 ## Run locally
 

@@ -1,6 +1,6 @@
 {
   "name": "Ettiene Wium",
-  "headline": "Site Reliability / DevOps / Linux — globally remote (Cape Town)",
+  "headline": "Junior SRE / DevOps — Linux, AWS, Terraform (Cape Town, remote)",
   "location": "Cape Town, South Africa · globally remote · SAST (UTC+2)",
   "email": "ettiene.wium@gmail.com",
   "phone": "+27 71 881 2226",
@@ -9,7 +9,7 @@
     "github": "https://github.com/EttieneW",
     "portfolio": "https://ettiene-wium.com"
   },
-  "summary": "Production engineer (8 years PHP/Linux) moving into Site Reliability and DevOps. I operate Linux, Docker, and AWS (DevOps Engineer Professional), and I am building public evidence: Kubernetes, SLOs, and auto-remediation so 24/7 ownership is not 24/7 firefighting.\n\nSeeking a junior-to-mid globally remote SRE or DevOps role with flexible hours. PHP/Laravel is an honest paid skill — not the headline.",
+  "summary": "Production engineer with 8 years of PHP and Linux, moving into Site Reliability and DevOps. I operate Linux, Docker, and AWS (DevOps Engineer Professional), and I am building public evidence: Terraform, CI/CD, quality gates, and a Kubernetes lab so 24/7 ownership is not 24/7 firefighting.\n\nSeeking a junior-to-mid globally remote SRE or DevOps role with flexible hours. PHP/Laravel is an honest paid skill — not the headline. Kubernetes is a k3s/k3d lab in progress, not production years.",
   "skills": {
     "ops": [
       "Linux (LAMP + Ubuntu, 8 years)",

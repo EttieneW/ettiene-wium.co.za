@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Editor — ettiene-wium.com</title>
+  <link rel="stylesheet" href="/assets/css/app.css">
+</head>
+<body class="admin">
+  <header class="top">
+    <p class="brand">Profile editor</p>
+    <nav>
+      <a href="/">View site</a>
+      <button type="button" class="linkish" id="logout" hidden>Log out</button>
+    </nav>
+  </header>
+  <main>
+    <section id="login-box">
+      <h1>Sign in</h1>
+      <p class="lede">Private editor for CV, cover letter, and page copy. HTTPS only in production.</p>
+      <form id="login-form">
+        <label>Username <input name="username" autocomplete="username" required></label>
+        <label>Password <input name="password" type="password" autocomplete="current-password" required></label>
+        <button class="btn" type="submit">Log in</button>
+        <p class="error" id="login-error" hidden></p>
+      </form>
+    </section>
+    <section id="editor" hidden>
+      <p class="actions">
+        <button class="btn" id="save" type="button">Save and publish</button>
+        <a class="btn ghost" href="/api/export?kind=cv&amp;format=pdf">CV PDF</a>
+        <a class="btn ghost" href="/api/export?kind=cv&amp;format=docx">CV DOCX</a>
+        <a class="btn ghost" href="/api/export?kind=cover&amp;format=pdf">Letter PDF</a>
+        <a class="btn ghost" href="/api/export?kind=cover&amp;format=docx">Letter DOCX</a>
+      </p>
+      <p class="muted" id="save-status"></p>
+      <h2>Profile</h2>
+      <label>Name <input id="name"></label>
+      <label>Headline <input id="headline"></label>
+      <label>Location <input id="location"></label>
+      <label>Email <input id="email" type="email"></label>
+      <label>Phone <input id="phone"></label>
+      <label>GitHub <input id="github"></label>
+      <label>LinkedIn <input id="linkedin"></label>
+      <label>Summary <textarea id="summary" rows="6"></textarea></label>
+      <h2>Skills (one per line)</h2>
+      <label>Linux / Ops <textarea id="skills-ops" rows="5"></textarea></label>
+      <label>Cloud / IaC <textarea id="skills-cloud" rows="5"></textarea></label>
+      <label>Data <textarea id="skills-data" rows="4"></textarea></label>
+      <label>Backend <textarea id="skills-backend" rows="4"></textarea></label>
+      <label>Languages <textarea id="skills-languages" rows="3"></textarea></label>
+      <h2>Experience (JSON array)</h2>
+      <label>Jobs <textarea id="experience" rows="14" spellcheck="false"></textarea></label>
+      <h2>Certs and education (one per line)</h2>
+      <label>Certifications <textarea id="certs" rows="6"></textarea></label>
+      <label>Education <textarea id="education" rows="4"></textarea></label>
+      <h2>Cover letter</h2>
+      <label>Heading <input id="letter-heading"></label>
+      <label>Body <textarea id="letter-body" rows="12"></textarea></label>
+      <h2>Selected work (JSON)</h2>
+      <label>Lede <input id="projects-lede"></label>
+      <label>Items <textarea id="projects-items" rows="14" spellcheck="false"></textarea></label>
+    </section>
+  </main>
+  <script src="/assets/js/admin.js"></script>
+</body>
+</html>

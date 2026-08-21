@@ -21,7 +21,12 @@ __pycache__/
 logs/
 storage/logs/
 config/token
+config/admin.local.json
 dist/
+public/downloads/
+public/index.html
+iac/*.zip
+iac/build/
 Saved/
 Intermediate/
 Binaries/
