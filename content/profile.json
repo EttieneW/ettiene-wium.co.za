@@ -1,7 +1,7 @@
 {
   "name": "Ettiene Wium",
-  "headline": "Results-driven Backend Developer",
-  "location": "Cape Town, South Africa",
+  "headline": "Site Reliability / DevOps / Linux — globally remote (Cape Town)",
+  "location": "Cape Town, South Africa · globally remote · SAST (UTC+2)",
   "email": "ettiene.wium@gmail.com",
   "phone": "+27 71 881 2226",
   "links": {
@@ -9,35 +9,30 @@
     "github": "https://github.com/EttieneW",
     "portfolio": ""
   },
-  "summary": "Results-driven Backend Developer with 8+ years of experience designing, developing, and maintaining scalable, high-performance web applications using PHP, Laravel, Symfony, JavaScript/Node.js, and MySQL. Proven expertise in database optimization, query performance tuning, Docker containerization, AWS cloud services (Serverless, EC2, Lambda, RDS), and delivering clean, well-documented code in fast-paced Agile environments. Skilled at collaborating with frontend teams for seamless integrations, conducting code reviews, troubleshooting complex issues, and implementing caching and monitoring solutions that drive measurable business impact. Passionate about continuous learning, emerging technologies, and contributing to innovative, performance-driven teams that are transforming public data access through AI-forward solutions in a remote-first, high-growth setting.",
+  "summary": "Production engineer (8 years PHP/Linux) moving into Site Reliability and DevOps. I operate Linux, Docker, and AWS (DevOps Engineer Professional), and I am building public evidence: Kubernetes, SLOs, and auto-remediation so 24/7 ownership is not 24/7 firefighting.\n\nSeeking a junior-to-mid globally remote SRE or DevOps role with flexible hours. PHP/Laravel is an honest paid skill — not the headline.",
   "skills": {
     "ops": [
-      "Linux / LAMP (8+ years)",
-      "Docker (4+ years)",
-      "CI/CD (2+ years)",
-      "SonarQube (1+ year)",
-      "TestSprite (1+ year)"
+      "Linux (LAMP + Ubuntu, 8 years)",
+      "Docker (4 years)",
+      "CI/CD (2 years; AWS CodePipeline — adding GitHub Actions / Jenkins)",
+      "SonarQube (quality gate)",
+      "Unit testing"
     ],
     "cloud": [
-      "AWS (Serverless",
-      "EC2",
-      "Lambda",
-      "RDS — 4+ years)",
-      "Terraform (1+ year)"
+      "AWS (EC2, Lambda, RDS, IAM — 4 years) — DevOps Engineer Professional",
+      "Terraform (1 year)",
+      "Kubernetes (k3s/k3d lab — in progress)"
     ],
     "data": [
-      "MySQL (8+ years",
-      "query optimisation)",
+      "MySQL (8+ years, production tuning)",
+      "Relational modelling",
       "Caching strategies",
       "REST APIs"
     ],
     "backend": [
-      "PHP 8+ (8+ years)",
-      "Laravel (8+ years)",
-      "Symfony (8+ years)",
-      "Node.js (6+ years)",
-      "WordPress / custom plugins",
-      "Drupal (expired Acquia — do not lead)"
+      "PHP / Laravel / Symfony (8 years production)",
+      "Node.js",
+      "WordPress (client maintenance, not the lead)"
     ],
     "languages": [
       "JavaScript",
@@ -53,29 +48,15 @@
   "experience": [
     {
       "id": "overdrive",
-      "title": "Software Developer",
+      "title": "Software Developer (production / DevOps-leaning)",
       "company": "Silicon Overdrive",
       "dates": "April 2022 – Present",
       "location": "Cape Town, South Africa",
       "bullets": [
-        "Led maintenance and development of custom PHP frameworks",
-        "ensuring high-performance solutions tailored to client requirements.",
-        "Managed teams in scoping",
-        "building",
-        "and deploying new features while updating and maintaining software for multiple clients",
-        "emphasizing backend logic and database optimization.",
-        "Enhanced backend capabilities using Laravel",
-        "WordPress",
-        "and custom frameworks; improved frontend integrations with Bootstrap",
-        "Angular",
-        "and React.",
-        "Implemented Docker for efficient containerization and AWS technologies (including serverless) to streamline deployments and scalability on Linux servers.",
-        "Expanded skill set to include Golang",
-        "Python",
-        "Node.js",
-        "and CodeIgniter",
-        "contributing to diverse projects in a collaborative environment.",
-        "Pursuing AWS DevOps certification with a focus on advancing to DevSecOps practices."
+        "Owned production PHP/Laravel (and custom PHP) on Linux for multiple clients: deploys, MySQL tuning on live databases, and incident follow-through — not only feature tickets.",
+        "Ran Docker and AWS (EC2/Lambda/RDS/serverless) for client workloads on Ubuntu hosts.",
+        "Worked CI/CD and quality gates (CodePipeline on the fleet stack, Sonar) from commit toward EC2.",
+        "AWS DevOps Engineer Professional (earned while in this role)."
       ]
     },
     {
@@ -85,50 +66,25 @@
       "dates": "June 2018 – March 2022",
       "location": "Cape Town, South Africa",
       "bullets": [
-        "Developed and deployed web applications on LAMP stack (Linux Ubuntu)",
-        "gaining solid expertise in full-stack development and small-scale AWS/cloud servers.",
-        "Built custom Drupal modules for Crazystore (campaign pages)",
-        "Global Self-Care Federation (member dashboard with role-based permissions)",
-        "and JSE (multi-step capture/export and live graphs).",
-        "Managed WordPress sites (usb.ac.za",
-        "waterfront.co.za): custom plugins",
-        "module reviews",
-        "compatibility",
-        "security",
-        "and maintenance.",
-        "Designed mobile-friendly interfaces with HTML",
-        "CSS",
-        "SCSS",
-        "JavaScript",
-        "jQuery",
-        "and PHP; integrated MySQL and e-commerce features.",
-        "Handled deployments",
-        "testing",
-        "debugging",
-        "and issue resolution.",
-        "Shared knowledge on technological trends and took ownership of features."
+        "Shipped LAMP applications on Ubuntu and small AWS hosts (2018–2022).",
+        "Built client systems, including an RBAC member dashboard (GSCF) and live data graphs (JSE).",
+        "Maintained WordPress sites (including usb.ac.za, waterfront.co.za): plugins, compatibility, and security reviews.",
+        "Owned deployments, testing, and production issue resolution on Linux.",
+        "Also shipped an email builder and intranet microservices on the same LAMP stack (supporting work — not the lead)."
       ]
     }
   ],
   "certs": [
-    "AWS Certified AI Practitioner (in progress)",
-    "AWS Certified Cloud Practitioner",
-    "AWS Certified Developer – Associate",
+    "AWS Certified DevOps Engineer – Professional (DOP-C02)",
     "AWS Certified Solutions Architect – Associate",
     "AWS Certified SysOps Administrator – Associate",
-    "AWS Certified DevOps Engineer – Professional",
-    "Drupal 8 Site Builder (Acquia Certified; expired — do not lead)",
-    "First Aid Level 2 (expired — drop from the CV)"
+    "AWS Certified Developer – Associate",
+    "AWS Certified Cloud Practitioner"
   ],
   "education": [
-    "BSc Information Technology — in progress (online classes + full working week; keep for the flexi-hours story)",
-    "Information Systems Engineering (ISE)",
-    "CTI Education Group",
-    "2017–2018",
-    "Matric",
-    "DF Malan High School",
-    "Bellville",
-    "class of 2016"
+    "BSc Information Technology — in progress (full working week + online classes)",
+    "Information Systems Engineering (ISE), CTI Education Group, 2017–2018",
+    "Matric, DF Malan High School, Bellville, class of 2016"
   ],
-  "source": "Synced from UpSkill original+draft by wium-sync on 2026-08-19"
+  "source": "Synced from UpSkill draft by wium-sync on 2026-08-19"
 }
