@@ -359,6 +359,10 @@ MIME = {
     ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     ".txt": "text/plain; charset=utf-8",
     ".ico": "image/x-icon",
+    ".svg": "image/svg+xml",
+    ".woff2": "font/woff2",
+    ".png": "image/png",
+    ".webp": "image/webp",
 }
 
 

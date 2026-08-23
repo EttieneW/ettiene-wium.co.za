@@ -35,6 +35,8 @@ def test_render_has_https_downloads():
     assert "/downloads/Ettiene-Wium-CV.pdf" in html
     assert "Junior SRE" in html
     assert "k3s" in html
+    assert "<h1>Ettiene Wium</h1>" in html
+    assert "/assets/favicon.svg" in html
 
 
 def test_login_and_content_roundtrip(tmp_path, monkeypatch):

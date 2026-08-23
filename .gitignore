@@ -23,6 +23,7 @@ storage/logs/
 config/token
 config/admin.local.json
 dist/
+.ui-preview/
 public/downloads/
 public/index.html
 iac/*.zip

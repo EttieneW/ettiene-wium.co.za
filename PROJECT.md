@@ -13,22 +13,23 @@ Hireable profile: headline, summary, skills, jobs (Silicon Overdrive, RogerWilco
 ## Status
 
 - **Status:** active
-- **Completeness:** 88%
-- **Last dashboard sync:** 2026-08-21
+- **Completeness:** 92%
+- **Last dashboard sync:** 2026-08-23
 
 ## Goals
 
 1. Junior SRE positioning (honest: k3s lab in progress, not production K8s years)
 2. HTTPS + CSP + HSTS
-3. Authenticated editor for CV/cover letter
-4. PDF and DOCX downloads
-5. Cheap S3/CloudFront + Lambda API
-6. CCS pipeline
+3. Professional public UI
+4. Authenticated editor for CV/cover letter
+5. PDF and DOCX downloads
+6. Cheap S3/CloudFront + Lambda API
+7. CCS pipeline
 
 ## Next steps
 
-1. Edit copy at https://ettiene-wium.com/admin/
-2. After code changes: `git push` then `scripts/push-codecommit.ps1`
+1. After UI/code changes: `git push` then `scripts/push-codecommit.ps1`
+2. Edit copy at https://ettiene-wium.com/admin/
 3. Keep fleet on fleet.wiums.co.za
 
 ## Tech stack

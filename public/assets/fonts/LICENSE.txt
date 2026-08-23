@@ -1,0 +1,7 @@
+Inter (SIL Open Font License 1.1)
+https://github.com/rsms/inter
+
+Source Serif 4 (SIL Open Font License 1.1)
+https://github.com/adobe-fonts/source-serif
+
+Latin woff2 files are vendored here so the public site can load type without a third-party CDN (CSP: default-src 'self').
