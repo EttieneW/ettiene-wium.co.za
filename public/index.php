@@ -69,7 +69,7 @@ $phone = (string) ($profile['phone'] ?? '');
         <p class="kicker"><?= h($location) ?></p>
         <h1><?= h($name) ?></h1>
         <p class="role"><?= h($headline) ?></p>
-        <p class="status"><span class="status-dot"></span> Open to junior-to-mid SRE / DevOps · globally remote · flexi hours</p>
+        <p class="status"><span class="status-dot"></span> Open to SRE / DevOps · globally remote · flexi hours</p>
         <div class="prose"><?= nl2br(h((string) ($profile['summary'] ?? '')), false) ?></div>
         <p class="actions">
             <a class="btn" href="/downloads/Ettiene-Wium-CV.pdf">Download CV (PDF)</a>
@@ -85,7 +85,7 @@ $phone = (string) ($profile['phone'] ?? '');
             <p class="section-index">01</p>
             <h2>Skills</h2>
         </div>
-        <p class="lede">Grouped by domain. Kubernetes is a lab in progress — not production years.</p>
+        <p class="lede">Years are honest. Kubernetes is two years of homelab (k3s/k3d), not a cluster at my current employer.</p>
         <div class="grid">
             <?php foreach ($skillLabels as $key => $label): ?>
                 <?php $list = is_array($skills[$key] ?? null) ? $skills[$key] : []; ?>

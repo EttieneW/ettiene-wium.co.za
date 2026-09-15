@@ -1,6 +1,22 @@
 {
-  "lede": "Public work only. Each card is something you can open or inspect — no private family systems.",
+  "lede": "Public and homelab work I actually operate. No vault, banking, or family systems.",
   "items": [
+    {
+      "name": "Homelab streaming SRE",
+      "role": "Self-hosted streaming · SRE practice",
+      "status": "homelab",
+      "url": "",
+      "stack": "Linux, Docker, Jellyfin, k3s (cutover), Terraform/AWS failover in progress",
+      "blurb": "I run my own streaming service and treat it as SRE: keep it up, Docker and Linux, watch failure, and I am adding an AWS path if the home box dies. Homelab / private network only — not a public product. This is where I do DevOps and SRE my current employer does not have projects for."
+    },
+    {
+      "name": "tf-fleet-iac (Siyabonwa)",
+      "role": "Freelance with a friend · AWS IaC + PHP fleet app",
+      "status": "hosted",
+      "url": "https://github.com/EttieneW/tf-fleet-iac",
+      "stack": "Terraform, EC2, RDS MySQL 8.4, CodePipeline, CodeDeploy, CCS",
+      "blurb": "Freelance production work with a friend: Laravel truck-management on AWS I defined in Terraform (af-south-1). Live at fleet.wiums.co.za. App deploys from CodeCommit."
+    },
     {
       "name": "This site (ettiene-wium.com)",
       "role": "Public CV / profile",
@@ -10,20 +26,12 @@
       "blurb": "HTTPS profile on private S3 + CloudFront. Content is JSON; an authenticated editor updates CV and cover letter and regenerates PDF/DOCX. Pipeline: CodeCommit → CCS scan → deploy."
     },
     {
-      "name": "tf-fleet-iac (Siyabonwa)",
-      "role": "AWS IaC + PHP fleet app",
-      "status": "hosted",
-      "url": "https://github.com/EttieneW/tf-fleet-iac",
-      "stack": "Terraform, EC2, RDS MySQL 8.4, CodePipeline, CodeDeploy, CCS",
-      "blurb": "Reproducible AWS stack in af-south-1. Live at fleet.wiums.co.za with Let's Encrypt and Apache Basic Auth during construction. App deploys from CodeCommit."
-    },
-    {
       "name": "UpSkill",
       "role": "Study + career path (local)",
       "status": "active",
       "url": "https://github.com/EttieneW",
       "stack": "PHP, JSON, AWS cert banks",
-      "blurb": "Local AWS certs trainer and a 14-week SRE career-switch path. Locked original CV lives here; this site publishes the junior-SRE draft, not the old backend-developer headline."
+      "blurb": "Local AWS certs trainer and an SRE career-switch path. This site publishes the production-engineer-moving-into-SRE story, not an old backend-only headline."
     }
   ]
 }

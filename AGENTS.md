@@ -2,7 +2,7 @@
 
 ## Always ask when unsure
 
-- Do not invent certs, employers, or Kubernetes years.
+- Do not invent certs, employers, or Kubernetes years. K8s is two years of homelab (k3s/k3d), not a cluster at work. Docker is 8 years locally and 4 years production.
 - Do not put vault, banking, or family data on this public site.
 - Do not `terraform apply` / destroy here or on tf-fleet-iac unless the user explicitly asks.
 
@@ -28,7 +28,7 @@ After heavy changes, update `summary`, `description`, `goals`, `completeness`, `
 
 - Public site stays static (S3 + CloudFront). The **editor** at `/admin` is authenticated (one user in SSM). Do not put vault, banking, or family data in content JSON.
 - Prefer editing `content/*.json` (or the editor) over hard-coding copy.
-- Do not invent certs, employers, or Kubernetes years. K8s is a lab in progress.
+- Do not invent certs, employers, or Kubernetes years. K8s is two years of homelab (k3s/k3d), not a cluster at work. Docker is 8 years locally and 4 years production.
 
 ## LuckyLuke (local offload)
 

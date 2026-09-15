@@ -33,8 +33,10 @@ def test_render_has_https_downloads():
     html = render_index(load_site(ROOT / "content"))
     assert "Download CV (PDF)" in html
     assert "/downloads/Ettiene-Wium-CV.pdf" in html
-    assert "Junior SRE" in html
+    assert "SRE" in html
     assert "k3s" in html
+    assert "Indawo" in html
+    assert "streaming" in html.lower()
     assert "<h1>Ettiene Wium</h1>" in html
     assert "/assets/favicon.svg" in html
 

@@ -4,21 +4,21 @@ Public CV and project profile for Ettiene Wium. No family or vault data.
 
 ## Summary
 
-Junior SRE / DevOps profile at **https://ettiene-wium.com**. Local **http://localhost:8097**. Editor at `/admin` updates CV and cover letter and regenerates PDF/DOCX.
+Production software engineer moving into SRE / DevOps at **https://ettiene-wium.com**. Local **http://localhost:8097**. Editor at `/admin` updates CV and cover letter and regenerates PDF/DOCX.
 
 ## Description
 
-Hireable profile: headline, summary, skills, jobs (Silicon Overdrive, RogerWilco), AWS certs, cover letter, selected public work. Fleet is on **https://fleet.wiums.co.za**. Private systems are not hosted here.
+Hireable profile: 8y production software engineer, DevOps for clients, SRE via homelab streaming and freelance fleet. Jobs: Silicon Overdrive, RogerWilco. Fleet is on **https://fleet.wiums.co.za**. Private/family systems are not hosted here.
 
 ## Status
 
 - **Status:** active
-- **Completeness:** 92%
-- **Last dashboard sync:** 2026-08-23
+- **Completeness:** 93%
+- **Last dashboard sync:** 2026-09-14
 
 ## Goals
 
-1. Junior SRE positioning (honest: k3s lab in progress, not production K8s years)
+1. Production software engineer moving into SRE (K8s: 2y homelab, not at-work cluster)
 2. HTTPS + CSP + HSTS
 3. Professional public UI
 4. Authenticated editor for CV/cover letter

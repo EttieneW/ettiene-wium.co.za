@@ -1,6 +1,6 @@
 {
   "name": "Ettiene Wium",
-  "headline": "Junior SRE / DevOps — Linux, AWS, Terraform (Cape Town, remote)",
+  "headline": "Production software engineer moving into SRE / DevOps — Linux, AWS, Docker (Cape Town, remote)",
   "location": "Cape Town, South Africa · globally remote · SAST (UTC+2)",
   "email": "ettiene.wium@gmail.com",
   "phone": "+27 71 881 2226",
@@ -9,19 +9,19 @@
     "github": "https://github.com/EttieneW",
     "portfolio": "https://ettiene-wium.com"
   },
-  "summary": "Production engineer with 8 years of PHP and Linux, moving into Site Reliability and DevOps. I operate Linux, Docker, and AWS (DevOps Engineer Professional), and I am building public evidence: Terraform, CI/CD, quality gates, and a Kubernetes lab so 24/7 ownership is not 24/7 firefighting.\n\nSeeking a junior-to-mid globally remote SRE or DevOps role with flexible hours. PHP/Laravel is an honest paid skill — not the headline. Kubernetes is a k3s/k3d lab in progress, not production years.",
+  "summary": "Production software engineer with 8 years of PHP and Linux. I moved from building client systems into DevOps: I own production pipelines, Docker, and AWS for clients. I want SRE next — keep services up, automate the boring path, and make 24/7 ownership not 24/7 firefighting. My current employer does not run large Kubernetes or SRE programmes, so I practise that work myself: a homelab where I self-host, operate a streaming service, and do the DevOps and SRE (k3s, Terraform, Docker).\n\nSeeking a globally remote SRE or DevOps role with flexible hours. PHP/Laravel is paid production experience — not the headline I want next. Kubernetes is two years of homelab (k3s/k3d), not a cluster at work. Docker is eight years locally and four years in production.",
   "skills": {
     "ops": [
       "Linux (LAMP + Ubuntu, 8 years)",
-      "Docker (4 years)",
+      "Docker (8 years locally; 4 years production — Indawo and other clients)",
       "CI/CD (2 years; AWS CodePipeline — adding GitHub Actions / Jenkins)",
       "SonarQube (quality gate)",
       "Unit testing"
     ],
     "cloud": [
       "AWS (EC2, Lambda, RDS, IAM — 4 years) — DevOps Engineer Professional",
-      "Terraform (1 year)",
-      "Kubernetes (k3s/k3d lab — in progress)"
+      "Terraform (2 years)",
+      "Kubernetes (2 years, homelab k3s/k3d — not at current employer)"
     ],
     "data": [
       "MySQL (8+ years, production tuning)",
@@ -48,15 +48,16 @@
   "experience": [
     {
       "id": "overdrive",
-      "title": "Software Developer (production / DevOps-leaning)",
+      "title": "Software Developer (production Linux / DevOps-leaning)",
       "company": "Silicon Overdrive",
       "dates": "April 2022 – Present",
       "location": "Cape Town, South Africa",
       "bullets": [
-        "Owned production PHP/Laravel (and custom PHP) on Linux for multiple clients: deploys, MySQL tuning on live databases, and incident follow-through — not only feature tickets.",
-        "Ran Docker and AWS (EC2/Lambda/RDS/serverless) for client workloads on Ubuntu hosts.",
-        "Worked CI/CD and quality gates (CodePipeline on the fleet stack, Sonar) from commit toward EC2.",
-        "AWS DevOps Engineer Professional (earned while in this role)."
+        "Own production PHP/Laravel (and custom PHP) on Linux for multiple clients: pipelines, deploys, MySQL on live databases, and incident follow-through — not only feature tickets.",
+        "Hardware-loss incident: a client PHP 5.6 host died (Indawo). Alone, I containerised the app with Docker onto a spare on-prem CentOS server, worked through publish/host networking, and restored the site. First production Docker — not a lab tutorial.",
+        "First contact when client production is wrong: logs, config, DNS/TLS, MySQL, restore service, then write down the actual cause.",
+        "Lead developer on SAWIS BI: large import/export jobs for the South African wine industry. When a job fails in production I diagnose the data path and recover it.",
+        "Ran Docker and AWS (EC2, Lambda, RDS, IAM, VPC) on Ubuntu hosts; stayed on standby. CI/CD to EC2 (CodePipeline, SonarQube). AWS DevOps Engineer Professional earned in this role."
       ]
     },
     {
@@ -66,10 +67,9 @@
       "dates": "June 2018 – March 2022",
       "location": "Cape Town, South Africa",
       "bullets": [
-        "Shipped LAMP applications on Ubuntu and small AWS hosts (2018–2022).",
-        "Built client systems, including an RBAC member dashboard (GSCF) and live data graphs (JSE).",
-        "Maintained WordPress sites (including usb.ac.za, waterfront.co.za): plugins, compatibility, and security reviews.",
-        "Owned deployments, testing, and production issue resolution on Linux.",
+        "Shipped LAMP applications on Ubuntu and small AWS hosts; owned deployments, testing, and production issue resolution on Linux.",
+        "Built client systems, including an RBAC member dashboard (Global Self-Care Federation) and live JSE graphs on that stack.",
+        "Maintained WordPress sites (including usb.ac.za, waterfront.co.za): plugins, compatibility, DNS/TLS, and security reviews.",
         "Also shipped an email builder and intranet microservices on the same LAMP stack (supporting work — not the lead)."
       ]
     }
@@ -82,9 +82,9 @@
     "AWS Certified Cloud Practitioner"
   ],
   "education": [
-    "BSc Information Technology — in progress (full working week + online classes)",
+    "BSc Information Technology — Eduvos, Year 1 (in progress; full working week + online classes)",
     "Information Systems Engineering (ISE), CTI Education Group, 2017–2018",
-    "Matric, DF Malan High School, Bellville, class of 2016"
+    "Matric, DF Malan High School, Bellville, class of 2016 (two distinctions)"
   ],
-  "source": "Synced from UpSkill draft by wium-sync on 2026-08-19"
+  "source": "Aligned to Downloads/Ettiene_Wium_CV.pdf (8 Sep 2026) plus site review: Docker 8y local / 4y production, Terraform 2y, Kubernetes 2y homelab, streaming SRE, Siyabonwa freelance"
 }
