@@ -13,7 +13,7 @@ from render import render_index  # noqa: E402
 def test_site_loads():
     site = load_site(ROOT / "content")
     assert site["profile"]["name"] == "Ettiene Wium"
-    assert "SRE" in site["profile"]["headline"]
+    assert "production engineer" in site["profile"]["headline"]
     assert "cover_letter" in site
 
 
@@ -36,7 +36,10 @@ def test_render_has_https_downloads():
     assert "SRE" in html
     assert "k3s" in html
     assert "Indawo" in html
+    assert "SAWIS" in html
+    assert "Laravel" in html
     assert "streaming" in html.lower()
+    assert "Years of experience" in html or "year-count" in html
     assert "<h1>Ettiene Wium</h1>" in html
     assert "/assets/favicon.svg" in html
 

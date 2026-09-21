@@ -1,37 +1,45 @@
 {
-  "lede": "Public and homelab work I actually operate. No vault, banking, or family systems.",
+  "lede": "Paid PHP work first. Homelab and freelance are where SRE and Terraform live. No vault or family systems.",
   "items": [
+    {
+      "name": "Indawo (client, via Overdrive)",
+      "role": "Production PHP · site and server ownership",
+      "status": "current",
+      "url": "",
+      "stack": "PHP, Laravel / legacy PHP, MySQL, Docker, Azure VM, PR deploys",
+      "blurb": "I own this client: spec, cost, plan, build, review until they are happy. I manage the server OS and the application, not Azure hardware. Weekend hardware-loss restore with Docker on CentOS is the production incident that started Docker in anger."
+    },
+    {
+      "name": "SAWIS BI (client, via Overdrive)",
+      "role": "Tech lead — PHP and database",
+      "status": "current",
+      "url": "",
+      "stack": "PHP, MySQL, import/export jobs",
+      "blurb": "Wine-industry BI. I own application work and the database path when a job fails. I do not own pipelines, servers, or infrastructure. Full support for the site, not 24/7 call."
+    },
+    {
+      "name": "tf-fleet-iac (Siyabonwa)",
+      "role": "Freelance with a friend · Terraform + PHP fleet",
+      "status": "hosted",
+      "url": "https://github.com/EttieneW/tf-fleet-iac",
+      "stack": "Terraform, EC2, RDS MySQL 8.4, CodePipeline, CCS",
+      "blurb": "Production truck-management app on AWS I defined in Terraform (af-south-1). Live at fleet.wiums.co.za. This is the public IaC evidence; it is not how Overdrive runs Indawo."
+    },
     {
       "name": "Homelab streaming SRE",
       "role": "Self-hosted streaming · SRE practice",
       "status": "homelab",
       "url": "",
-      "stack": "Linux, Docker, Jellyfin, k3s (cutover), Terraform/AWS failover in progress",
-      "blurb": "I run my own streaming service and treat it as SRE: keep it up, Docker and Linux, watch failure, and I am adding an AWS path if the home box dies. Homelab / private network only — not a public product. This is where I do DevOps and SRE my current employer does not have projects for."
-    },
-    {
-      "name": "tf-fleet-iac (Siyabonwa)",
-      "role": "Freelance with a friend · AWS IaC + PHP fleet app",
-      "status": "hosted",
-      "url": "https://github.com/EttieneW/tf-fleet-iac",
-      "stack": "Terraform, EC2, RDS MySQL 8.4, CodePipeline, CodeDeploy, CCS",
-      "blurb": "Freelance production work with a friend: Laravel truck-management on AWS I defined in Terraform (af-south-1). Live at fleet.wiums.co.za. App deploys from CodeCommit."
+      "stack": "Linux, Docker, Jellyfin, k3s (cutover)",
+      "blurb": "I run a streaming service and treat it as SRE: keep it up, containers, Linux. Private network only — not a public product. Two years of k3s/k3d: stand up, break, fix, run a workload. This is the Kubernetes I have, not a cluster at work."
     },
     {
       "name": "This site (ettiene-wium.com)",
-      "role": "Public CV / profile",
+      "role": "Public CV",
       "status": "hosted",
       "url": "https://ettiene-wium.com",
-      "stack": "S3, CloudFront, ACM, CodePipeline, CustomCodeScanner",
-      "blurb": "HTTPS profile on private S3 + CloudFront. Content is JSON; an authenticated editor updates CV and cover letter and regenerates PDF/DOCX. Pipeline: CodeCommit → CCS scan → deploy."
-    },
-    {
-      "name": "UpSkill",
-      "role": "Study + career path (local)",
-      "status": "active",
-      "url": "https://github.com/EttieneW",
-      "stack": "PHP, JSON, AWS cert banks",
-      "blurb": "Local AWS certs trainer and an SRE career-switch path. This site publishes the production-engineer-moving-into-SRE story, not an old backend-only headline."
+      "stack": "S3, CloudFront, ACM, CodePipeline, CCS",
+      "blurb": "HTTPS profile. JSON content, authenticated editor, PDF/DOCX. Evidence I can ship a small static production site, not the PHP headline."
     }
   ]
 }

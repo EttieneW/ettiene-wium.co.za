@@ -90,6 +90,45 @@ def render_index(site: dict[str, Any]) -> str:
             f"<p>{h(it.get('blurb', ''))}</p>{link}</article>"
         )
 
+    years_html = []
+    for row in p.get("skill_years") if isinstance(p.get("skill_years"), list) else []:
+        if not isinstance(row, dict):
+            continue
+        years_html.append(
+            "<li>"
+            f'<span class="year-count">{h(row.get("years", ""))}</span>'
+            f'<span class="year-label">{h(row.get("label", ""))}</span>'
+            "</li>"
+        )
+    years_block = (
+        f'<ol class="years">{"".join(years_html)}</ol>' if years_html else ""
+    )
+    steps = p.get("delivery") if isinstance(p.get("delivery"), list) else []
+    steps_html = "".join(f"<li>{h(s)}</li>" for s in steps if str(s).strip())
+    steps_block = (
+        f'<ol class="process">{steps_html}</ol>' if steps_html else ""
+    )
+    hired = str(p.get("hired_for") or "")
+    leaning = str(p.get("leaning_into") or "")
+    split_block = ""
+    if hired or leaning:
+        split_block = (
+            '<div class="path-grid">'
+            + (
+                f'<article class="path-card"><p class="kicker">Hired for</p><p>{h(hired)}</p></article>'
+                if hired
+                else ""
+            )
+            + (
+                f'<article class="path-card"><p class="kicker">Leaning into</p><p>{h(leaning)}</p></article>'
+                if leaning
+                else ""
+            )
+            + "</div>"
+        )
+    interest = str(p.get("interest") or "")
+    status_line = str(p.get("status_line") or "Open to PHP production roles and SRE / DevOps · globally remote · flexi hours")
+
     gh = str(links.get("github") or "")
     li = str(links.get("linkedin") or "")
     email = str(p.get("email") or "")
@@ -146,7 +185,9 @@ def render_index(site: dict[str, Any]) -> str:
       <p class="kicker">{h(location)}</p>
       <h1>{h(name)}</h1>
       <p class="role">{h(headline)}</p>
-      <p class="status"><span class="status-dot"></span> Open to SRE / DevOps · globally remote · flexi hours</p>
+      {"<p class='interest'>" + h(interest) + "</p>" if interest else ""}
+      <p class="status"><span class="status-dot"></span> {h(status_line)}</p>
+      {split_block}
       <div class="prose">{_nl(str(p.get("summary") or ""))}</div>
       <p class="actions">
         <a class="btn" href="/downloads/Ettiene-Wium-CV.pdf">Download CV (PDF)</a>
@@ -161,7 +202,9 @@ def render_index(site: dict[str, Any]) -> str:
         <p class="section-index">01</p>
         <h2>Skills</h2>
       </div>
-      <p class="lede">Years are honest. Kubernetes is two years of homelab (k3s/k3d), not a cluster at my current employer.</p>
+      <p class="lede">Years are honest. Kubernetes is homelab. AWS at work is using existing accounts.</p>
+      {years_block}
+      {("<h3 class='kicker'>How I run a production client</h3>" + steps_block) if steps_block else ""}
       <div class="grid">{"".join(skill_html)}</div>
     </section>
     <section id="experience">

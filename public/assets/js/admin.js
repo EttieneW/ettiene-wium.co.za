@@ -37,6 +37,18 @@
     document.getElementById("github").value = links.github || "";
     document.getElementById("linkedin").value = links.linkedin || "";
     document.getElementById("summary").value = p.summary || "";
+    const hired = document.getElementById("hired-for");
+    const leaning = document.getElementById("leaning-into");
+    const interest = document.getElementById("interest");
+    const statusLine = document.getElementById("status-line");
+    const delivery = document.getElementById("delivery");
+    const skillYears = document.getElementById("skill-years");
+    if (hired) hired.value = p.hired_for || "";
+    if (leaning) leaning.value = p.leaning_into || "";
+    if (interest) interest.value = p.interest || "";
+    if (statusLine) statusLine.value = p.status_line || "";
+    if (delivery) setLines("delivery", p.delivery);
+    if (skillYears) skillYears.value = JSON.stringify(p.skill_years || [], null, 2);
     setLines("skills-ops", skills.ops);
     setLines("skills-cloud", skills.cloud);
     setLines("skills-data", skills.data);
@@ -67,6 +79,12 @@
           portfolio: "https://ettiene-wium.com"
         },
         summary: document.getElementById("summary").value,
+        hired_for: (document.getElementById("hired-for") || {}).value || "",
+        leaning_into: (document.getElementById("leaning-into") || {}).value || "",
+        interest: (document.getElementById("interest") || {}).value || "",
+        status_line: (document.getElementById("status-line") || {}).value || "",
+        delivery: document.getElementById("delivery") ? lines("delivery") : [],
+        skill_years: document.getElementById("skill-years") ? parseJson("skill-years") : [],
         skills: {
           ops: lines("skills-ops"),
           cloud: lines("skills-cloud"),

@@ -209,7 +209,7 @@ section {
 }
 .hero {
   padding-top: 4.2rem;
-  max-width: 46rem;
+  max-width: 52rem;
 }
 
 .kicker, .eyebrow {
@@ -343,6 +343,63 @@ section {
 .lede {
   margin: -0.4rem 0 1.5rem;
   max-width: 40rem;
+}
+.interest {
+  margin: 0 0 1rem;
+  max-width: 40rem;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+.path-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+  margin: 0 0 1.6rem;
+  max-width: 52rem;
+}
+.path-card {
+  background: var(--elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem 1.15rem;
+  box-shadow: var(--shadow);
+}
+.path-card .kicker { margin-bottom: 0.45rem; }
+.path-card p:last-child { margin: 0; font-size: 0.95rem; line-height: 1.5; }
+.years {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.8rem;
+  display: grid;
+  gap: 0.45rem;
+}
+.years li {
+  display: grid;
+  grid-template-columns: 5.2rem 1fr;
+  gap: 0.9rem;
+  align-items: start;
+  background: var(--elev);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.7rem 1rem;
+}
+.year-count {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+.year-label { font-size: 0.92rem; line-height: 1.45; }
+.process {
+  margin: 0 0 1.8rem;
+  padding-left: 1.2rem;
+  max-width: 42rem;
+}
+.process li { margin: 0.35rem 0; }
+.process li::marker { color: var(--accent); font-weight: 600; }
+@media (max-width: 800px) {
+  .path-grid, .years li { grid-template-columns: 1fr; }
 }
 
 .grid {

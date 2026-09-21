@@ -73,6 +73,18 @@ def cv_lines(site: dict[str, Any]) -> list[tuple[str, str]]:
         "languages": "Languages",
         "other": "Other",
     }
+    years = p.get("skill_years") if isinstance(p.get("skill_years"), list) else []
+    if years:
+        rows.append(("h2", "Years of experience"))
+        for row in years:
+            if not isinstance(row, dict):
+                continue
+            rows.append(("body", f"{row.get('years', '')} — {row.get('label', '')}"))
+    delivery = p.get("delivery") if isinstance(p.get("delivery"), list) else []
+    if delivery:
+        rows.append(("h2", "How I run a production client"))
+        for step in delivery:
+            rows.append(("bullet", str(step)))
     rows.append(("h2", "Skills"))
     for key, label in labels.items():
         items = skills.get(key) if isinstance(skills.get(key), list) else []

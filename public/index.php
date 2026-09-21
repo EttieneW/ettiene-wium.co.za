@@ -69,7 +69,7 @@ $phone = (string) ($profile['phone'] ?? '');
         <p class="kicker"><?= h($location) ?></p>
         <h1><?= h($name) ?></h1>
         <p class="role"><?= h($headline) ?></p>
-        <p class="status"><span class="status-dot"></span> Open to SRE / DevOps · globally remote · flexi hours</p>
+        <p class="status"><span class="status-dot"></span> Open to PHP production roles and SRE / DevOps · globally remote · flexi hours</p>
         <div class="prose"><?= nl2br(h((string) ($profile['summary'] ?? '')), false) ?></div>
         <p class="actions">
             <a class="btn" href="/downloads/Ettiene-Wium-CV.pdf">Download CV (PDF)</a>

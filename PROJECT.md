@@ -4,7 +4,7 @@ Public CV and project profile for Ettiene Wium. No family or vault data.
 
 ## Summary
 
-Production software engineer moving into SRE / DevOps at **https://ettiene-wium.com**. Local **http://localhost:8097**. Editor at `/admin` updates CV and cover letter and regenerates PDF/DOCX.
+Software / production engineer and AWS DevOps engineer at **https://ettiene-wium.com**. PHP first; SRE as the direction. Local **http://localhost:8097**.
 
 ## Description
 
