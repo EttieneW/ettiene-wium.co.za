@@ -61,20 +61,18 @@
     ],
     "languages": [
       "JavaScript (paid frontend collaboration)",
+      "React / Angular / Bootstrap (collaboration, not a React lead)",
       "Python (scripting / automation)",
       "Go (homelab / study, not production years)",
-      "Bash"
+      "Bash",
+      "Afrikaans (native)",
+      "English (fluent)"
     ],
     "ai": [
       "Cursor (4 years, daily)",
       "Grok (4 years, daily)",
       "Claude (2 years)",
       "Codex (2 years)"
-    ],
-    "other": [
-      "React / Angular / Bootstrap (frontend collaboration, not a React lead)",
-      "Afrikaans (native)",
-      "English (fluent)"
     ]
   },
   "experience": [
