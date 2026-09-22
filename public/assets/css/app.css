@@ -208,9 +208,10 @@ section {
   scroll-margin-top: 5.5rem;
 }
 .hero {
-  padding-top: 4.2rem;
+  padding-top: 3.2rem;
   max-width: 52rem;
 }
+.hero .prose { max-width: 42rem; }
 
 .kicker, .eyebrow {
   margin: 0 0 1rem;
@@ -360,6 +361,7 @@ section {
 .path-card {
   background: var(--elev);
   border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
   border-radius: var(--radius);
   padding: 1rem 1.1rem 1.15rem;
   box-shadow: var(--shadow);
@@ -371,17 +373,18 @@ section {
   padding: 0;
   margin: 0 0 1.8rem;
   display: grid;
-  gap: 0.45rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem 0.7rem;
 }
 .years li {
   display: grid;
-  grid-template-columns: 5.2rem 1fr;
-  gap: 0.9rem;
+  grid-template-columns: 4.4rem 1fr;
+  gap: 0.75rem;
   align-items: start;
   background: var(--elev);
   border: 1px solid var(--line);
   border-radius: 12px;
-  padding: 0.7rem 1rem;
+  padding: 0.65rem 0.9rem;
 }
 .year-count {
   font-family: var(--serif);
@@ -392,14 +395,34 @@ section {
 }
 .year-label { font-size: 0.92rem; line-height: 1.45; }
 .process {
+  list-style: none;
   margin: 0 0 1.8rem;
-  padding-left: 1.2rem;
-  max-width: 42rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.7rem;
 }
-.process li { margin: 0.35rem 0; }
-.process li::marker { color: var(--accent); font-weight: 600; }
+.process li {
+  margin: 0;
+  background: var(--elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.9rem 0.95rem 1.05rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+.step-n {
+  font-family: var(--serif);
+  font-weight: 600;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+}
 @media (max-width: 800px) {
-  .path-grid, .years li { grid-template-columns: 1fr; }
+  .path-grid, .years, .process { grid-template-columns: 1fr; }
+  .years li { grid-template-columns: 4.4rem 1fr; }
 }
 
 .grid {
@@ -548,6 +571,7 @@ section {
   font-weight: 600;
   text-decoration: none;
 }
+.work-card:not(:has(.text-link)) p:last-of-type { margin-bottom: 0; }
 .work-card .text-link:hover { text-decoration: underline; }
 
 .letter-wrap {

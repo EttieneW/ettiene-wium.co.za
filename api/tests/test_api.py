@@ -39,6 +39,10 @@ def test_render_has_https_downloads():
     assert "SAWIS" in html
     assert "Laravel" in html
     assert "streaming" in html.lower()
+    assert "Cursor" in html
+    assert "Grok" in html
+    assert "Claude" in html
+    assert "Codex" in html
     assert "Years of experience" in html or "year-count" in html
     assert "<h1>Ettiene Wium</h1>" in html
     assert "/assets/favicon.svg" in html

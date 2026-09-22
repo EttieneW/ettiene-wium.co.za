@@ -35,6 +35,7 @@ def render_index(site: dict[str, Any]) -> str:
         ("data", "Data"),
         ("backend", "Backend"),
         ("languages", "Languages"),
+        ("ai", "AI tooling"),
         ("other", "Also"),
     ]
     skill_html = []
@@ -104,7 +105,10 @@ def render_index(site: dict[str, Any]) -> str:
         f'<ol class="years">{"".join(years_html)}</ol>' if years_html else ""
     )
     steps = p.get("delivery") if isinstance(p.get("delivery"), list) else []
-    steps_html = "".join(f"<li>{h(s)}</li>" for s in steps if str(s).strip())
+    steps_html = "".join(
+        f"<li><span class=\"step-n\">{i}</span><span>{h(s)}</span></li>"
+        for i, s in enumerate((x for x in steps if str(x).strip()), 1)
+    )
     steps_block = (
         f'<ol class="process">{steps_html}</ol>' if steps_html else ""
     )

@@ -54,6 +54,8 @@
     setLines("skills-data", skills.data);
     setLines("skills-backend", skills.backend);
     setLines("skills-languages", skills.languages);
+    if (document.getElementById("skills-ai")) setLines("skills-ai", skills.ai);
+    if (document.getElementById("skills-other")) setLines("skills-other", skills.other);
     document.getElementById("experience").value = JSON.stringify(p.experience || [], null, 2);
     setLines("certs", p.certs);
     setLines("education", p.education);
@@ -90,7 +92,9 @@
           cloud: lines("skills-cloud"),
           data: lines("skills-data"),
           backend: lines("skills-backend"),
-          languages: lines("skills-languages")
+          languages: lines("skills-languages"),
+          ai: document.getElementById("skills-ai") ? lines("skills-ai") : [],
+          other: document.getElementById("skills-other") ? lines("skills-other") : []
         },
         experience: parseJson("experience"),
         certs: lines("certs"),

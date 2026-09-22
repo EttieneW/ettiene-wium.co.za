@@ -71,6 +71,7 @@ def cv_lines(site: dict[str, Any]) -> list[tuple[str, str]]:
         "data": "Data",
         "backend": "Backend",
         "languages": "Languages",
+        "ai": "AI tooling",
         "other": "Other",
     }
     years = p.get("skill_years") if isinstance(p.get("skill_years"), list) else []

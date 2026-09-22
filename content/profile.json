@@ -1,7 +1,7 @@
 {
   "name": "Ettiene Wium",
   "headline": "Software / production engineer · AWS DevOps engineer",
-  "interest": "Interest: SRE, Kubernetes, Linux, DevOps, Docker, containers, monitoring, testing, logging, networking",
+  "interest": "SRE · Kubernetes · Linux · DevOps · Docker · monitoring · logging · networking",
   "hired_for": "Production PHP — Laravel, Symfony, custom PHP, MySQL, APIs, frontend and backend. I sit with the client, spec, cost, plan, then we build and review until they are happy.",
   "leaning_into": "SRE and industry-standard Kubernetes. Linux, Docker, containers, DevOps, monitoring, logging, networking — paid work is still PHP-first; the homelab is where I practise the SRE job I want.",
   "status_line": "Open to PHP production roles and SRE / DevOps · globally remote · flexi hours",
@@ -13,7 +13,7 @@
     "github": "https://github.com/EttieneW",
     "portfolio": "https://ettiene-wium.com"
   },
-  "summary": "I am a production software engineer with eight years of PHP. That is the job I can walk into tomorrow: Laravel, Symfony, custom PHP, MySQL, APIs, integrations, frontend and backend. At Silicon Overdrive I function as the senior person on my clients even though the contract title is Software Developer — I own Indawo end to end (site and server), I am tech lead on SAWIS BI (PHP and database, not their infra), and I coordinate a project manager, a senior developer, and a mid developer. They do not report to me on paper. I sit with the client on new work, spec it, cost it, set the plan, then we develop, test, and review until the client is happy. I like hard problems and I am easy to work with.\n\nI also work as an AWS DevOps engineer on the systems I own: deploys, Docker, pipelines, a post-deploy health window. I am not Overdrive's platform team and I do not architect AWS accounts — I use EC2, Lambda, RDS, and IAM that already exist. I want a proper SRE role next: Kubernetes in industry, Linux, containers, monitoring, logging, networking. My employer does not run that programme, so I practise it on a homelab streaming stack and on freelance fleet infra with a friend.",
+  "summary": "Eight years of production PHP is the job I can walk into tomorrow: Laravel, Symfony, custom PHP, MySQL, APIs, integrations, frontend and backend. At Silicon Overdrive the contract title is Software Developer; on Indawo and SAWIS I function as the senior person — spec, cost, plan, ship, coordinate a PM plus two developers (they do not report to me on paper). I like hard problems and I am easy to work with.\n\nAWS DevOps on the systems I own: Docker, pipelines, a post-deploy health window. I use existing EC2/RDS/Lambda/IAM; I am not the account architect. SRE and industry Kubernetes are the next job — practised on a homelab streaming stack and freelance fleet infra, not on an Overdrive cluster.",
   "delivery": [
     "Sit with the client on the feature or project they want",
     "Spec, cost estimate, and a project plan they can agree to",
@@ -29,7 +29,9 @@
     {"years": "4", "label": "AWS — EC2, Lambda, RDS, IAM. I use existing accounts; I am not the account architect"},
     {"years": "2", "label": "CI/CD — CodePipeline, pull-request deploys, post-deploy health watch"},
     {"years": "2", "label": "Terraform — freelance fleet and homelab, not Overdrive's main way of working"},
-    {"years": "2", "label": "Kubernetes — homelab k3s/k3d (stand up, break, fix, run a workload). No EKS/GKE/AKS at work"}
+    {"years": "2", "label": "Kubernetes — homelab k3s/k3d (stand up, break, fix, run a workload). No EKS/GKE/AKS at work"},
+    {"years": "4", "label": "Cursor and Grok — daily AI-assisted engineering"},
+    {"years": "2", "label": "Claude and Codex — AI-assisted engineering"}
   ],
   "skills": {
     "ops": [
@@ -62,6 +64,12 @@
       "Python (scripting / automation)",
       "Go (homelab / study, not production years)",
       "Bash"
+    ],
+    "ai": [
+      "Cursor (4 years, daily)",
+      "Grok (4 years, daily)",
+      "Claude (2 years)",
+      "Codex (2 years)"
     ],
     "other": [
       "React / Angular / Bootstrap (frontend collaboration, not a React lead)",
