@@ -362,21 +362,6 @@ def build_cv_pdf(site: dict[str, Any]) -> bytes:
             doc.para(para.strip(), 10, 13)
             doc.y -= 4
 
-    hired = str(p.get("hired_for") or "")
-    leaning = str(p.get("leaning_into") or "")
-    if hired or leaning:
-        doc.section("Hired for  /  leaning into")
-        if hired:
-            doc.text("HIRED FOR", doc.margin, doc.y, 8, "F2", ACCENT)
-            doc.y -= 12
-            doc.para(hired, 10, 13)
-            doc.y -= 4
-        if leaning:
-            doc.text("LEANING INTO", doc.margin, doc.y, 8, "F2", ACCENT)
-            doc.y -= 12
-            doc.para(leaning, 10, 13)
-            doc.y -= 4
-
     years = p.get("skill_years") if isinstance(p.get("skill_years"), list) else []
     if years:
         doc.section("Years of experience")
@@ -385,7 +370,11 @@ def build_cv_pdf(site: dict[str, Any]) -> bytes:
         left_x = doc.margin
         right_x = doc.margin + col_w + 10
         # pair rows
-        pairs = [row for row in years if isinstance(row, dict)]
+        pairs = [
+            row
+            for row in years
+            if isinstance(row, dict) and "WordPress" not in str(row.get("label") or "")
+        ]
         i = 0
         while i < len(pairs):
             row_h = 28
@@ -404,20 +393,15 @@ def build_cv_pdf(site: dict[str, Any]) -> bytes:
             doc.y = y0 - row_h
             i += 2
 
-    delivery = p.get("delivery") if isinstance(p.get("delivery"), list) else []
-    if delivery:
-        doc.section("How I run a production client")
-        for n, step in enumerate(delivery, 1):
-            doc.para(f"{n}.  {step}", 10, 13)
-
     skills = p.get("skills") if isinstance(p.get("skills"), dict) else {}
     labels = [
-        ("ops", "Linux / Ops"),
-        ("cloud", "Cloud / IaC"),
-        ("data", "Data"),
+        ("lead", "Leadership"),
         ("backend", "Backend"),
-        ("languages", "Languages"),
+        ("data", "Data"),
+        ("cloud", "Cloud"),
         ("ai", "AI tooling"),
+        ("languages", "Languages"),
+        ("ops", "Ops"),
         ("other", "Also"),
     ]
     doc.section("Skills")
@@ -464,7 +448,7 @@ def build_cv_pdf(site: dict[str, Any]) -> bytes:
         doc.y -= 6
 
     proj = site.get("projects") if isinstance(site.get("projects"), dict) else {}
-    items = proj.get("items") if isinstance(proj.get("items"), list) else []
+    items = [x for x in (proj.get("items") if isinstance(proj.get("items"), list) else []) if isinstance(x, dict)][:3]
     if items:
         doc.section("Selected work")
         for it in items:
@@ -478,9 +462,10 @@ def build_cv_pdf(site: dict[str, Any]) -> bytes:
             )
             if meta:
                 doc.para(meta, 8.5, 11, "F3", MUTED)
-            if it.get("blurb"):
-                doc.para(str(it["blurb"]), 9.5, 12)
-            doc.y -= 6
+            outcome = str(it.get("outcome") or it.get("blurb") or "")
+            if outcome:
+                doc.para(outcome, 9.5, 12)
+            doc.y -= 4
 
     certs = p.get("certs") if isinstance(p.get("certs"), list) else []
     if certs:
@@ -496,6 +481,12 @@ def build_cv_pdf(site: dict[str, Any]) -> bytes:
         doc.section("Education")
         for e in edu:
             doc.para(str(e), 10, 13)
+
+    gaps = p.get("toward_staff") if isinstance(p.get("toward_staff"), list) else []
+    if gaps:
+        doc.section("Toward Staff (honest gaps)")
+        for g in gaps:
+            doc.para("\u00b7  " + str(g), 9, 12)
 
     return doc.footer_and_close()
 

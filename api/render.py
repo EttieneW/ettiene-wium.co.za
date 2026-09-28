@@ -30,12 +30,13 @@ def render_index(site: dict[str, Any]) -> str:
     headline = str(p.get("headline") or "Profile")
     location = str(p.get("location") or "")
     skill_labels = [
-        ("ops", "Linux / Ops"),
-        ("cloud", "Cloud / IaC"),
-        ("data", "Data"),
+        ("lead", "Leadership"),
         ("backend", "Backend"),
-        ("languages", "Languages"),
+        ("data", "Data"),
+        ("cloud", "Cloud / platform"),
         ("ai", "AI tooling"),
+        ("languages", "Languages"),
+        ("ops", "Ops"),
         ("other", "Also"),
     ]
     skill_html = []
@@ -83,12 +84,29 @@ def render_index(site: dict[str, Any]) -> str:
             else ""
         )
         stack = f'<p class="meta">{h(it.get("stack", ""))}</p>' if it.get("stack") else ""
+        steps = []
+        for key, lab in (
+            ("problem", "Problem"),
+            ("responsibility", "My responsibility"),
+            ("decisions", "Decisions"),
+            ("leadership", "Leadership"),
+            ("outcome", "Outcome"),
+        ):
+            val = str(it.get(key) or "").strip()
+            if val:
+                steps.append(f"<div><h4>{lab}</h4><p>{h(val)}</p></div>")
+        body = (
+            f'<div class="case-steps">{"".join(steps)}</div>'
+            if steps
+            else f"<p>{h(it.get('blurb', ''))}</p>"
+        )
+        private = "" if link else '<p class="meta">No public URL</p>'
         work_html.append(
-            '<article class="work-card">'
+            '<article class="work-card case">'
             f'<p class="pill">{h(it.get("status", ""))}</p>'
             f"<h3>{h(it.get('name', ''))}</h3>"
             f'<p class="meta">{h(it.get("role", ""))}</p>{stack}'
-            f"<p>{h(it.get('blurb', ''))}</p>{link}</article>"
+            f"{body}{private}{link}</article>"
         )
 
     years_html = []
@@ -131,7 +149,15 @@ def render_index(site: dict[str, Any]) -> str:
             + "</div>"
         )
     interest = str(p.get("interest") or "")
-    status_line = str(p.get("status_line") or "Open to PHP production roles and SRE / DevOps · globally remote · flexi hours")
+    status_line = str(
+        p.get("status_line")
+        or "Open to global remote Senior / Lead backend roles · Cape Town · SAST (UTC+2)"
+    )
+    staff_items = p.get("toward_staff") if isinstance(p.get("toward_staff"), list) else []
+    staff_block = ""
+    if staff_items:
+        lis = "".join(f"<li>{h(x)}</li>" for x in staff_items if str(x).strip())
+        staff_block = f'<ul class="staff-gaps">{lis}</ul>'
 
     gh = str(links.get("github") or "")
     li = str(links.get("linkedin") or "")
@@ -174,11 +200,9 @@ def render_index(site: dict[str, Any]) -> str:
       </a>
       <nav>
         <a href="#about">About</a>
+        <a href="#work">Work</a>
         <a href="#skills">Skills</a>
         <a href="#experience">Experience</a>
-        <a href="#certs">Certs</a>
-        <a href="#work">Work</a>
-        <a href="#letter">Letter</a>
         <a href="#contact">Contact</a>
       </nav>
       <a class="btn btn-sm" href="/downloads/Ettiene-Wium-CV.pdf">Download CV</a>
@@ -191,36 +215,51 @@ def render_index(site: dict[str, Any]) -> str:
       <p class="role">{h(headline)}</p>
       {"<p class='interest'>" + h(interest) + "</p>" if interest else ""}
       <p class="status"><span class="status-dot"></span> {h(status_line)}</p>
-      {split_block}
-      <div class="prose">{_nl(str(p.get("summary") or ""))}</div>
       <p class="actions">
-        <a class="btn" href="/downloads/Ettiene-Wium-CV.pdf">Download CV (PDF)</a>
-        <a class="btn ghost" href="/downloads/Ettiene-Wium-CV.docx">CV (DOCX)</a>
-        {gh_btn}
         {li_btn}
+        {gh_btn}
+        <a class="btn" href="/downloads/Ettiene-Wium-CV.pdf">Download CV (PDF)</a>
         {mail_btn}
       </p>
+      {split_block}
+      <div class="prose">{_nl(str(p.get("summary") or ""))}</div>
+    </section>
+    <section id="work">
+      <div class="section-head">
+        <p class="section-index">01</p>
+        <h2>Selected work</h2>
+      </div>
+      <p class="lede">{h(proj.get("lede", ""))}</p>
+      <div class="cases">{"".join(work_html)}</div>
     </section>
     <section id="skills">
       <div class="section-head">
-        <p class="section-index">01</p>
+        <p class="section-index">02</p>
         <h2>Skills</h2>
       </div>
-      <p class="lede">Years are honest. Kubernetes is homelab. AWS at work is using existing accounts.</p>
+      <p class="lede">Years are honest. Kubernetes is homelab. AWS at work is existing accounts, not architecture of the org.</p>
       {years_block}
-      {("<h3 class='kicker'>How I run a production client</h3>" + steps_block) if steps_block else ""}
+      {("<h3 class='kicker'>How I lead a client</h3>" + steps_block) if steps_block else ""}
       <div class="grid">{"".join(skill_html)}</div>
     </section>
     <section id="experience">
       <div class="section-head">
-        <p class="section-index">02</p>
+        <p class="section-index">03</p>
         <h2>Experience</h2>
       </div>
       <div class="timeline">{"".join(jobs_html)}</div>
     </section>
+    {f'''<section id="staff">
+      <div class="section-head">
+        <p class="section-index">04</p>
+        <h2>Toward Staff</h2>
+      </div>
+      <p class="lede">I am not a Staff Engineer today. These are the gaps I will not paper over.</p>
+      {staff_block}
+    </section>''' if staff_block else ""}
     <section id="certs">
       <div class="section-head">
-        <p class="section-index">03</p>
+        <p class="section-index">05</p>
         <h2>Certifications and education</h2>
       </div>
       <div class="split">
@@ -233,14 +272,6 @@ def render_index(site: dict[str, Any]) -> str:
           <ul class="edu-list">{edu}</ul>
         </div>
       </div>
-    </section>
-    <section id="work">
-      <div class="section-head">
-        <p class="section-index">04</p>
-        <h2>Selected work</h2>
-      </div>
-      <p class="lede">{h(proj.get("lede", ""))}</p>
-      <div class="grid">{"".join(work_html)}</div>
     </section>
     <section id="letter">
       <div class="section-head">

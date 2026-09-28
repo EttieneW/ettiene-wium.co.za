@@ -4,7 +4,7 @@ Public CV and project profile for Ettiene Wium. No family or vault data.
 
 ## Summary
 
-Software / production engineer and AWS DevOps engineer at **https://ettiene-wium.com**. PHP first; SRE as the direction. Local **http://localhost:8097**.
+Tech Lead / Senior Backend Engineer at **https://ettiene-wium.com**. PHP is a skill, not the whole identity. Toward Staff, not a Staff title. Local **http://localhost:8097**.
 
 ## Description
 

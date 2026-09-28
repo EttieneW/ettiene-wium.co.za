@@ -573,6 +573,31 @@ section {
   font-weight: 600;
   text-decoration: none;
 }
+.cases {
+  display: grid;
+  gap: 1rem;
+}
+.case {
+  max-width: none;
+}
+.case-steps {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0.4rem 0 0.8rem;
+}
+.case-steps h4 {
+  margin: 0 0 0.2rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.case-steps p { margin: 0; font-size: 0.95rem; }
+.staff-gaps {
+  max-width: 46rem;
+  padding-left: 1.1rem;
+}
+.staff-gaps li { margin: 0.45rem 0; }
 .work-card:not(:has(.text-link)) p:last-of-type { margin-bottom: 0; }
 .work-card .text-link:hover { text-decoration: underline; }
 

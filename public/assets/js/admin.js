@@ -55,7 +55,9 @@
     setLines("skills-backend", skills.backend);
     setLines("skills-languages", skills.languages);
     if (document.getElementById("skills-ai")) setLines("skills-ai", skills.ai);
+    if (document.getElementById("skills-lead")) setLines("skills-lead", skills.lead);
     if (document.getElementById("skills-other")) setLines("skills-other", skills.other);
+    if (document.getElementById("toward-staff")) setLines("toward-staff", p.toward_staff);
     document.getElementById("experience").value = JSON.stringify(p.experience || [], null, 2);
     setLines("certs", p.certs);
     setLines("education", p.education);
@@ -94,8 +96,10 @@
           backend: lines("skills-backend"),
           languages: lines("skills-languages"),
           ai: document.getElementById("skills-ai") ? lines("skills-ai") : [],
+          lead: document.getElementById("skills-lead") ? lines("skills-lead") : [],
           other: document.getElementById("skills-other") ? lines("skills-other") : []
         },
+        toward_staff: document.getElementById("toward-staff") ? lines("toward-staff") : [],
         experience: parseJson("experience"),
         certs: lines("certs"),
         education: lines("education")

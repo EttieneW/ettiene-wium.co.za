@@ -1,10 +1,10 @@
 {
   "name": "Ettiene Wium",
-  "headline": "Software / production engineer · AWS DevOps engineer",
-  "interest": "SRE · Kubernetes · Linux · DevOps · Docker · monitoring · logging · networking",
-  "hired_for": "Production PHP — Laravel, Symfony, custom PHP, MySQL, APIs, frontend and backend. I sit with the client, spec, cost, plan, then we build and review until they are happy.",
-  "leaning_into": "SRE and industry-standard Kubernetes. Linux, Docker, containers, DevOps, monitoring, logging, networking — paid work is still PHP-first; the homelab is where I practise the SRE job I want.",
-  "status_line": "Open to PHP production roles and SRE / DevOps · globally remote · flexi hours",
+  "headline": "Tech Lead · Senior Backend Engineer · Cloud / Architecture",
+  "interest": "Backend systems · data · APIs · production ownership · toward Staff (design, reliability, cloud)",
+  "hired_for": "I lead backend delivery on production systems: Tech Lead on SAWIS BI (PHP application and MySQL import/export path) and I own Indawo (application and guest OS). I sit with the client, spec, cost, plan, then we build and review until they sign off. I coordinate a project manager, a senior developer, and a mid developer — they do not report to me on paper.",
+  "leaning_into": "Staff-shaped work I do not yet hold as a title: system design you can read, reliability and observability beyond 'debug when it breaks,' and Kubernetes in production. Homelab k3s and freelance Terraform are how I practise that — not a Staff claim.",
+  "status_line": "Open to global remote Senior / Lead backend roles · Cape Town · SAST (UTC+2)",
   "location": "Cape Town, South Africa · globally remote · SAST (UTC+2)",
   "email": "ettiene.wium@gmail.com",
   "phone": "+27 71 881 2226",
@@ -13,94 +13,96 @@
     "github": "https://github.com/EttieneW",
     "portfolio": "https://ettiene-wium.com"
   },
-  "summary": "Eight years of production PHP is the job I can walk into tomorrow: Laravel, Symfony, custom PHP, MySQL, APIs, integrations, frontend and backend. At Silicon Overdrive the contract title is Software Developer; on Indawo and SAWIS I function as the senior person — spec, cost, plan, ship, coordinate a PM plus two developers (they do not report to me on paper). I like hard problems and I am easy to work with.\n\nAWS DevOps on the systems I own: Docker, pipelines, a post-deploy health window. I use existing EC2/RDS/Lambda/IAM; I am not the account architect. SRE and industry Kubernetes are the next job — practised on a homelab streaming stack and freelance fleet infra, not on an Overdrive cluster.",
+  "summary": "Backend and software engineer with eight years in production. I am Tech Lead on SAWIS BI: I own the PHP application and the MySQL data path (import/export jobs, recovery when a job fails). I do not own SAWIS servers or pipelines. I own Indawo end to end for the app and guest OS: spec, cost, plan, ship. I coordinate a PM, a senior, and a mid on that book. Contract title at Silicon Overdrive is Software Developer.\n\nCloud is real and bounded: I use existing AWS (EC2, RDS, Lambda, IAM), hold AWS DevOps Engineer Professional, and I manage Indawo's Azure guest OS — not the cloud account. I like hard problems and I am easy to work with. I am targeting Senior and Lead backend roles internationally, and I am building toward Staff without pretending I am there yet.",
   "delivery": [
     "Sit with the client on the feature or project they want",
     "Spec, cost estimate, and a project plan they can agree to",
-    "Build with the team — PHP, MySQL, tests, review",
-    "Demo and iterate until the client is happy, then invoice on track"
+    "Build with the team — backend, MySQL, review",
+    "Demo and iterate until the client is happy; keep invoicing on track"
+  ],
+  "toward_staff": [
+    "Distributed systems: SAWIS is app + MySQL jobs, not queues or multi-service backends — I will write the job path down as a design note, not invent Kafka.",
+    "Observability: production debugging is logs/config/DNS/MySQL when availability breaks, plus a post-deploy health window. Not a metrics platform I own.",
+    "Kubernetes: two years of homelab k3s/k3d (stand up, break, fix). No EKS/GKE/AKS at work.",
+    "Cross-team influence: I lead delivery on the clients I own, not the company platform org."
   ],
   "skill_years": [
-    {"years": "8", "label": "PHP — Laravel, Symfony (legacy, still live), custom PHP, APIs, integrations"},
-    {"years": "8", "label": "MySQL / SQL and Linux (Ubuntu; client servers)"},
-    {"years": "8", "label": "Web development — frontend and backend (JS, React/Angular/Bootstrap as collaboration, not the lead)"},
-    {"years": "8", "label": "WordPress and Drupal — plugins and modules I owned; not the homepage headline"},
-    {"years": "8 / 4", "label": "Docker — eight years locally, four years in production (Indawo and other clients)"},
-    {"years": "4", "label": "AWS — EC2, Lambda, RDS, IAM. I use existing accounts; I am not the account architect"},
-    {"years": "2", "label": "CI/CD — CodePipeline, pull-request deploys, post-deploy health watch"},
-    {"years": "2", "label": "Terraform — freelance fleet and homelab, not Overdrive's main way of working"},
-    {"years": "2", "label": "Kubernetes — homelab k3s/k3d (stand up, break, fix, run a workload). No EKS/GKE/AKS at work"},
-    {"years": "4", "label": "Cursor and Grok — daily AI-assisted engineering"},
-    {"years": "2", "label": "Claude and Codex — AI-assisted engineering"}
+    {"years": "8", "label": "Backend — PHP, Laravel, Symfony, custom PHP, REST APIs, integrations"},
+    {"years": "8", "label": "MySQL / SQL — production modelling, import/export jobs, recovery"},
+    {"years": "8", "label": "Linux — Ubuntu; I keep client guest OS updated"},
+    {"years": "8 / 4", "label": "Docker — eight years locally, four years in production"},
+    {"years": "4", "label": "AWS — EC2, Lambda, RDS, IAM on existing accounts (not account architect)"},
+    {"years": "2", "label": "CI/CD — pull requests, CodePipeline, post-deploy health watch"},
+    {"years": "2", "label": "Terraform — freelance fleet and homelab"},
+    {"years": "2", "label": "Kubernetes — homelab k3s/k3d only"},
+    {"years": "8", "label": "WordPress and Drupal — plugins/modules; not the headline"},
+    {"years": "daily", "label": "AI-assisted engineering — Cursor, Grok, Claude, Codex"}
   ],
   "skills": {
-    "ops": [
-      "Linux (Ubuntu, 8 years; I keep client servers updated)",
-      "Docker (8 years locally; 4 years production)",
-      "CI/CD (2 years; PRs, CodePipeline, post-deploy watch)",
-      "Testing and quality (SonarQube; PR review; automated health window after deploy)",
-      "Incidents: logs, config, DNS/TLS, MySQL — limited monitoring, used when availability breaks"
-    ],
-    "cloud": [
-      "AWS (EC2, Lambda, RDS, IAM — 4 years) — DevOps Engineer Professional. Consumer of existing accounts",
-      "Azure — Indawo guest OS/app; I do not manage Azure hardware or the account",
-      "Terraform (2 years, fleet + homelab)",
-      "Kubernetes (2 years homelab k3s/k3d — not at current employer)"
+    "backend": [
+      "PHP / Laravel (8 years production)",
+      "Symfony and custom PHP (legacy, still live)",
+      "REST APIs and integrations",
+      "WordPress and Drupal (plugins/modules; not the lead)"
     ],
     "data": [
       "MySQL (8 years production, on disk and RDS)",
       "Relational modelling",
-      "Caching strategies",
-      "REST APIs and integrations"
+      "Import/export job recovery (SAWIS BI)",
+      "Caching strategies"
     ],
-    "backend": [
-      "PHP / Laravel (8 years production)",
-      "Symfony and custom PHP (legacy, still live on clients)",
-      "WordPress and Drupal (plugins/modules; not the lead)",
-      "Node.js"
+    "cloud": [
+      "AWS (EC2, Lambda, RDS, IAM — 4 years) — DevOps Engineer Professional; existing accounts",
+      "Azure guest OS on Indawo — not the account",
+      "Linux (Ubuntu, 8 years)",
+      "Docker (8 years locally; 4 years production)",
+      "CI/CD (PRs, CodePipeline, post-deploy watch)",
+      "Terraform (2 years, fleet + homelab)",
+      "Kubernetes (2 years homelab k3s/k3d)"
+    ],
+    "lead": [
+      "Tech Lead, SAWIS BI (application and data path)",
+      "Client owner, Indawo (spec, cost, plan, ship)",
+      "Coordinate PM + senior + mid (not line manager)"
+    ],
+    "ai": [
+      "Cursor and Grok (daily)",
+      "Claude and Codex"
     ],
     "languages": [
-      "JavaScript (paid frontend collaboration)",
-      "React / Angular / Bootstrap (collaboration, not a React lead)",
-      "Python (scripting / automation)",
-      "Go (homelab / study, not production years)",
+      "JavaScript (frontend collaboration, not the lead)",
+      "Python (scripting)",
+      "Go (homelab / study)",
       "Bash",
       "Afrikaans (native)",
       "English (fluent)"
-    ],
-    "ai": [
-      "Cursor (4 years, daily)",
-      "Grok (4 years, daily)",
-      "Claude (2 years)",
-      "Codex (2 years)"
     ]
   },
   "experience": [
     {
       "id": "overdrive",
-      "title": "Software Developer — production engineer on the clients I own",
+      "title": "Software Developer — Tech Lead, SAWIS BI · client owner, Indawo",
       "company": "Silicon Overdrive",
       "dates": "April 2022 – Present",
       "location": "Cape Town, South Africa",
       "bullets": [
-        "Function as the senior engineer on my book: I sit with the client, spec new work, cost it, set the project plan, then we develop, test, and review until they sign off. I coordinate a project manager, a senior developer, and a mid developer. They do not report to me on paper. I keep delivery and invoicing on track.",
-        "Indawo — I own the site and the server end to end (not Azure hardware). Spec, build, PR deploys, a post-deploy health window (~10 minutes). 24/7 ownership if the site is down and the server is still up; not a paid on-call rota. I keep the server updated.",
-        "Indawo SRE incident: on-prem CentOS hardware died over a weekend. I containerised the legacy PHP site with Docker, got networking publishing, and restored production. First production Docker. The app now runs on Azure; I manage the server, not the cloud account.",
-        "SAWIS BI — tech lead for PHP and the database (wine-industry import/export). I own the application work, not pipelines, servers, or infrastructure. Full support for the site, not 24/7 call.",
-        "AWS in paid work: EC2, Lambda, RDS, IAM on accounts that already exist. CodePipeline and SonarQube. AWS DevOps Engineer Professional earned in this role. I am not the company platform team."
+        "Tech Lead on SAWIS BI: own the PHP application and MySQL import/export path for the wine industry. When a job fails I diagnose the data path and recover it. I do not own SAWIS servers, pipelines, or cloud accounts.",
+        "Own Indawo as the client engineer: sit with the client, spec and cost new work, set the plan, then develop and review with the team until they sign off. I coordinate a project manager, a senior developer, and a mid developer (not line manager). I keep delivery and invoicing on track.",
+        "Indawo production incident: on-prem CentOS hardware died. I containerised the legacy PHP app with Docker onto spare hardware, fixed publishing/networking, and restored the site. The app now runs on an Azure VM; I manage the guest OS and application, not Azure infrastructure.",
+        "Indawo delivery path I own: pull requests, automated post-deploy health window (~10 minutes). 24/7 ownership if the site is down while the server is up — not a paid on-call rota.",
+        "AWS in paid work: EC2, Lambda, RDS, IAM on accounts that already exist. CodePipeline and SonarQube. AWS DevOps Engineer Professional earned in this role. I am not the company platform team or account architect."
       ]
     },
     {
       "id": "rogerwilco",
-      "title": "Junior to Mid-Level Developer",
+      "title": "Software Developer (Junior to Mid-Level)",
       "company": "RogerWilco",
       "dates": "June 2018 – March 2022",
       "location": "Cape Town, South Africa",
       "bullets": [
-        "Shipped LAMP applications on Ubuntu and small AWS hosts: Laravel, Symfony, custom PHP, Drupal, WordPress. Owned plugins and modules for Drupal and WordPress.",
-        "Built an RBAC member dashboard (Global Self-Care Federation) and live JSE graphs on that stack.",
-        "WordPress maintenance (usb.ac.za, waterfront.co.za): plugins, compatibility, DNS/TLS, security reviews.",
-        "Minor client-facing spec and delivery. Support standby for production servers and sites. Touched SRE/DevOps work that someone else owned — I did not own the platform."
+        "Shipped production LAMP backends on Ubuntu and small AWS hosts: Laravel, Symfony, custom PHP, plus Drupal and WordPress plugins/modules I owned.",
+        "Built an RBAC member dashboard (Global Self-Care Federation) and live JSE data graphs on that stack.",
+        "Production support on client sites (including usb.ac.za, waterfront.co.za): plugins, compatibility, DNS/TLS, security reviews. Touched SRE/DevOps work that someone else owned."
       ]
     }
   ],
@@ -116,5 +118,5 @@
     "Information Systems Engineering (ISE), CTI Education Group, 2017–2018",
     "Matric, DF Malan High School, Bellville, class of 2016 (two distinctions)"
   ],
-  "source": "Interview 2026 + Ettiene_Wium_CV.pdf 8 Sep 2026. No junior/mid/senior in the H1. PHP first, SRE direction second."
+  "source": "Plan 2026-09-22: Tech Lead / Senior Backend / toward Staff. Qualitative SAWIS+Indawo only. No invented metrics."
 }
