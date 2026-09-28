@@ -35,8 +35,8 @@ def test_render_has_https_downloads():
     assert "Download CV (PDF)" in html
     assert "/downloads/Ettiene-Wium-CV.pdf" in html
     assert "Tech Lead" in html
-    assert "Toward Staff" in html
-    assert "SRE" in html or "Staff" in html
+    assert "Mapper" in html
+    assert "two million" in html or "2 million" in html
     assert "k3s" in html
     assert "Indawo" in html
     assert "SAWIS" in html

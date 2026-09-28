@@ -1,57 +1,57 @@
 {
-  "lede": "Engineering case studies from paid work first. Homelab is labelled as practice, not Staff evidence.",
+  "lede": "Paid production first. Homelab is labelled practice.",
   "items": [
     {
       "name": "SAWIS BI",
       "role": "Tech Lead — backend and data",
       "status": "current",
       "url": "",
-      "stack": "PHP, MySQL, import/export jobs",
-      "problem": "The client runs wine-industry business intelligence that depends on large import and export jobs hitting a live MySQL database. When a job fails, the business is stuck until the data path is understood and recovered.",
-      "responsibility": "I am Tech Lead for the PHP application and the database work. I own the job path and recovery. I do not own servers, CI, or cloud accounts for SAWIS.",
-      "decisions": "Keep the system as an application-and-data problem I can diagnose end to end: PHP job, MySQL state, failed batch — not a platform rewrite I do not own.",
-      "leadership": "I own the technical work on this client. Full support for the site; not a 24/7 on-call rota.",
-      "outcome": "Failed import/export jobs get a recovered data path rather than a patch that hides the cause. No public volume metrics.",
-      "blurb": "Tech Lead on wine-industry BI: PHP + MySQL import/export. I recover failed jobs. I do not own infra."
+      "stack": "PHP, MySQL, legacy Mapper sync, import/export",
+      "problem": "The South African wine industry needs import, export, and domestic data in one production system. Source of truth for a large cut of that data is a legacy Mapper system. The business depends on that data landing correctly every month, and on import/export jobs completing.",
+      "responsibility": "Tech Lead. I do the majority of the backend. I own the destination database and application path: monthly synchronisation from Mapper into our MySQL (tables over two million rows), import/export jobs, and recovery when a run fails. I own planning, estimation, technical decisions, and delivery, including annual feature phases (major domestic-data work in 2026).",
+      "decisions": "Treat Mapper as the client's legacy extractor; own load, schema, validation, and repair on our side so a failed month can be traced through PHP and MySQL instead of guessed.",
+      "leadership": "I coordinate a project manager, a senior frontend engineer, and a senior backend engineer. I am the client-facing technical owner.",
+      "outcome": "Monthly Mapper syncs and wine-industry import/export continue in production on tables over two million rows. Failed jobs get a recovered data path. Annual phases, including 2026 domestic data, ship under this lead.",
+      "blurb": "Tech Lead. Monthly Mapper → MySQL sync. Tables over 2 million rows. Majority of backend. PM + senior FE + senior BE."
     },
     {
       "name": "Indawo",
-      "role": "Client owner — application and guest OS",
+      "role": "Client owner — production application",
       "status": "current",
       "url": "",
-      "stack": "PHP, Laravel / legacy PHP, MySQL, Docker, Azure VM, PR deploys",
-      "problem": "A production PHP site had to keep running for a client I own. Hardware under the original on-prem CentOS host died. Later the app needed a durable home that I could still operate.",
-      "responsibility": "I own spec, cost, plan, build, and sign-off. I manage the application and guest OS. I do not manage Azure hardware or the cloud account. I coordinate a PM, a senior developer, and a mid developer (not line manager).",
-      "decisions": "On the dead host I containerised the legacy app with Docker on spare CentOS and fixed publishing/networking so production came back the same weekend. The app now runs on an Azure VM; I operate the guest, not the account.",
-      "leadership": "I am the client-facing engineer: new work is scoped and costed with the client, then built and reviewed with the team until they are happy. Invoicing stays on track.",
-      "outcome": "Site restored after hardware loss; still in production on Azure under my application ownership. Delivery path: PRs and a ~10 minute post-deploy health window.",
-      "blurb": "I own this client: spec to sign-off. Docker restore after hardware death. Azure guest OS, not the account."
+      "stack": "PHP, Laravel / legacy PHP, MySQL, Docker, Azure VM, CI/CD",
+      "problem": "A production PHP product had to stay up for a client I own. The original on-prem host failed. Delivery still needed spec, cost, and sign-off, not only tickets.",
+      "responsibility": "I own the client relationship for engineering: planning, estimation, technical decisions, and delivery. I operate the application and guest OS.",
+      "decisions": "On hardware failure I containerised the legacy app with Docker on spare CentOS and restored publishing the same incident. The app now runs on an Azure VM; I operate the guest OS.",
+      "leadership": "Client-facing owner. Pull requests and a post-deploy health window.",
+      "outcome": "Production restored after host failure; still running. Delivery loop from spec to sign-off remains mine.",
+      "blurb": "Client-owned production app. Docker restore after host failure. Spec through sign-off."
     },
     {
       "name": "tf-fleet-iac (Siyabonwa)",
-      "role": "Freelance with a friend — AWS as code",
+      "role": "Freelance — AWS as code",
       "status": "hosted",
       "url": "https://github.com/EttieneW/tf-fleet-iac",
-      "stack": "Terraform, EC2, RDS MySQL 8.4, CodePipeline, CCS",
-      "problem": "A production truck-management PHP app needed a reproducible AWS environment, not a snowflake box.",
-      "responsibility": "I defined the AWS stack in Terraform (af-south-1) with a friend. This is freelance, not Overdrive's Indawo path.",
-      "decisions": "VPC, EC2, RDS MySQL, CodePipeline in code so the environment can be rebuilt.",
-      "leadership": "Shared freelance delivery, not an internal Staff mandate.",
-      "outcome": "Live at fleet.wiums.co.za. Public IaC at github.com/EttieneW/tf-fleet-iac.",
-      "blurb": "Freelance Terraform for a production PHP fleet. Public repo. Not how Overdrive runs Indawo."
+      "stack": "Terraform, EC2, RDS MySQL, CodePipeline",
+      "problem": "A production PHP fleet needed a rebuildable AWS environment.",
+      "responsibility": "Freelance with a friend. Terraform for the stack in af-south-1.",
+      "decisions": "Environment in code: compute, RDS, pipeline.",
+      "leadership": "Shared freelance delivery.",
+      "outcome": "Live at fleet.wiums.co.za. Public repo github.com/EttieneW/tf-fleet-iac.",
+      "blurb": "Freelance Terraform for a production PHP fleet. Separate from Overdrive."
     },
     {
-      "name": "Homelab streaming",
-      "role": "Practice — reliability and k3s",
+      "name": "Homelab",
+      "role": "Practice — k3s and uptime",
       "status": "homelab",
       "url": "",
-      "stack": "Linux, Docker, Jellyfin, k3s",
-      "problem": "I do not get industry Kubernetes or a metrics platform at work.",
-      "responsibility": "I run a private streaming stack and treat uptime as my problem.",
-      "decisions": "Docker on Linux today; k3s/k3d to learn cluster failure. Not a public product.",
-      "leadership": "Solo practice.",
-      "outcome": "Two years of breaking and fixing my own k3s. Labeled homelab — not Staff evidence.",
-      "blurb": "Private streaming stack. Homelab k3s. Practice toward reliability, not a product."
+      "stack": "Linux, Docker, k3s",
+      "problem": "No industry Kubernetes cluster at work.",
+      "responsibility": "Private streaming stack; I treat uptime as my problem.",
+      "decisions": "Docker on Linux; k3s/k3d to practise cluster failure.",
+      "leadership": "Solo.",
+      "outcome": "Homelab only — not paid production Kubernetes.",
+      "blurb": "Homelab k3s. Practice, not production K8s."
     }
   ]
 }

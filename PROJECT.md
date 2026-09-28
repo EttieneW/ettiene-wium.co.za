@@ -4,7 +4,7 @@ Public CV and project profile for Ettiene Wium. No family or vault data.
 
 ## Summary
 
-Tech Lead / Senior Backend Engineer at **https://ettiene-wium.com**. PHP is a skill, not the whole identity. Toward Staff, not a Staff title. Local **http://localhost:8097**.
+Tech Lead / Senior Backend Engineer at **https://ettiene-wium.com**. SAWIS BI lead case study. Local **http://localhost:8097**.
 
 ## Description
 

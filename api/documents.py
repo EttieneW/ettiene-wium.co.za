@@ -482,12 +482,6 @@ def build_cv_pdf(site: dict[str, Any]) -> bytes:
         for e in edu:
             doc.para(str(e), 10, 13)
 
-    gaps = p.get("toward_staff") if isinstance(p.get("toward_staff"), list) else []
-    if gaps:
-        doc.section("Toward Staff (honest gaps)")
-        for g in gaps:
-            doc.para("\u00b7  " + str(g), 9, 12)
-
     return doc.footer_and_close()
 
 

@@ -137,12 +137,12 @@ def render_index(site: dict[str, Any]) -> str:
         split_block = (
             '<div class="path-grid">'
             + (
-                f'<article class="path-card"><p class="kicker">Hired for</p><p>{h(hired)}</p></article>'
+                f'<article class="path-card"><p class="kicker">Now</p><p>{h(hired)}</p></article>'
                 if hired
                 else ""
             )
             + (
-                f'<article class="path-card"><p class="kicker">Leaning into</p><p>{h(leaning)}</p></article>'
+                f'<article class="path-card"><p class="kicker">Focus</p><p>{h(leaning)}</p></article>'
                 if leaning
                 else ""
             )
@@ -237,7 +237,7 @@ def render_index(site: dict[str, Any]) -> str:
         <p class="section-index">02</p>
         <h2>Skills</h2>
       </div>
-      <p class="lede">Years are honest. Kubernetes is homelab. AWS at work is existing accounts, not architecture of the org.</p>
+      <p class="lede">Production backend and data first. Kubernetes and Terraform below the fold are homelab / freelance.</p>
       {years_block}
       {("<h3 class='kicker'>How I lead a client</h3>" + steps_block) if steps_block else ""}
       <div class="grid">{"".join(skill_html)}</div>
@@ -249,17 +249,9 @@ def render_index(site: dict[str, Any]) -> str:
       </div>
       <div class="timeline">{"".join(jobs_html)}</div>
     </section>
-    {f'''<section id="staff">
-      <div class="section-head">
-        <p class="section-index">04</p>
-        <h2>Toward Staff</h2>
-      </div>
-      <p class="lede">I am not a Staff Engineer today. These are the gaps I will not paper over.</p>
-      {staff_block}
-    </section>''' if staff_block else ""}
     <section id="certs">
       <div class="section-head">
-        <p class="section-index">05</p>
+        <p class="section-index">04</p>
         <h2>Certifications and education</h2>
       </div>
       <div class="split">
