@@ -138,95 +138,418 @@ def cover_lines(site: dict[str, Any]) -> list[tuple[str, str]]:
     return rows
 
 
-# ----- PDF (minimal Helvetica) -----
-def _pdf_escape(s: str) -> str:
-    return s.replace("\\", "\\\\").replace("(", "\\(").replace(")", "\\)")
+# ----- PDF (WinAnsi Helvetica family, stdlib only) -----
+ACCENT = (0.118, 0.310, 0.290)
+INK = (0.086, 0.078, 0.071)
+MUTED = (0.369, 0.349, 0.325)
+RULE = (0.118, 0.310, 0.290)
+
+_WINANSI = {
+    "\u2014": " - ",
+    "\u2013": "-",
+    "\u2011": "-",
+    "\u2018": "'",
+    "\u2019": "'",
+    "\u201c": '"',
+    "\u201d": '"',
+    "\u2022": "\xb7",
+    "\u00b7": "\xb7",
+    "\u2192": "->",
+    "\u00a0": " ",
+    "\u2026": "...",
+    "\u2248": "~",
+}
+
+
+def _winansi(s: str) -> bytes:
+    for a, b in _WINANSI.items():
+        s = s.replace(a, b)
+    raw = s.encode("cp1252", "replace")
+    return raw.replace(b"\\", b"\\\\").replace(b"(", b"\\(").replace(b")", b"\\)")
+
+
+def _plain(s: str) -> str:
+    for a, b in _WINANSI.items():
+        s = s.replace(a, b)
+    return s
+
+
+def _wrap_pt(text: str, size: float, max_w: float) -> list[str]:
+    text = _plain(text)
+    avg = size * 0.48
+    lines: list[str] = []
+    for para in text.replace("\r\n", "\n").split("\n"):
+        words = para.split()
+        if not words:
+            lines.append("")
+            continue
+        cur = words[0]
+        for w in words[1:]:
+            if (len(cur) + 1 + len(w)) * avg <= max_w:
+                cur += " " + w
+            else:
+                lines.append(cur)
+                cur = w
+        lines.append(cur)
+    return lines or [""]
+
+
+class _Pdf:
+    page_w = 595.28
+    page_h = 841.89
+
+    def __init__(self) -> None:
+        self.margin = 48.0
+        self.y = self.page_h - 44
+        self.ops: list[str] = []
+        self.pages: list[bytes] = []
+        self.page_i = 1
+        self._running = ""
+
+    def set_running(self, name: str) -> None:
+        self._running = name
+
+    def _flush(self) -> None:
+        if self.ops:
+            self.pages.append("\n".join(self.ops).encode("latin-1", "replace"))
+        self.ops = []
+        self.y = self.page_h - 52
+        self.page_i += 1
+        if self._running:
+            self._page_header()
+
+    def need(self, h: float) -> None:
+        if self.y - h < 58:
+            self._flush()
+
+    def rgb(self, c: tuple[float, float, float]) -> str:
+        return f"{c[0]:.3f} {c[1]:.3f} {c[2]:.3f} rg"
+
+    def line(self, x1: float, y1: float, x2: float, y2: float, color: tuple[float, float, float], w: float = 0.8) -> None:
+        self.ops.append(
+            f"{w:.2f} w {color[0]:.3f} {color[1]:.3f} {color[2]:.3f} RG {x1:.1f} {y1:.1f} m {x2:.1f} {y2:.1f} l S"
+        )
+
+    def text(self, s: str, x: float, y: float, size: float, font: str = "F1", color: tuple[float, float, float] = INK) -> None:
+        lit = _winansi(_plain(s)).decode("latin-1")
+        self.ops.append(
+            f"BT /{font} {size:.1f} Tf {self.rgb(color)} 1 0 0 1 {x:.1f} {y:.1f} Tm ({lit}) Tj ET"
+        )
+
+    def para(self, s: str, size: float, leading: float, font: str = "F1", color: tuple[float, float, float] = INK, indent: float = 0, width: float | None = None) -> None:
+        max_w = (width if width is not None else (self.page_w - 2 * self.margin)) - indent
+        x = self.margin + indent
+        for chunk in _wrap_pt(s, size, max_w):
+            self.need(leading)
+            if chunk:
+                self.text(chunk, x, self.y, size, font, color)
+            self.y -= leading
+
+    def _page_header(self) -> None:
+        self.text(self._running.upper(), self.margin, self.page_h - 36, 8, "F2", ACCENT)
+        self.text("Curriculum Vitae", self.page_w - self.margin - 82, self.page_h - 36, 8, "F1", MUTED)
+        self.line(self.margin, self.page_h - 42, self.page_w - self.margin, self.page_h - 42, ACCENT, 0.9)
+        self.y = self.page_h - 58
+
+    def section(self, title: str) -> None:
+        self.need(28)
+        self.y -= 8
+        self.text(title.upper(), self.margin, self.y, 10, "F2", ACCENT)
+        self.y -= 6
+        self.line(self.margin, self.y, self.page_w - self.margin, self.y, ACCENT, 1.0)
+        self.y -= 14
+
+    def footer_and_close(self) -> bytes:
+        if self.ops:
+            self.pages.append("\n".join(self.ops).encode("latin-1", "replace"))
+        n = len(self.pages)
+        # stamp footers by rebuilding... footers baked per page at flush is easier
+        page_w, page_h = self.page_w, self.page_h
+        font_objs = [
+            b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>",
+            b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>",
+            b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>",
+        ]
+        out: list[bytes] = [b""]
+        out.append(b"<< /Type /Catalog /Pages 2 0 R >>")
+        page_count = n
+        first_page = 3
+        font0 = 3 + page_count
+        first_content = font0 + 3
+        kids = " ".join(f"{first_page + i} 0 R" for i in range(page_count))
+        out.append(f"<< /Type /Pages /Kids [{kids}] /Count {page_count} >>".encode())
+        stamped: list[bytes] = []
+        for i, stream in enumerate(self.pages, start=1):
+            foot = (
+                f"\nBT /F1 8 Tf {self.rgb(MUTED)} 1 0 0 1 {self.margin:.1f} 28 Tm "
+                f"({_winansi(self._running + '  ·  ' + str(i) + ' / ' + str(page_count)).decode('latin-1')}) Tj ET"
+            ).encode("latin-1")
+            stamped.append(stream + foot)
+        for i in range(page_count):
+            cid = first_content + i
+            out.append(
+                (
+                    f"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 {page_w:.2f} {page_h:.2f}] "
+                    f"/Contents {cid} 0 R /Resources << /Font << "
+                    f"/F1 {font0} 0 R /F2 {font0 + 1} 0 R /F3 {font0 + 2} 0 R >> >> >>"
+                ).encode()
+            )
+        out.extend(font_objs)
+        for stream in stamped:
+            out.append(b"<< /Length %d >>\nstream\n" % len(stream) + stream + b"\nendstream")
+        buf = io.BytesIO()
+        buf.write(b"%PDF-1.4\n")
+        offsets = [0]
+        for i, obj in enumerate(out[1:], start=1):
+            offsets.append(buf.tell())
+            buf.write(f"{i} 0 obj\n".encode())
+            buf.write(obj)
+            buf.write(b"\nendobj\n")
+        xref = buf.tell()
+        total = len(out) - 1
+        buf.write(f"xref\n0 {total + 1}\n".encode())
+        buf.write(b"0000000000 65535 f \n")
+        for off in offsets[1:]:
+            buf.write(f"{off:010d} 00000 n \n".encode())
+        buf.write(f"trailer\n<< /Size {total + 1} /Root 1 0 R >>\nstartxref\n{xref}\n%%EOF\n".encode())
+        return buf.getvalue()
+
+
+def _cv_header(doc: _Pdf, p: dict[str, Any]) -> None:
+    name = str(p.get("name") or "Ettiene Wium")
+    doc.set_running(name)
+    headline = str(p.get("headline") or "")
+    interest = str(p.get("interest") or "")
+    loc = str(p.get("location") or "")
+    email = str(p.get("email") or "")
+    phone = str(p.get("phone") or "")
+    links = p.get("links") if isinstance(p.get("links"), dict) else {}
+    gh = str(links.get("github") or "").replace("https://", "")
+    li = str(links.get("linkedin") or "").replace("https://", "")
+    cx = doc.page_w / 2
+    inner = doc.page_w - 2 * doc.margin
+    doc.y = doc.page_h - 52
+
+    def center(s: str, size: float, font: str, color: tuple[float, float, float], leading: float) -> None:
+        for ch in _wrap_pt(s, size, inner):
+            w = len(ch) * size * 0.48
+            doc.text(ch, max(doc.margin, cx - w / 2), doc.y, size, font, color)
+            doc.y -= leading
+
+    center(name.upper(), 22, "F2", ACCENT, 20)
+    if headline:
+        center(headline, 11, "F1", INK, 14)
+    contact = "  ·  ".join(x for x in (loc, email, phone) if x)
+    if contact:
+        center(contact, 9, "F1", MUTED, 12)
+    web = "  ·  ".join(x for x in (gh, li) if x)
+    if web:
+        center(web, 9, "F3", MUTED, 11)
+    if interest:
+        center(interest, 8, "F1", MUTED, 11)
+    doc.line(doc.margin, doc.y, doc.page_w - doc.margin, doc.y, ACCENT, 1.4)
+    doc.y -= 18
+
+
+def build_cv_pdf(site: dict[str, Any]) -> bytes:
+    p = site.get("profile") if isinstance(site.get("profile"), dict) else {}
+    doc = _Pdf()
+    _cv_header(doc, p)
+
+    doc.section("Summary")
+    for para in str(p.get("summary") or "").split("\n"):
+        if para.strip():
+            doc.para(para.strip(), 10, 13)
+            doc.y -= 4
+
+    hired = str(p.get("hired_for") or "")
+    leaning = str(p.get("leaning_into") or "")
+    if hired or leaning:
+        doc.section("Hired for  /  leaning into")
+        if hired:
+            doc.text("HIRED FOR", doc.margin, doc.y, 8, "F2", ACCENT)
+            doc.y -= 12
+            doc.para(hired, 10, 13)
+            doc.y -= 4
+        if leaning:
+            doc.text("LEANING INTO", doc.margin, doc.y, 8, "F2", ACCENT)
+            doc.y -= 12
+            doc.para(leaning, 10, 13)
+            doc.y -= 4
+
+    years = p.get("skill_years") if isinstance(p.get("skill_years"), list) else []
+    if years:
+        doc.section("Years of experience")
+        inner = doc.page_w - 2 * doc.margin
+        col_w = (inner - 10) / 2
+        left_x = doc.margin
+        right_x = doc.margin + col_w + 10
+        # pair rows
+        pairs = [row for row in years if isinstance(row, dict)]
+        i = 0
+        while i < len(pairs):
+            row_h = 28
+            doc.need(row_h)
+            y0 = doc.y
+            for col, row in enumerate(pairs[i : i + 2]):
+                x = left_x if col == 0 else right_x
+                doc.text(str(row.get("years") or ""), x, y0, 11, "F2", ACCENT)
+                label = str(row.get("label") or "")
+                chunks = _wrap_pt(label, 8.5, col_w - 36)
+                ly = y0
+                for ch in chunks[:3]:
+                    doc.text(ch, x + 32, ly, 8.5, "F1", INK)
+                    ly -= 11
+                row_h = max(row_h, y0 - ly + 6)
+            doc.y = y0 - row_h
+            i += 2
+
+    delivery = p.get("delivery") if isinstance(p.get("delivery"), list) else []
+    if delivery:
+        doc.section("How I run a production client")
+        for n, step in enumerate(delivery, 1):
+            doc.para(f"{n}.  {step}", 10, 13)
+
+    skills = p.get("skills") if isinstance(p.get("skills"), dict) else {}
+    labels = [
+        ("ops", "Linux / Ops"),
+        ("cloud", "Cloud / IaC"),
+        ("data", "Data"),
+        ("backend", "Backend"),
+        ("languages", "Languages"),
+        ("ai", "AI tooling"),
+        ("other", "Also"),
+    ]
+    doc.section("Skills")
+    label_w = 88
+    for key, lab in labels:
+        items = skills.get(key) if isinstance(skills.get(key), list) else []
+        if not items:
+            continue
+        body = "  ·  ".join(str(i) for i in items)
+        chunks = _wrap_pt(body, 9, doc.page_w - 2 * doc.margin - label_w)
+        doc.need(12 * max(len(chunks), 1) + 10)
+        y0 = doc.y
+        doc.text(lab, doc.margin, y0, 9, "F2", ACCENT)
+        for ch in chunks:
+            doc.text(ch, doc.margin + label_w, doc.y, 9, "F1", INK)
+            doc.y -= 12
+        doc.y -= 4
+
+    doc.section("Experience")
+    for job in p.get("experience") if isinstance(p.get("experience"), list) else []:
+        if not isinstance(job, dict):
+            continue
+        title = str(job.get("title") or "")
+        dates = str(job.get("dates") or "")
+        company = str(job.get("company") or "")
+        loc = str(job.get("location") or "")
+        doc.need(36)
+        doc.text(title, doc.margin, doc.y, 11, "F2", INK)
+        dw = len(dates) * 4.4
+        doc.text(dates, doc.page_w - doc.margin - dw, doc.y, 9, "F3", MUTED)
+        doc.y -= 13
+        doc.text("  ·  ".join(x for x in (company, loc) if x), doc.margin, doc.y, 9, "F1", MUTED)
+        doc.y -= 14
+        for b in job.get("bullets") if isinstance(job.get("bullets"), list) else []:
+            doc.need(16)
+            doc.text("\u00b7", doc.margin + 2, doc.y, 11, "F2", ACCENT)
+            chunks = _wrap_pt(str(b), 9.5, doc.page_w - 2 * doc.margin - 16)
+            for i, ch in enumerate(chunks):
+                if i:
+                    doc.need(12)
+                doc.text(ch, doc.margin + 14, doc.y, 9.5, "F1", INK)
+                doc.y -= 12
+            doc.y -= 3
+        doc.y -= 6
+
+    proj = site.get("projects") if isinstance(site.get("projects"), dict) else {}
+    items = proj.get("items") if isinstance(proj.get("items"), list) else []
+    if items:
+        doc.section("Selected work")
+        for it in items:
+            if not isinstance(it, dict):
+                continue
+            doc.need(28)
+            doc.text(str(it.get("name") or ""), doc.margin, doc.y, 11, "F2", INK)
+            doc.y -= 12
+            meta = "  ·  ".join(
+                x for x in (str(it.get("role") or ""), str(it.get("status") or ""), str(it.get("stack") or "")) if x
+            )
+            if meta:
+                doc.para(meta, 8.5, 11, "F3", MUTED)
+            if it.get("blurb"):
+                doc.para(str(it["blurb"]), 9.5, 12)
+            doc.y -= 6
+
+    certs = p.get("certs") if isinstance(p.get("certs"), list) else []
+    if certs:
+        doc.section("Certifications")
+        for c in certs:
+            doc.need(14)
+            doc.text("\u00b7", doc.margin + 2, doc.y, 11, "F2", ACCENT)
+            doc.text(str(c), doc.margin + 14, doc.y, 10, "F1", INK)
+            doc.y -= 13
+
+    edu = p.get("education") if isinstance(p.get("education"), list) else []
+    if edu:
+        doc.section("Education")
+        for e in edu:
+            doc.para(str(e), 10, 13)
+
+    return doc.footer_and_close()
+
+
+def build_cover_pdf(site: dict[str, Any]) -> bytes:
+    p = site.get("profile") if isinstance(site.get("profile"), dict) else {}
+    c = site.get("cover_letter") if isinstance(site.get("cover_letter"), dict) else {}
+    doc = _Pdf()
+    _cv_header(doc, p)
+    heading = str(c.get("heading") or "Cover letter")
+    doc.section(heading)
+    for para in str(c.get("body") or "").split("\n\n"):
+        para = para.strip()
+        if not para:
+            continue
+        doc.para(para, 10.5, 15)
+        doc.y -= 8
+    return doc.footer_and_close()
 
 
 def build_pdf(rows: list[tuple[str, str]]) -> bytes:
-    page_w, page_h = 595, 842
-    margin = 50
-    fonts = {"title": 18, "h1": 12, "h2": 12, "meta": 9, "body": 10, "bullet": 10}
-    widths = {"title": 78, "h1": 88, "h2": 88, "meta": 108, "body": 95, "bullet": 90}
-
-    pages: list[list[tuple[str, float, float, str]]] = []
-    y = page_h - margin
-    cur: list[tuple[str, float, float, str]] = []
-
-    def flush() -> None:
-        nonlocal cur, y
-        pages.append(cur)
-        cur = []
-        y = page_h - margin
-
+    """Row-based PDF used by tests; export_bytes uses the designed layouts."""
+    doc = _Pdf()
+    doc.set_running("Ettiene Wium")
     for style, text in rows:
-        wrap_w = widths[style]
-        prefix = "- " if style == "bullet" else ""
-        chunks = _wrap(prefix + text, wrap_w) or [""]
-        gap = 16 if style in ("title", "h2") else 13
-        for i, chunk in enumerate(chunks):
-            if y < margin + 24:
-                flush()
-            x = margin + (12 if style == "bullet" and i else 0)
-            cur.append((style, x, y, chunk))
-            y -= gap
-        if style == "h2":
-            y -= 4
-    if cur:
-        pages.append(cur)
-    if not pages:
-        pages.append([("body", margin, page_h - margin, " ")])
-
-    page_count = len(pages)
-    first_page_id = 3
-    font_id = 3 + page_count
-    first_content_id = font_id + 1
-    out_objs: list[bytes] = [b""]
-    out_objs.append(b"<< /Type /Catalog /Pages 2 0 R >>")
-    kid_refs = " ".join(f"{first_page_id + i} 0 R" for i in range(page_count))
-    out_objs.append(f"<< /Type /Pages /Kids [{kid_refs}] /Count {page_count} >>".encode())
-    content_streams: list[bytes] = []
-    for page in pages:
-        stream_parts = ["BT", "/F1 10 Tf"]
-        last_size = 10
-        for style, x, ypos, chunk in page:
-            size = fonts[style]
-            if size != last_size:
-                stream_parts.append(f"/F1 {size} Tf")
-                last_size = size
-            stream_parts.append(f"1 0 0 1 {x:.1f} {ypos:.1f} Tm ({_pdf_escape(chunk)}) Tj")
-        stream_parts.append("ET")
-        content_streams.append("\n".join(stream_parts).encode("latin-1", "replace"))
-    for i in range(page_count):
-        cid = first_content_id + i
-        out_objs.append(
-            f"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 {page_w} {page_h}] "
-            f"/Contents {cid} 0 R /Resources << /Font << /F1 {font_id} 0 R >> >> >>".encode()
-        )
-    out_objs.append(b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>")
-    for stream in content_streams:
-        out_objs.append(b"<< /Length %d >>\nstream\n" % len(stream) + stream + b"\nendstream")
-
-    buf = io.BytesIO()
-    buf.write(b"%PDF-1.4\n")
-    offsets = [0]
-    for i, obj in enumerate(out_objs[1:], start=1):
-        offsets.append(buf.tell())
-        buf.write(f"{i} 0 obj\n".encode())
-        buf.write(obj)
-        buf.write(b"\nendobj\n")
-    xref = buf.tell()
-    n = len(out_objs) - 1
-    buf.write(f"xref\n0 {n + 1}\n".encode())
-    buf.write(b"0000000000 65535 f \n")
-    for off in offsets[1:]:
-        buf.write(f"{off:010d} 00000 n \n".encode())
-    buf.write(f"trailer\n<< /Size {n + 1} /Root 1 0 R >>\nstartxref\n{xref}\n%%EOF\n".encode())
-    return buf.getvalue()
+        if style == "title":
+            doc.text(text.upper(), doc.margin, doc.y, 18, "F2", ACCENT)
+            doc.y -= 22
+            doc.line(doc.margin, doc.y, doc.page_w - doc.margin, doc.y, ACCENT, 1.2)
+            doc.y -= 16
+        elif style == "h2":
+            doc.section(text)
+        elif style == "h1":
+            doc.need(16)
+            doc.para(text, 11, 14, "F2", INK)
+        elif style == "meta":
+            doc.para(text, 9, 12, "F1", MUTED)
+        elif style == "bullet":
+            doc.need(14)
+            doc.text("\u00b7", doc.margin + 2, doc.y, 11, "F2", ACCENT)
+            chunks = _wrap_pt(text, 10, doc.page_w - 2 * doc.margin - 16)
+            for i, ch in enumerate(chunks):
+                if i:
+                    doc.need(12)
+                doc.text(ch, doc.margin + 14, doc.y, 10, "F1", INK)
+                doc.y -= 12
+            doc.y -= 2
+        else:
+            doc.para(text, 10, 13)
+    return doc.footer_and_close()
 
 
 # ----- DOCX (OOXML zip) -----
-def _w_p(text: str, style: str | None = None, bold: bool = False, size: int | None = None) -> str:
+def _w_p(text: str, style: str | None = None, bold: bool = False, size: int | None = None, color: str | None = None) -> str:
     ppr = ""
     if style:
         ppr += f"<w:pStyle w:val=\"{style}\"/>"
@@ -235,6 +558,8 @@ def _w_p(text: str, style: str | None = None, bold: bool = False, size: int | No
         rpr += "<w:b/>"
     if size:
         rpr += f"<w:sz w:val=\"{size}\"/><w:szCs w:val=\"{size}\"/>"
+    if color:
+        rpr += f"<w:color w:val=\"{color}\"/>"
     rpr += "<w:rFonts w:ascii=\"Calibri\" w:hAnsi=\"Calibri\"/>"
     t = xml_esc(text)
     return (
@@ -247,11 +572,11 @@ def build_docx(rows: list[tuple[str, str]]) -> bytes:
     body = []
     for style, text in rows:
         if style == "title":
-            body.append(_w_p(text, bold=True, size=36))
+            body.append(_w_p(text.upper(), bold=True, size=40, color="1E4F4A"))
         elif style == "h1":
-            body.append(_w_p(text, bold=True, size=24))
+            body.append(_w_p(text, bold=True, size=24, color="161412"))
         elif style == "h2":
-            body.append(_w_p(text.upper(), bold=True, size=22))
+            body.append(_w_p(text.upper(), bold=True, size=22, color="1E4F4A"))
         elif style == "meta":
             body.append(_w_p(text, size=18))
         elif style == "bullet":
@@ -289,7 +614,12 @@ def export_bytes(site: dict[str, Any], kind: str, fmt: str) -> tuple[bytes, str,
     rows = cover_lines(site) if kind in ("cover", "cover-letter", "letter") else cv_lines(site)
     stem = "Ettiene-Wium-Cover-Letter" if kind in ("cover", "cover-letter", "letter") else "Ettiene-Wium-CV"
     if fmt == "pdf":
-        return build_pdf(rows), f"{stem}.pdf", "application/pdf"
+        data = (
+            build_cover_pdf(site)
+            if kind in ("cover", "cover-letter", "letter")
+            else build_cv_pdf(site)
+        )
+        return data, f"{stem}.pdf", "application/pdf"
     if fmt in ("docx", "doc"):
         return build_docx(rows), f"{stem}.docx", (
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
