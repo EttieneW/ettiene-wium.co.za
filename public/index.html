@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Tech Lead · Senior Backend / Software Engineer">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#f3efe6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121110" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="Ettiene Wium — Tech Lead · Senior Backend / Software Engineer">
+  <meta property="og:description" content="Tech Lead · Senior Backend / Software Engineer">
+  <meta property="og:url" content="https://ettiene-wium.com">
+  <meta property="og:type" content="profile">
+  <title>Ettiene Wium — Tech Lead · Senior Backend / Software Engineer</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/app.css">
+</head>
+<body>
+  <a class="skip" href="#about">Skip to content</a>
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="#about">
+        <img src="/assets/favicon.svg" width="28" height="28" alt="">
+        <span>Ettiene Wium</span>
+      </a>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="btn btn-sm" href="/downloads/Ettiene-Wium-CV.pdf">Download CV</a>
+    </div>
+  </header>
+  <main>
+    <section class="hero" id="about">
+      <p class="kicker">Cape Town, South Africa · globally remote · SAST (UTC+2)</p>
+      <h1>Ettiene Wium</h1>
+      <p class="role">Tech Lead · Senior Backend / Software Engineer</p>
+      <p class='interest'>Production systems · data pipelines · APIs · cloud · AI-assisted engineering</p>
+      <p class="status"><span class="status-dot"></span> Globally remote Senior / Lead backend · Cape Town · SAST</p>
+      <p class="actions">
+        <a class="btn ghost" href="https://www.linkedin.com/in/ettiene-wium-245094165/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a class="btn ghost" href="https://github.com/EttieneW" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="btn" href="/downloads/Ettiene-Wium-CV.pdf">Download CV (PDF)</a>
+        <a class="btn ghost" href="mailto:ettiene.wium@gmail.com">Email</a>
+      </p>
+      <div class="path-grid"><article class="path-card"><p class="kicker">Now</p><p>Tech Lead on data-heavy backend systems. I own planning, estimation, technical decisions, and delivery. I do the majority of the backend work myself and coordinate a project manager, a senior frontend engineer, and a senior backend engineer.</p></article><article class="path-card"><p class="kicker">Focus</p><p>Globally remote Senior, Lead, and Staff-track backend roles. Production systems, data pipelines, APIs, cloud, and AI-assisted engineering.</p></article></div>
+      <div class="prose">Tech Lead and senior backend engineer with eight years in production. I lead SAWIS BI: South African wine import, export, and domestic data, monthly synchronisation from a legacy Mapper pipeline into MySQL (tables over two million rows), and I do the majority of the backend myself. I coordinate a project manager, a senior frontend engineer, and a senior backend engineer, and I own client-facing planning, estimation, technical decisions, and delivery — including annual feature phases and major domestic-data work in 2026.<br>
+<br>
+I also own Indawo as the client engineer, from spec through production, including restoring a failed host with Docker. AWS Certified DevOps Engineer – Professional. Production Linux, Docker, and CI/CD. I use AI-assisted engineering daily (Cursor, Grok, Claude, Codex). Cape Town; targeting globally remote Senior and Lead backend roles.</div>
+    </section>
+    <section id="work">
+      <div class="section-head">
+        <p class="section-index">01</p>
+        <h2>Selected work</h2>
+      </div>
+      <p class="lede">Paid production first. Homelab is labelled practice.</p>
+      <div class="cases"><article class="work-card case"><p class="pill">current</p><h3>SAWIS BI</h3><p class="meta">Tech Lead — backend and data</p><p class="meta">PHP, MySQL, legacy Mapper sync, import/export</p><div class="case-steps"><div><h4>Problem</h4><p>The South African wine industry needs import, export, and domestic data in one production system. Source of truth for a large cut of that data is a legacy Mapper system. The business depends on that data landing correctly every month, and on import/export jobs completing.</p></div><div><h4>My responsibility</h4><p>Tech Lead. I do the majority of the backend. I own the destination database and application path: monthly synchronisation from Mapper into our MySQL (tables over two million rows), import/export jobs, and recovery when a run fails. I own planning, estimation, technical decisions, and delivery, including annual feature phases (major domestic-data work in 2026).</p></div><div><h4>Decisions</h4><p>Treat Mapper as the client&#x27;s legacy extractor; own load, schema, validation, and repair on our side so a failed month can be traced through PHP and MySQL instead of guessed.</p></div><div><h4>Leadership</h4><p>I coordinate a project manager, a senior frontend engineer, and a senior backend engineer. I am the client-facing technical owner.</p></div><div><h4>Outcome</h4><p>Monthly Mapper syncs and wine-industry import/export continue in production on tables over two million rows. Failed jobs get a recovered data path. Annual phases, including 2026 domestic data, ship under this lead.</p></div></div><p class="meta">No public URL</p></article><article class="work-card case"><p class="pill">current</p><h3>Indawo</h3><p class="meta">Client owner — production application</p><p class="meta">PHP, Laravel / legacy PHP, MySQL, Docker, Azure VM, CI/CD</p><div class="case-steps"><div><h4>Problem</h4><p>A production PHP product had to stay up for a client I own. The original on-prem host failed. Delivery still needed spec, cost, and sign-off, not only tickets.</p></div><div><h4>My responsibility</h4><p>I own the client relationship for engineering: planning, estimation, technical decisions, and delivery. I operate the application and guest OS.</p></div><div><h4>Decisions</h4><p>On hardware failure I containerised the legacy app with Docker on spare CentOS and restored publishing the same incident. The app now runs on an Azure VM; I operate the guest OS.</p></div><div><h4>Leadership</h4><p>Client-facing owner. Pull requests and a post-deploy health window.</p></div><div><h4>Outcome</h4><p>Production restored after host failure; still running. Delivery loop from spec to sign-off remains mine.</p></div></div><p class="meta">No public URL</p></article><article class="work-card case"><p class="pill">hosted</p><h3>tf-fleet-iac (Siyabonwa)</h3><p class="meta">Freelance — AWS as code</p><p class="meta">Terraform, EC2, RDS MySQL, CodePipeline</p><div class="case-steps"><div><h4>Problem</h4><p>A production PHP fleet needed a rebuildable AWS environment.</p></div><div><h4>My responsibility</h4><p>Freelance with a friend. Terraform for the stack in af-south-1.</p></div><div><h4>Decisions</h4><p>Environment in code: compute, RDS, pipeline.</p></div><div><h4>Leadership</h4><p>Shared freelance delivery.</p></div><div><h4>Outcome</h4><p>Live at fleet.wiums.co.za. Public repo github.com/EttieneW/tf-fleet-iac.</p></div></div><a class="text-link" href="https://github.com/EttieneW/tf-fleet-iac" target="_blank" rel="noopener noreferrer">View</a></article><article class="work-card case"><p class="pill">homelab</p><h3>Homelab</h3><p class="meta">Practice — k3s and uptime</p><p class="meta">Linux, Docker, k3s</p><div class="case-steps"><div><h4>Problem</h4><p>No industry Kubernetes cluster at work.</p></div><div><h4>My responsibility</h4><p>Private streaming stack; I treat uptime as my problem.</p></div><div><h4>Decisions</h4><p>Docker on Linux; k3s/k3d to practise cluster failure.</p></div><div><h4>Leadership</h4><p>Solo.</p></div><div><h4>Outcome</h4><p>Homelab only — not paid production Kubernetes.</p></div></div><p class="meta">No public URL</p></article></div>
+    </section>
+    <section id="skills">
+      <div class="section-head">
+        <p class="section-index">02</p>
+        <h2>Skills</h2>
+      </div>
+      <p class="lede">Kubernetes (k3s) and Terraform are listed under skills as homelab / freelance.</p>
+      <ol class="years"><li><span class="year-count">8</span><span class="year-label">Backend — PHP, Laravel, Symfony, APIs, integrations</span></li><li><span class="year-count">8</span><span class="year-label">MySQL — production modelling, monthly syncs, tables over 2 million rows</span></li><li><span class="year-count">8</span><span class="year-label">Linux</span></li><li><span class="year-count">8 / 4</span><span class="year-label">Docker — local / production</span></li><li><span class="year-count">4</span><span class="year-label">AWS — EC2, Lambda, RDS, IAM</span></li><li><span class="year-count">2</span><span class="year-label">CI/CD — PRs, CodePipeline, post-deploy health watch</span></li><li><span class="year-count">2</span><span class="year-label">Terraform — freelance and homelab</span></li><li><span class="year-count">2</span><span class="year-label">Kubernetes — homelab k3s/k3d</span></li><li><span class="year-count">daily</span><span class="year-label">AI-assisted engineering — Cursor, Grok, Claude, Codex</span></li></ol>
+      <h3 class='kicker'>How I lead a client</h3><ol class="process"><li><span class="step-n">1</span><span>Client-facing planning and estimation</span></li><li><span class="step-n">2</span><span>Technical decisions on the backend and data path</span></li><li><span class="step-n">3</span><span>Majority of backend implementation</span></li><li><span class="step-n">4</span><span>Coordinate PM, senior frontend, and senior backend through delivery</span></li></ol>
+      <div class="grid"><article class="skill-card"><h3>Leadership</h3><ul class="chips"><li>Tech Lead, SAWIS BI</li><li>Client-facing planning, estimation, technical decisions, delivery</li><li>Coordinate PM, senior frontend, senior backend</li><li>Majority of backend implementation</li></ul></article><article class="skill-card"><h3>Backend</h3><ul class="chips"><li>PHP / Laravel (8 years production)</li><li>Symfony and custom PHP</li><li>REST APIs and integrations</li></ul></article><article class="skill-card"><h3>Data</h3><ul class="chips"><li>MySQL (8 years; tables over 2 million rows)</li><li>Monthly sync from legacy Mapper into our database</li><li>Import/export and domestic wine-industry data</li><li>Relational modelling</li></ul></article><article class="skill-card"><h3>Cloud / platform</h3><ul class="chips"><li>AWS (EC2, Lambda, RDS, IAM) — DevOps Engineer Professional</li><li>Linux (Ubuntu)</li><li>Docker (production)</li><li>CI/CD (CodePipeline, PR deploys)</li><li>Terraform (freelance / homelab)</li><li>Kubernetes (homelab k3s/k3d)</li></ul></article><article class="skill-card"><h3>AI tooling</h3><ul class="chips"><li>Cursor, Grok, Claude, Codex (daily assistants)</li></ul></article><article class="skill-card"><h3>Languages</h3><ul class="chips"><li>PHP</li><li>SQL</li><li>JavaScript (frontend collaboration)</li><li>Python (scripting)</li><li>Bash</li><li>Afrikaans (native)</li><li>English (fluent)</li></ul></article></div>
+    </section>
+    <section id="experience">
+      <div class="section-head">
+        <p class="section-index">03</p>
+        <h2>Experience</h2>
+      </div>
+      <div class="timeline"><article class="job"><p class="job-when">April 2022 – Present</p><div class="job-body"><h3>Silicon Overdrive</h3><p class="job-title">Tech Lead and Senior Backend Engineer</p><p class="meta">Cape Town, South Africa</p><ul><li>Tech Lead on SAWIS BI, a production system for South African wine import, export, and domestic industry data. I do the majority of the backend. I coordinate a project manager, a senior frontend engineer, and a senior backend engineer.</li><li>Own the monthly synchronisation from their legacy Mapper system into our MySQL database. Some tables exceed two million rows. When a sync or import/export job fails, I trace the data path and restore it.</li><li>Own client-facing planning, estimation, technical decisions, and delivery. New project phases ship annually; 2026 includes major domestic-data changes.</li><li>Own Indawo as the client engineer: spec, cost, plan, and ship. When the on-prem host died I moved the legacy PHP app into Docker on spare hardware, restored publishing, and later operated it on an Azure VM at the guest-OS layer.</li><li>Production delivery on Indawo: pull requests and a post-deploy health window. AWS Certified DevOps Engineer – Professional; EC2, RDS, Lambda, IAM, CodePipeline, Linux, Docker in production.</li></ul></div></article><article class="job"><p class="job-when">June 2018 – March 2022</p><div class="job-body"><h3>RogerWilco</h3><p class="job-title">Backend / Software Engineer</p><p class="meta">Cape Town, South Africa</p><ul><li>Built and ran production backends on Ubuntu and AWS: Laravel, Symfony, custom PHP, plus Drupal and WordPress modules I owned.</li><li>Delivered an RBAC member dashboard (Global Self-Care Federation) and live JSE data graphs.</li><li>Production support on client sites (usb.ac.za, waterfront.co.za): compatibility, DNS/TLS, security reviews.</li></ul></div></article></div>
+    </section>
+    <section id="certs">
+      <div class="section-head">
+        <p class="section-index">04</p>
+        <h2>Certifications and education</h2>
+      </div>
+      <div class="split">
+        <div>
+          <h3 class="kicker">AWS certifications</h3>
+          <ul class="cert-list"><li>AWS Certified DevOps Engineer – Professional (DOP-C02)</li><li>AWS Certified Solutions Architect – Associate</li><li>AWS Certified SysOps Administrator – Associate</li><li>AWS Certified Developer – Associate</li><li>AWS Certified Cloud Practitioner</li></ul>
+        </div>
+        <div>
+          <h3 class="kicker">Education</h3>
+          <ul class="edu-list"><li>BSc Information Technology — Eduvos, Year 1 (in progress; full working week + online classes)</li><li>Information Systems Engineering (ISE), CTI Education Group, 2017–2018</li><li>Matric, DF Malan High School, Bellville, class of 2016 (two distinctions)</li></ul>
+        </div>
+      </div>
+    </section>
+    <section id="letter">
+      <div class="section-head">
+        <p class="section-index">05</p>
+        <h2>Cover letter</h2>
+      </div>
+      <div class="letter-wrap">
+        <div class="letter"><p>I am applying as a Tech Lead and senior backend engineer — eight years in production, currently leading SAWIS BI. That system holds South African wine import, export, and domestic industry data. Each month we synchronise from a legacy Mapper pipeline into our MySQL database; some tables exceed two million rows. I do the majority of the backend, I coordinate a project manager, a senior frontend engineer, and a senior backend engineer, and I own planning, estimation, technical decisions, and delivery, including annual phases and the 2026 domestic-data work.</p><p>I like hard debugging: when a sync or import fails I follow the data, not the ticket title. On Indawo, when the host died I containerised the app with Docker and brought production back. I hold AWS DevOps Engineer Professional and I run Linux, Docker, and CI/CD in production. I use Cursor, Grok, Claude, and Codex every day as engineering tools — not as a substitute for owning the system.</p><p>I work globally remotely from Cape Town (SAST). Production languages today are PHP and SQL; I learn the house stack on the job.</p><p>Thank you. I would welcome a conversation.</p></div>
+        <p class="actions">
+          <a class="btn ghost" href="/downloads/Ettiene-Wium-Cover-Letter.pdf">Letter (PDF)</a>
+          <a class="btn ghost" href="/downloads/Ettiene-Wium-Cover-Letter.docx">Letter (DOCX)</a>
+        </p>
+      </div>
+    </section>
+    <section id="contact">
+      <div class="section-head">
+        <p class="section-index">06</p>
+        <h2>Contact</h2>
+      </div>
+      <div class="contact-panel">
+        <a class="contact-email" href="mailto:ettiene.wium@gmail.com">ettiene.wium@gmail.com</a>
+        <p class='phone'>+27 71 881 2226</p>
+        <p class="muted">Cape Town, South Africa · globally remote · SAST (UTC+2)</p>
+        <p class="actions">
+          <a class="btn ghost" href="mailto:ettiene.wium@gmail.com">Email</a>
+          <a class="btn ghost" href="https://www.linkedin.com/in/ettiene-wium-245094165/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a class="btn ghost" href="https://github.com/EttieneW" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>Public profile. Editor is at <a href="/admin/">/admin</a> (private login).</p>
+  </footer>
+</body>
+</html>

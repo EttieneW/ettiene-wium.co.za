@@ -237,7 +237,7 @@ def render_index(site: dict[str, Any]) -> str:
         <p class="section-index">02</p>
         <h2>Skills</h2>
       </div>
-      <p class="lede">Production backend and data first. Kubernetes and Terraform below the fold are homelab / freelance.</p>
+      <p class="lede">Kubernetes (k3s) and Terraform are listed under skills as homelab / freelance.</p>
       {years_block}
       {("<h3 class='kicker'>How I lead a client</h3>" + steps_block) if steps_block else ""}
       <div class="grid">{"".join(skill_html)}</div>
