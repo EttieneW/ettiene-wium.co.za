@@ -13,14 +13,14 @@ Hireable profile: 8y production software engineer, DevOps for clients, SRE via h
 ## Status
 
 - **Status:** active
-- **Completeness:** 93%
-- **Last dashboard sync:** 2026-09-14
+- **Completeness:** 95%
+- **Last dashboard sync:** 2026-10-02
 
 ## Goals
 
 1. Production software engineer moving into SRE (K8s: 2y homelab, not at-work cluster)
 2. HTTPS + CSP + HSTS
-3. Professional public UI
+3. Dark Void Signal public UI (layered plates, mint/violet, WebGL hero)
 4. Authenticated editor for CV/cover letter
 5. PDF and DOCX downloads
 6. Cheap S3/CloudFront + Lambda API
@@ -29,8 +29,8 @@ Hireable profile: 8y production software engineer, DevOps for clients, SRE via h
 ## Next steps
 
 1. After UI/code changes: `git push` then `scripts/push-codecommit.ps1`
-2. Edit copy at https://ettiene-wium.com/admin/
-3. Keep fleet on fleet.wiums.co.za
+2. Hard-refresh https://ettiene-wium.com after pipeline
+3. Portrait still blocked until a real photo is provided
 
 ## Tech stack
 

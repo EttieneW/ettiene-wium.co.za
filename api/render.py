@@ -46,7 +46,7 @@ def render_index(site: dict[str, Any]) -> str:
             continue
         chips = "".join(f"<li>{h(i)}</li>" for i in items)
         skill_html.append(
-            f'<article class="skill-card"><h3>{h(label)}</h3><ul class="chips">{chips}</ul></article>'
+            f'<article class="skill-card tilt reveal"><h3>{h(label)}</h3><ul class="chips">{chips}</ul></article>'
         )
 
     jobs_html = []
@@ -57,7 +57,7 @@ def render_index(site: dict[str, Any]) -> str:
             f"<li>{h(b)}</li>" for b in (job.get("bullets") if isinstance(job.get("bullets"), list) else [])
         )
         jobs_html.append(
-            '<article class="job">'
+            '<article class="job tilt reveal">'
             f'<p class="job-when">{h(job.get("dates", ""))}</p>'
             '<div class="job-body">'
             f"<h3>{h(job.get('company', ''))}</h3>"
@@ -102,7 +102,7 @@ def render_index(site: dict[str, Any]) -> str:
         )
         private = "" if link else '<p class="meta">No public URL</p>'
         work_html.append(
-            '<article class="work-card case">'
+            '<article class="work-card case tilt reveal">'
             f'<p class="pill">{h(it.get("status", ""))}</p>'
             f"<h3>{h(it.get('name', ''))}</h3>"
             f'<p class="meta">{h(it.get("role", ""))}</p>{stack}'
@@ -120,7 +120,7 @@ def render_index(site: dict[str, Any]) -> str:
             "</li>"
         )
     years_block = (
-        f'<ol class="years">{"".join(years_html)}</ol>' if years_html else ""
+        f'<ol class="years reveal">{"".join(years_html)}</ol>' if years_html else ""
     )
     steps = p.get("delivery") if isinstance(p.get("delivery"), list) else []
     steps_html = "".join(
@@ -128,7 +128,7 @@ def render_index(site: dict[str, Any]) -> str:
         for i, s in enumerate((x for x in steps if str(x).strip()), 1)
     )
     steps_block = (
-        f'<ol class="process">{steps_html}</ol>' if steps_html else ""
+        f'<ol class="process reveal">{steps_html}</ol>' if steps_html else ""
     )
     hired = str(p.get("hired_for") or "")
     leaning = str(p.get("leaning_into") or "")
@@ -137,12 +137,12 @@ def render_index(site: dict[str, Any]) -> str:
         split_block = (
             '<div class="path-grid">'
             + (
-                f'<article class="path-card"><p class="kicker">Now</p><p>{h(hired)}</p></article>'
+                f'<article class="path-card tilt"><p class="kicker">Now</p><p>{h(hired)}</p></article>'
                 if hired
                 else ""
             )
             + (
-                f'<article class="path-card"><p class="kicker">Focus</p><p>{h(leaning)}</p></article>'
+                f'<article class="path-card tilt"><p class="kicker">Focus</p><p>{h(leaning)}</p></article>'
                 if leaning
                 else ""
             )
@@ -180,8 +180,7 @@ def render_index(site: dict[str, Any]) -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{h(headline)}">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta name="theme-color" content="#f3efe6" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#121110" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#060914">
   <meta property="og:title" content="{h(name)} — {h(headline)}">
   <meta property="og:description" content="{h(headline)}">
   <meta property="og:url" content="https://ettiene-wium.com">
@@ -191,6 +190,12 @@ def render_index(site: dict[str, Any]) -> str:
   <link rel="stylesheet" href="/assets/css/app.css">
 </head>
 <body>
+  <div class="atmosphere" aria-hidden="true">
+    <div class="glow glow-a"></div>
+    <div class="glow glow-b"></div>
+    <div class="grid-floor"></div>
+    <div class="grain"></div>
+  </div>
   <a class="skip" href="#about">Skip to content</a>
   <header class="top">
     <div class="top-inner">
@@ -210,19 +215,29 @@ def render_index(site: dict[str, Any]) -> str:
   </header>
   <main>
     <section class="hero" id="about">
-      <p class="kicker">{h(location)}</p>
-      <h1>{h(name)}</h1>
-      <p class="role">{h(headline)}</p>
-      {"<p class='interest'>" + h(interest) + "</p>" if interest else ""}
-      <p class="status"><span class="status-dot"></span> {h(status_line)}</p>
-      <p class="actions">
-        {li_btn}
-        {gh_btn}
-        <a class="btn" href="/downloads/Ettiene-Wium-CV.pdf">Download CV (PDF)</a>
-        {mail_btn}
-      </p>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="kicker">{h(location)}</p>
+          <h1>{h(name)}</h1>
+          <p class="role">{h(headline)}</p>
+          {"<p class='interest'>" + h(interest) + "</p>" if interest else ""}
+          <p class="status"><span class="status-dot"></span> {h(status_line)}</p>
+          <p class="actions">
+            {li_btn}
+            {gh_btn}
+            <a class="btn" href="/downloads/Ettiene-Wium-CV.pdf">Download CV (PDF)</a>
+            {mail_btn}
+          </p>
+        </div>
+        <div class="hero-stage" aria-hidden="true">
+          <div class="orbit orbit-a"></div>
+          <div class="orbit orbit-b"></div>
+          <div class="orbit orbit-c"></div>
+          <canvas id="stage3d" width="720" height="720"></canvas>
+        </div>
+      </div>
       {split_block}
-      <div class="prose">{_nl(str(p.get("summary") or ""))}</div>
+      <div class="prose reveal">{_nl(str(p.get("summary") or ""))}</div>
     </section>
     <section id="work">
       <div class="section-head">
@@ -270,7 +285,7 @@ def render_index(site: dict[str, Any]) -> str:
         <p class="section-index">05</p>
         <h2>{h(c.get("heading") or "Cover letter")}</h2>
       </div>
-      <div class="letter-wrap">
+      <div class="letter-wrap tilt reveal">
         <div class="letter">{cover_paras}</div>
         <p class="actions">
           <a class="btn ghost" href="/downloads/Ettiene-Wium-Cover-Letter.pdf">Letter (PDF)</a>
@@ -298,6 +313,7 @@ def render_index(site: dict[str, Any]) -> str:
   <footer>
     <p>Public profile. Editor is at <a href="/admin/">/admin</a> (private login).</p>
   </footer>
+  <script src="/assets/js/motion.js" defer></script>
 </body>
 </html>
 """
