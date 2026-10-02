@@ -23,7 +23,6 @@ def main() -> None:
     (dist / "404.html").write_text(html, encoding="utf-8")
     shutil.copytree(ROOT / "public" / "assets", dist / "assets")
     shutil.copy2(ROOT / "public" / "robots.txt", dist / "robots.txt")
-    shutil.copytree(ROOT / "public" / "admin", dist / "admin")
     content = dist / "content"
     content.mkdir()
     for name in ("profile.json", "cover-letter.json", "projects.json"):

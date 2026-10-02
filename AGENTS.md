@@ -26,8 +26,8 @@ After heavy changes, update `summary`, `description`, `goals`, `completeness`, `
 
 ## Working style
 
-- Public site stays static (S3 + CloudFront). The **editor** at `/admin` is authenticated (one user in SSM). Do not put vault, banking, or family data in content JSON.
-- Prefer editing `content/*.json` (or the editor) over hard-coding copy.
+- Public site stays static (S3 + CloudFront). There is no public login or `/admin` editor. Do not put vault, banking, or family data in content JSON.
+- Prefer editing `content/*.json` over hard-coding copy.
 - Do not invent certs, employers, or Kubernetes years. K8s is two years of homelab (k3s/k3d), not a cluster at work. Docker is 8 years locally and 4 years production.
 
 ## LuckyLuke (local offload)

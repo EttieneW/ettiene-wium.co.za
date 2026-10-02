@@ -21,7 +21,7 @@ Hireable profile: 8y production software engineer, DevOps for clients, SRE via h
 1. Production software engineer moving into SRE (K8s: 2y homelab, not at-work cluster)
 2. HTTPS + CSP + HSTS
 3. Dark Void Signal public UI (layered plates, mint/violet, WebGL hero)
-4. Authenticated editor for CV/cover letter
+4. Static site only (no public editor)
 5. PDF and DOCX downloads
 6. Cheap S3/CloudFront + Lambda API
 7. CCS pipeline
@@ -46,7 +46,7 @@ C:\projects\Ettiene-wium.co.za\start_server.bat
 
 Local URL: http://localhost:8097  
 Production: https://ettiene-wium.com  
-Editor: https://ettiene-wium.com/admin/
+Content: edit `content/*.json`, then git push.
 
 ## Dashboard registry
 

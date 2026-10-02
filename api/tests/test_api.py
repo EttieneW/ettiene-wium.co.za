@@ -53,27 +53,20 @@ def test_render_has_https_downloads():
     assert 'id="stage3d"' in html
     assert 'theme-color" content="#060914"' in html
     assert "atmosphere" in html
+    assert "/admin" not in html
+    assert "private login" not in html.lower()
 
 
-def test_login_and_content_roundtrip(tmp_path, monkeypatch):
-    monkeypatch.setenv("ADMIN_USER", "Ettiene.SRE")
-    monkeypatch.setenv("ADMIN_PASSWORD", "test-pass")
-    monkeypatch.setenv("SESSION_SECRET", "unit-test-secret")
-    bad, _, body = handle("POST", "/api/login", {"origin": "http://127.0.0.1:8097"}, json.dumps({"username": "x", "password": "y"}).encode())
-    assert bad == 401
-    st, headers, body = handle(
-        "POST",
-        "/api/login",
-        {"origin": "http://127.0.0.1:8097", "content-type": "application/json"},
-        json.dumps({"username": "Ettiene.SRE", "password": "test-pass"}).encode(),
-    )
-    assert st == 200
-    cookie = headers["set-cookie"]
-    token = cookie.split(";")[0]
-    st, _, body = handle("GET", "/api/content", {"cookie": token}, b"")
-    assert st == 200
-    data = json.loads(body)
-    assert data["ok"] is True
-    assert data["site"]["profile"]["name"] == "Ettiene Wium"
-    st, _, _ = handle("GET", "/api/content", {"cookie": "ew_session=nope"}, b"")
-    assert st == 401
+def test_api_has_no_login():
+    for method, path in (
+        ("POST", "/api/login"),
+        ("POST", "/api/logout"),
+        ("GET", "/api/session"),
+        ("GET", "/api/content"),
+        ("PUT", "/api/content"),
+        ("GET", "/api/export?kind=cv&format=pdf"),
+    ):
+        st, _, body = handle(method, path, {"origin": "https://ettiene-wium.com"}, b"{}")
+        assert st == 404, path
+        data = json.loads(body)
+        assert data["ok"] is False

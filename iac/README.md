@@ -2,7 +2,7 @@
 
 Cheap static hosting in **us-east-1**: private S3 bucket + CloudFront (OAC) + ACM + Route53 aliases.
 
-The PHP site is rendered to `dist/` at deploy time (`php public/index.php`). No EC2, no RDS.
+`api/publish.py` writes `dist/` at deploy time. No EC2, no RDS, no public editor.
 
 **CI/CD (same shape as fleet):** CodeCommit `main` → CodeBuild **CustomCodeScanner** → CodeBuild render + `s3 sync` + CloudFront invalidation.
 

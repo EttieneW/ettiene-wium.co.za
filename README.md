@@ -2,9 +2,7 @@
 
 Public CV and selected work. **No logins. No private family data.**
 
-Live site: **https://ettiene-wium.com** (S3 + CloudFront + editor API). Local folder/GitHub name stays `ettiene-wium.co.za`.
-
-Editor: **https://ettiene-wium.com/admin/** — username `Ettiene.SRE`, password in SSM `/ettiene-wium-profile/admin/password`. Local: `config/admin.local.json`.
+Live site: **https://ettiene-wium.com** (static S3 + CloudFront). Local folder/GitHub name stays `ettiene-wium.co.za`. No public login or editor.
 
 ## Run locally
 
@@ -31,7 +29,7 @@ git push origin main
 .\scripts\push-codecommit.ps1
 ```
 
-CodePipeline: Source (CodeCommit) → Review (CustomCodeScanner) → Deploy (PHP render + S3 + CloudFront invalidation).
+CodePipeline: Source (CodeCommit) → Review (CustomCodeScanner) → Deploy (`api/publish.py` + S3 sync `--delete` + CloudFront invalidation).
 
 Upload the CCS zip once after the CCS bucket exists:
 

@@ -1,4 +1,4 @@
-# Authenticated editor API (one user). Public site stays S3 + CloudFront.
+# Legacy API origin. Login and content writes are disabled in handler.py.
 
 resource "random_password" "admin" {
   length           = 24
@@ -154,9 +154,6 @@ resource "aws_cloudfront_function" "rewrites" {
 function handler(event) {
   var request = event.request;
   var uri = request.uri;
-  if (uri === '/admin' || uri === '/admin/') {
-    request.uri = '/admin/index.html';
-  }
   return request;
 }
 EOF

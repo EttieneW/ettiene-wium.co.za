@@ -208,7 +208,7 @@ $phone = (string) ($profile['phone'] ?? '');
     </section>
 </main>
 <footer>
-    <p>Public profile. Editor is at <a href="/admin/">/admin</a> (private login).</p>
+    <p>Public profile.</p>
 </footer>
 </body>
 </html>

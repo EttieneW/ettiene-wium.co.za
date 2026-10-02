@@ -311,7 +311,7 @@ def render_index(site: dict[str, Any]) -> str:
     </section>
   </main>
   <footer>
-    <p>Public profile. Editor is at <a href="/admin/">/admin</a> (private login).</p>
+    <p>Public profile.</p>
   </footer>
   <script src="/assets/js/motion.js" defer></script>
 </body>
