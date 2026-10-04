@@ -55,6 +55,8 @@ def test_render_has_https_downloads():
     assert "atmosphere" in html
     assert "/admin" not in html
     assert "private login" not in html.lower()
+    assert "Siyabonwa" not in html
+    assert "Freelance AWS fleet" in html
 
 
 def test_api_has_no_login():

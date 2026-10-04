@@ -28,7 +28,7 @@
       "blurb": "Client-owned production app. Docker restore after host failure. Spec through sign-off."
     },
     {
-      "name": "tf-fleet-iac (Siyabonwa)",
+      "name": "Freelance AWS fleet",
       "role": "Freelance — AWS as code",
       "status": "hosted",
       "url": "https://github.com/EttieneW/tf-fleet-iac",
