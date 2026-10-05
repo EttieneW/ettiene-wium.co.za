@@ -1,6 +1,8 @@
 """Render the public profile HTML from site JSON."""
 from __future__ import annotations
 
+import hashlib
+import json
 from html import escape
 from typing import Any
 
@@ -18,6 +20,12 @@ def _ext(url: str, label: str, class_name: str = "btn ghost") -> str:
         f'<a class="{class_name}" href="{h(url)}" target="_blank" '
         f'rel="noopener noreferrer">{h(label)}</a>'
     )
+
+
+def _cv_href(site: dict[str, Any]) -> str:
+    raw = json.dumps(site, sort_keys=True, default=str).encode("utf-8")
+    ver = hashlib.sha256(raw).hexdigest()[:10]
+    return f"/downloads/Ettiene-Wium-CV.pdf?v={ver}"
 
 
 def render_index(site: dict[str, Any]) -> str:
@@ -172,6 +180,9 @@ def render_index(site: dict[str, Any]) -> str:
     mail_big = (
         f'<a class="contact-email" href="mailto:{h(email)}">{h(email)}</a>' if email else ""
     )
+    cv_href = _cv_href(site)
+    cv_nav = _ext(cv_href, "Download CV", "btn btn-sm")
+    cv_hero = _ext(cv_href, "Download CV (PDF)", "btn")
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -210,7 +221,7 @@ def render_index(site: dict[str, Any]) -> str:
         <a href="#experience">Experience</a>
         <a href="#contact">Contact</a>
       </nav>
-      <a class="btn btn-sm" href="/downloads/Ettiene-Wium-CV.pdf">Download CV</a>
+      {cv_nav}
     </div>
   </header>
   <main>
@@ -225,7 +236,7 @@ def render_index(site: dict[str, Any]) -> str:
           <p class="actions">
             {li_btn}
             {gh_btn}
-            <a class="btn" href="/downloads/Ettiene-Wium-CV.pdf">Download CV (PDF)</a>
+            {cv_hero}
             {mail_btn}
           </p>
         </div>

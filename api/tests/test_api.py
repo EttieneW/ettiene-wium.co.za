@@ -33,7 +33,9 @@ def test_pdf_and_docx_magic():
 def test_render_has_https_downloads():
     html = render_index(load_site(ROOT / "content"))
     assert "Download CV (PDF)" in html
-    assert "/downloads/Ettiene-Wium-CV.pdf" in html
+    assert "/downloads/Ettiene-Wium-CV.pdf?v=" in html
+    assert 'target="_blank"' in html
+    assert html.count("/downloads/Ettiene-Wium-CV.pdf?v=") >= 2
     assert "Tech Lead" in html
     assert "Mapper" in html
     assert "two million" in html or "2 million" in html

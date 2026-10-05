@@ -61,7 +61,7 @@ $phone = (string) ($profile['phone'] ?? '');
             <a href="#letter">Letter</a>
             <a href="#contact">Contact</a>
         </nav>
-        <a class="btn btn-sm" href="/downloads/Ettiene-Wium-CV.pdf">Download CV</a>
+        <a class="btn btn-sm" href="/downloads/Ettiene-Wium-CV.pdf" target="_blank" rel="noopener noreferrer">Download CV</a>
     </div>
 </header>
 <main>
@@ -72,7 +72,7 @@ $phone = (string) ($profile['phone'] ?? '');
         <p class="status"><span class="status-dot"></span> Globally remote Senior / Lead backend · Cape Town · SAST</p>
         <div class="prose"><?= nl2br(h((string) ($profile['summary'] ?? '')), false) ?></div>
         <p class="actions">
-            <a class="btn" href="/downloads/Ettiene-Wium-CV.pdf">Download CV (PDF)</a>
+            <a class="btn" href="/downloads/Ettiene-Wium-CV.pdf" target="_blank" rel="noopener noreferrer">Download CV (PDF)</a>
             <a class="btn ghost" href="/downloads/Ettiene-Wium-CV.docx">CV (DOCX)</a>
             <?php if (!empty($links['github'])): ?><a class="btn ghost" href="<?= h((string) $links['github']) ?>" target="_blank" rel="noopener noreferrer">GitHub</a><?php endif; ?>
             <?php if (!empty($links['linkedin'])): ?><a class="btn ghost" href="<?= h((string) $links['linkedin']) ?>" target="_blank" rel="noopener noreferrer">LinkedIn</a><?php endif; ?>
