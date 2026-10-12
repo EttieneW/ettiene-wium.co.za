@@ -58,7 +58,18 @@ def cv_lines(site: dict[str, Any]) -> list[tuple[str, str]]:
     email = str(p.get("email") or "")
     phone = str(p.get("phone") or "")
     links = p.get("links") if isinstance(p.get("links"), dict) else {}
-    bits = [x for x in (loc, email, phone, str(links.get("github") or ""), str(links.get("linkedin") or "")) if x]
+    bits = [
+        x
+        for x in (
+            loc,
+            email,
+            phone,
+            str(links.get("portfolio") or "https://ettiene-wium.com"),
+            str(links.get("github") or ""),
+            str(links.get("linkedin") or ""),
+        )
+        if x
+    ]
     rows.append(("meta", "  ·  ".join(bits)))
     rows.append(("h2", "Summary"))
     for line in str(p.get("summary") or "").split("\n"):
@@ -128,7 +139,19 @@ def cover_lines(site: dict[str, Any]) -> list[tuple[str, str]]:
     rows: list[tuple[str, str]] = [
         ("title", str(p.get("name") or "Ettiene Wium")),
         ("h1", str(c.get("heading") or "Cover letter")),
-        ("meta", "  ·  ".join(x for x in (str(p.get("email") or ""), str(p.get("phone") or ""), str(p.get("location") or "")) if x)),
+        (
+            "meta",
+            "  ·  ".join(
+                x
+                for x in (
+                    str(p.get("email") or ""),
+                    str(p.get("phone") or ""),
+                    str(p.get("location") or ""),
+                    "https://ettiene-wium.com",
+                )
+                if x
+            ),
+        ),
     ]
     for para in str(c.get("body") or "").split("\n\n"):
         para = para.strip()
@@ -141,8 +164,8 @@ def cover_lines(site: dict[str, Any]) -> list[tuple[str, str]]:
 # ----- PDF (WinAnsi Helvetica family, stdlib only) -----
 ACCENT = (0.118, 0.310, 0.290)
 INK = (0.086, 0.078, 0.071)
-MUTED = (0.369, 0.349, 0.325)
-RULE = (0.118, 0.310, 0.290)
+MUTED = (0.40, 0.38, 0.36)
+RULE = (0.78, 0.74, 0.68)
 
 _WINANSI = {
     "\u2014": " - ",
@@ -199,8 +222,8 @@ class _Pdf:
     page_h = 841.89
 
     def __init__(self) -> None:
-        self.margin = 48.0
-        self.y = self.page_h - 44
+        self.margin = 54.0
+        self.y = self.page_h - 50
         self.ops: list[str] = []
         self.pages: list[bytes] = []
         self.page_i = 1
@@ -213,13 +236,13 @@ class _Pdf:
         if self.ops:
             self.pages.append("\n".join(self.ops).encode("latin-1", "replace"))
         self.ops = []
-        self.y = self.page_h - 52
+        self.y = self.page_h - 56
         self.page_i += 1
         if self._running:
             self._page_header()
 
     def need(self, h: float) -> None:
-        if self.y - h < 58:
+        if self.y - h < 64:
             self._flush()
 
     def rgb(self, c: tuple[float, float, float]) -> str:
@@ -246,18 +269,18 @@ class _Pdf:
             self.y -= leading
 
     def _page_header(self) -> None:
-        self.text(self._running.upper(), self.margin, self.page_h - 36, 8, "F2", ACCENT)
-        self.text("Curriculum Vitae", self.page_w - self.margin - 82, self.page_h - 36, 8, "F1", MUTED)
-        self.line(self.margin, self.page_h - 42, self.page_w - self.margin, self.page_h - 42, ACCENT, 0.9)
-        self.y = self.page_h - 58
+        self.text(self._running, self.margin, self.page_h - 34, 8, "F2", ACCENT)
+        self.text("ettiene-wium.com", self.page_w - self.margin - 88, self.page_h - 34, 8, "F1", MUTED)
+        self.line(self.margin, self.page_h - 40, self.page_w - self.margin, self.page_h - 40, RULE, 0.6)
+        self.y = self.page_h - 56
 
     def section(self, title: str) -> None:
-        self.need(28)
-        self.y -= 8
-        self.text(title.upper(), self.margin, self.y, 10, "F2", ACCENT)
-        self.y -= 6
-        self.line(self.margin, self.y, self.page_w - self.margin, self.y, ACCENT, 1.0)
-        self.y -= 14
+        self.need(32)
+        self.y -= 10
+        self.text(title.upper(), self.margin, self.y, 9, "F2", ACCENT)
+        self.y -= 5
+        self.line(self.margin, self.y, self.page_w - self.margin, self.y, RULE, 0.55)
+        self.y -= 12
 
     def footer_and_close(self) -> bytes:
         if self.ops:
@@ -281,8 +304,8 @@ class _Pdf:
         stamped: list[bytes] = []
         for i, stream in enumerate(self.pages, start=1):
             foot = (
-                f"\nBT /F1 8 Tf {self.rgb(MUTED)} 1 0 0 1 {self.margin:.1f} 28 Tm "
-                f"({_winansi(self._running + '  ·  ' + str(i) + ' / ' + str(page_count)).decode('latin-1')}) Tj ET"
+                f"\nBT /F1 8 Tf {self.rgb(MUTED)} 1 0 0 1 {self.margin:.1f} 30 Tm "
+                f"({_winansi(self._running + '  ·  ettiene-wium.com  ·  ' + str(i) + ' / ' + str(page_count)).decode('latin-1')}) Tj ET"
             ).encode("latin-1")
             stamped.append(stream + foot)
         for i in range(page_count):
@@ -315,40 +338,44 @@ class _Pdf:
         return buf.getvalue()
 
 
+def _short_url(url: str) -> str:
+    u = url.replace("https://", "").replace("http://", "").rstrip("/")
+    if u.startswith("www."):
+        u = u[4:]
+    return u
+
+
 def _cv_header(doc: _Pdf, p: dict[str, Any]) -> None:
     name = str(p.get("name") or "Ettiene Wium")
     doc.set_running(name)
     headline = str(p.get("headline") or "")
     interest = str(p.get("interest") or "")
     loc = str(p.get("location") or "")
+    if "Cape Town" in loc:
+        loc = "Cape Town, South Africa  ·  globally remote  ·  SAST"
     email = str(p.get("email") or "")
     phone = str(p.get("phone") or "")
     links = p.get("links") if isinstance(p.get("links"), dict) else {}
-    gh = str(links.get("github") or "").replace("https://", "")
-    li = str(links.get("linkedin") or "").replace("https://", "")
-    cx = doc.page_w / 2
-    inner = doc.page_w - 2 * doc.margin
-    doc.y = doc.page_h - 52
-
-    def center(s: str, size: float, font: str, color: tuple[float, float, float], leading: float) -> None:
-        for ch in _wrap_pt(s, size, inner):
-            w = len(ch) * size * 0.48
-            doc.text(ch, max(doc.margin, cx - w / 2), doc.y, size, font, color)
-            doc.y -= leading
-
-    center(name.upper(), 22, "F2", ACCENT, 20)
+    site = _short_url(str(links.get("portfolio") or "https://ettiene-wium.com"))
+    gh = _short_url(str(links.get("github") or ""))
+    li = _short_url(str(links.get("linkedin") or ""))
+    doc.y = doc.page_h - 48
+    doc.text(name, doc.margin, doc.y, 20, "F2", INK)
+    doc.y -= 16
     if headline:
-        center(headline, 11, "F1", INK, 14)
+        doc.text(headline, doc.margin, doc.y, 10.5, "F1", ACCENT)
+        doc.y -= 14
     contact = "  ·  ".join(x for x in (loc, email, phone) if x)
     if contact:
-        center(contact, 9, "F1", MUTED, 12)
-    web = "  ·  ".join(x for x in (gh, li) if x)
+        doc.para(contact, 8.5, 11, "F1", MUTED)
+    web = "  ·  ".join(x for x in (site, gh, li) if x)
     if web:
-        center(web, 9, "F3", MUTED, 11)
+        doc.para(web, 8.5, 11, "F3", ACCENT)
     if interest:
-        center(interest, 8, "F1", MUTED, 11)
-    doc.line(doc.margin, doc.y, doc.page_w - doc.margin, doc.y, ACCENT, 1.4)
-    doc.y -= 18
+        doc.para(interest, 8.5, 11, "F1", MUTED)
+    doc.y -= 2
+    doc.line(doc.margin, doc.y, doc.page_w - doc.margin, doc.y, RULE, 0.7)
+    doc.y -= 14
 
 
 def build_cv_pdf(site: dict[str, Any]) -> bytes:
@@ -359,39 +386,20 @@ def build_cv_pdf(site: dict[str, Any]) -> bytes:
     doc.section("Summary")
     for para in str(p.get("summary") or "").split("\n"):
         if para.strip():
-            doc.para(para.strip(), 10, 13)
-            doc.y -= 4
+            doc.para(para.strip(), 10, 13.5)
+            doc.y -= 5
 
-    years = p.get("skill_years") if isinstance(p.get("skill_years"), list) else []
+    years = [
+        row
+        for row in (p.get("skill_years") if isinstance(p.get("skill_years"), list) else [])
+        if isinstance(row, dict) and "WordPress" not in str(row.get("label") or "")
+    ]
     if years:
         doc.section("Years of experience")
-        inner = doc.page_w - 2 * doc.margin
-        col_w = (inner - 10) / 2
-        left_x = doc.margin
-        right_x = doc.margin + col_w + 10
-        # pair rows
-        pairs = [
-            row
-            for row in years
-            if isinstance(row, dict) and "WordPress" not in str(row.get("label") or "")
-        ]
-        i = 0
-        while i < len(pairs):
-            row_h = 28
-            doc.need(row_h)
-            y0 = doc.y
-            for col, row in enumerate(pairs[i : i + 2]):
-                x = left_x if col == 0 else right_x
-                doc.text(str(row.get("years") or ""), x, y0, 11, "F2", ACCENT)
-                label = str(row.get("label") or "")
-                chunks = _wrap_pt(label, 8.5, col_w - 36)
-                ly = y0
-                for ch in chunks[:3]:
-                    doc.text(ch, x + 32, ly, 8.5, "F1", INK)
-                    ly -= 11
-                row_h = max(row_h, y0 - ly + 6)
-            doc.y = y0 - row_h
-            i += 2
+        bits = []
+        for row in years:
+            bits.append(f"{row.get('years', '')}  {row.get('label', '')}")
+        doc.para("  ·  ".join(str(b) for b in bits), 9.5, 13.5)
 
     skills = p.get("skills") if isinstance(p.get("skills"), dict) else {}
     labels = [
@@ -405,20 +413,20 @@ def build_cv_pdf(site: dict[str, Any]) -> bytes:
         ("other", "Also"),
     ]
     doc.section("Skills")
-    label_w = 88
+    label_w = 78
     for key, lab in labels:
         items = skills.get(key) if isinstance(skills.get(key), list) else []
         if not items:
             continue
-        body = "  ·  ".join(str(i) for i in items)
-        chunks = _wrap_pt(body, 9, doc.page_w - 2 * doc.margin - label_w)
-        doc.need(12 * max(len(chunks), 1) + 10)
+        body = ", ".join(str(i) for i in items)
+        chunks = _wrap_pt(body, 9.5, doc.page_w - 2 * doc.margin - label_w)
+        doc.need(13 * max(len(chunks), 1) + 6)
         y0 = doc.y
         doc.text(lab, doc.margin, y0, 9, "F2", ACCENT)
         for ch in chunks:
-            doc.text(ch, doc.margin + label_w, doc.y, 9, "F1", INK)
-            doc.y -= 12
-        doc.y -= 4
+            doc.text(ch, doc.margin + label_w, doc.y, 9.5, "F1", INK)
+            doc.y -= 12.5
+        doc.y -= 5
 
     doc.section("Experience")
     for job in p.get("experience") if isinstance(p.get("experience"), list) else []:
@@ -428,24 +436,22 @@ def build_cv_pdf(site: dict[str, Any]) -> bytes:
         dates = str(job.get("dates") or "")
         company = str(job.get("company") or "")
         loc = str(job.get("location") or "")
-        doc.need(36)
+        doc.need(40)
         doc.text(title, doc.margin, doc.y, 11, "F2", INK)
-        dw = len(dates) * 4.4
+        dw = max(len(dates) * 4.5, 8)
         doc.text(dates, doc.page_w - doc.margin - dw, doc.y, 9, "F3", MUTED)
-        doc.y -= 13
-        doc.text("  ·  ".join(x for x in (company, loc) if x), doc.margin, doc.y, 9, "F1", MUTED)
         doc.y -= 14
+        doc.text("  ·  ".join(x for x in (company, loc) if x), doc.margin, doc.y, 9.5, "F1", MUTED)
+        doc.y -= 15
         for b in job.get("bullets") if isinstance(job.get("bullets"), list) else []:
-            doc.need(16)
-            doc.text("\u00b7", doc.margin + 2, doc.y, 11, "F2", ACCENT)
-            chunks = _wrap_pt(str(b), 9.5, doc.page_w - 2 * doc.margin - 16)
-            for i, ch in enumerate(chunks):
-                if i:
-                    doc.need(12)
-                doc.text(ch, doc.margin + 14, doc.y, 9.5, "F1", INK)
-                doc.y -= 12
-            doc.y -= 3
-        doc.y -= 6
+            chunks = _wrap_pt(str(b), 10, doc.page_w - 2 * doc.margin - 16)
+            doc.need(13 * max(len(chunks), 1) + 8)
+            doc.text("\u00b7", doc.margin + 1, doc.y, 11, "F2", ACCENT)
+            for ch in chunks:
+                doc.text(ch, doc.margin + 14, doc.y, 10, "F1", INK)
+                doc.y -= 13
+            doc.y -= 4
+        doc.y -= 8
 
     proj = site.get("projects") if isinstance(site.get("projects"), dict) else {}
     items = [x for x in (proj.get("items") if isinstance(proj.get("items"), list) else []) if isinstance(x, dict)][:3]
@@ -454,33 +460,34 @@ def build_cv_pdf(site: dict[str, Any]) -> bytes:
         for it in items:
             if not isinstance(it, dict):
                 continue
-            doc.need(28)
+            doc.need(30)
             doc.text(str(it.get("name") or ""), doc.margin, doc.y, 11, "F2", INK)
-            doc.y -= 12
+            doc.y -= 13
             meta = "  ·  ".join(
-                x for x in (str(it.get("role") or ""), str(it.get("status") or ""), str(it.get("stack") or "")) if x
+                x for x in (str(it.get("role") or ""), str(it.get("stack") or "")) if x
             )
             if meta:
-                doc.para(meta, 8.5, 11, "F3", MUTED)
-            outcome = str(it.get("outcome") or it.get("blurb") or "")
+                doc.para(meta, 8.5, 11.5, "F3", MUTED)
+            outcome = str(it.get("blurb") or it.get("outcome") or "")
             if outcome:
-                doc.para(outcome, 9.5, 12)
-            doc.y -= 4
+                doc.para(outcome, 10, 13)
+            doc.y -= 6
 
     certs = p.get("certs") if isinstance(p.get("certs"), list) else []
     if certs:
         doc.section("Certifications")
         for c in certs:
-            doc.need(14)
-            doc.text("\u00b7", doc.margin + 2, doc.y, 11, "F2", ACCENT)
+            doc.need(15)
+            doc.text("\u00b7", doc.margin + 1, doc.y, 11, "F2", ACCENT)
             doc.text(str(c), doc.margin + 14, doc.y, 10, "F1", INK)
-            doc.y -= 13
+            doc.y -= 14
 
     edu = p.get("education") if isinstance(p.get("education"), list) else []
     if edu:
         doc.section("Education")
         for e in edu:
-            doc.para(str(e), 10, 13)
+            doc.para(str(e), 10, 13.5)
+            doc.y -= 2
 
     return doc.footer_and_close()
 

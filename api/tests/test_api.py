@@ -23,6 +23,8 @@ def test_pdf_and_docx_magic():
     pdf, name, ctype = export_bytes(site, "cv", "pdf")
     assert pdf.startswith(b"%PDF")
     assert name.endswith(".pdf")
+    assert b"ettiene-wium.com" in pdf
+    assert b"Siyabonwa" not in pdf
     docx, name, _ = export_bytes(site, "cover", "docx")
     assert docx[:2] == b"PK"
     assert name.endswith(".docx")
