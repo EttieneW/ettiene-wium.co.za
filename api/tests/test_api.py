@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "api"))
 
-from documents import build_docx, build_pdf, cv_lines, export_bytes, load_site  # noqa: E402
+from documents import build_cv_pdf, build_cv_pdf_void, build_docx, build_pdf, cv_lines, export_bytes, load_site  # noqa: E402
 from handler import handle  # noqa: E402
 from render import render_index  # noqa: E402
 
@@ -76,3 +76,22 @@ def test_api_has_no_login():
         assert st == 404, path
         data = json.loads(body)
         assert data["ok"] is False
+
+
+def test_void_cv_is_local_preview_not_ats():
+    from pypdf import PdfReader
+    import io
+
+    site = load_site(ROOT / "content")
+    ats, _, _ = export_bytes(site, "cv", "pdf")
+    void = build_cv_pdf_void(site)
+    assert void.startswith(b"%PDF")
+    assert void != ats
+    assert ats == build_cv_pdf(site)
+    reader = PdfReader(io.BytesIO(void))
+    assert len(reader.pages) == 2
+    text = "\n".join((p.extract_text() or "") for p in reader.pages).lower()
+    for needle in ("sawis", "2m+", "mapper", "ettiene-wium.com", "tech lead", "indawo"):
+        assert needle in text, needle
+    assert "siyabonwa" not in text
+    assert "local preview" in text
