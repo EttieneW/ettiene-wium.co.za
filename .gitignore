@@ -23,6 +23,7 @@ storage/logs/
 config/token
 config/admin.local.json
 dist/
+_local/
 .ui-preview/
 public/downloads/
 public/index.html
