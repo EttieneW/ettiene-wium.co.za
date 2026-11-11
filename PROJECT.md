@@ -8,7 +8,7 @@ Tech Lead / Senior Backend Engineer at **https://ettiene-wium.com**. SAWIS BI le
 
 ## Description
 
-Hireable profile: 8y production software engineer, DevOps for clients, SRE via homelab streaming and freelance fleet. Jobs: Silicon Overdrive, RogerWilco. Fleet is on **https://fleet.wiums.co.za**. Private/family systems are not hosted here.
+Hireable profile: 8y production software engineer, DevOps for clients, SRE via homelab streaming and freelance fleet. Jobs: Silicon Overdrive, RogerWilco. Freelance AWS fleet is paused (no public repo or live host). Private/family systems are not hosted here.
 
 ## Status
 

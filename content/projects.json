@@ -30,15 +30,15 @@
     {
       "name": "Freelance AWS fleet",
       "role": "Freelance — AWS as code",
-      "status": "hosted",
-      "url": "https://github.com/EttieneW/tf-fleet-iac",
+      "status": "paused",
+      "url": "",
       "stack": "Terraform, EC2, RDS MySQL, CodePipeline",
       "problem": "A production PHP fleet needed a rebuildable AWS environment.",
       "responsibility": "Freelance with a friend. Terraform for the stack in af-south-1.",
       "decisions": "Environment in code: compute, RDS, pipeline.",
       "leadership": "Shared freelance delivery.",
-      "outcome": "Live at fleet.wiums.co.za. Public repo github.com/EttieneW/tf-fleet-iac.",
-      "blurb": "Freelance Terraform for a production PHP fleet. Separate from Overdrive."
+      "outcome": "Terraform for compute, RDS, and pipeline in af-south-1. Separate from Overdrive. Engagement paused; no public repo or live host.",
+      "blurb": "Freelance Terraform for a production PHP fleet. Separate from Overdrive. Paused."
     },
     {
       "name": "Homelab",

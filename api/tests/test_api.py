@@ -25,6 +25,7 @@ def test_pdf_and_docx_magic():
     assert name.endswith(".pdf")
     assert b"ettiene-wium.com" in pdf
     assert b"Siyabonwa" not in pdf
+    assert b"tf-fleet-iac" not in pdf
     docx, name, _ = export_bytes(site, "cover", "docx")
     assert docx[:2] == b"PK"
     assert name.endswith(".docx")
@@ -61,6 +62,8 @@ def test_render_has_https_downloads():
     assert "private login" not in html.lower()
     assert "Siyabonwa" not in html
     assert "Freelance AWS fleet" in html
+    assert "tf-fleet-iac" not in html
+    assert "github.com/EttieneW/tf-fleet" not in html
 
 
 def test_api_has_no_login():
@@ -94,4 +97,5 @@ def test_void_cv_is_local_preview_not_ats():
     for needle in ("sawis", "2m+", "mapper", "ettiene-wium.com", "tech lead", "indawo"):
         assert needle in text, needle
     assert "siyabonwa" not in text
+    assert "tf-fleet-iac" not in text
     assert "local preview" in text

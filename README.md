@@ -41,4 +41,4 @@ py C:\projects\CustomCodeScanner\scripts\pack_cli.py --upload ettiene-wium-profi
 
 Public repo: `https://github.com/EttieneW/ettiene-wium.co.za`
 
-Fleet (separate project): https://fleet.wiums.co.za
+Freelance AWS fleet (separate project): paused; no public repo.

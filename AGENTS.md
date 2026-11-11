@@ -12,7 +12,7 @@ Public CV/profile for **https://ettiene-wium.com**. Content lives in `content/pr
 
 The local folder and GitHub repo stay named `Ettiene-wium.co.za` / `ettiene-wium.co.za`. The live hostname is **ettiene-wium.com**.
 
-Fleet lives at **https://fleet.wiums.co.za** (`C:\projects\tf-fleet-iac`). Do not retarget fleet from this folder.
+Freelance AWS fleet (`C:\projects\tf-fleet-iac`) is paused. Do not publish `github.com/EttieneW/tf-fleet-iac` or fleet.wiums.co.za. Do not retarget fleet from this folder.
 
 ## Dashboard sync
 
