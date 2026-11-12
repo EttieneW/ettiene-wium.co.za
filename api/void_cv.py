@@ -1,4 +1,4 @@
-"""Void Signal visual CV. Local _test only — not the ATS download."""
+"""Void Signal visual CV — public one-page download."""
 from __future__ import annotations
 
 import io
@@ -81,13 +81,13 @@ class VoidDoc:
         _fonts()
         self.buf = io.BytesIO()
         self.c = canvas.Canvas(self.buf, pagesize=A4)
-        self.c.setTitle("Ettiene Wium — CV (local preview)")
+        self.c.setTitle("Ettiene Wium — CV")
         self.c.setAuthor("Ettiene Wium")
         self.c.setSubject("Tech Lead · Senior Backend / Software Engineer")
         self.inner = W - ML - MR
-        self.y = H - 36
+        self.y = H - 32
         self.page_i = 1
-        self.page_count = 2
+        self.page_count = 1
         self._paint()
 
     def _paint(self) -> None:
@@ -143,7 +143,7 @@ class VoidDoc:
 
     def _footer(self) -> None:
         c = self.c
-        label = f"Ettiene Wium  ·  ettiene-wium.com  ·  local preview  ·  {self.page_i} / {self.page_count}"
+        label = f"Ettiene Wium  ·  ettiene-wium.com  ·  {self.page_i} / {self.page_count}"
         c.setFillColor(FAINT)
         c.setFont("UI", 7.5)
         c.drawString(ML, 22, label)
@@ -193,7 +193,7 @@ class VoidDoc:
 
     def section(self, title: str, x: float | None = None) -> None:
         x = ML if x is None else x
-        self.y -= 6
+        self.y -= 8
         self.text(title.upper(), x, self.y, 8, "UI-Bold", MINT)
         self.y -= 6
         self.c.setStrokeColor(MINT)
@@ -201,7 +201,37 @@ class VoidDoc:
         self.c.setLineWidth(0.7)
         self.c.line(x, self.y, W - MR, self.y)
         self.c.setStrokeAlpha(1)
-        self.y -= 12
+        self.y -= 14
+
+    def mark(self, portrait: Path) -> None:
+        cx, cy = W - 78, H - 78
+        if portrait.is_file():
+            from reportlab.lib.utils import ImageReader
+
+            side = 72.0
+            self.c.saveState()
+            pth = self.c.beginPath()
+            pth.circle(cx, cy, side / 2.0)
+            self.c.clipPath(pth, stroke=0)
+            self.c.drawImage(
+                ImageReader(str(portrait)),
+                cx - side / 2.0,
+                cy - side / 2.0,
+                width=side,
+                height=side,
+                preserveAspectRatio=True,
+                mask="auto",
+            )
+            self.c.restoreState()
+            return
+        self.c.setFillColor(MINT)
+        self.c.setFillAlpha(0.10)
+        self.c.circle(cx, cy, 38, fill=1, stroke=0)
+        self.c.setFillAlpha(1)
+        ew = "EW"
+        self.c.setFillColor(MINT)
+        self.c.setFont("Display", 16)
+        self.c.drawString(cx - _sw(ew, "Display", 16) / 2, cy - 5, ew)
 
 
 def _stat(doc: VoidDoc, x: float, top: float, w: float, h: float, value: str, label: str, rail=MINT) -> None:
@@ -246,41 +276,39 @@ def build_cv_pdf_void(site: dict[str, Any]) -> bytes:
     li_url = str(links.get("linkedin") or "")
 
     doc = VoidDoc()
-    c = doc.c
+    portrait = Path(__file__).resolve().parents[1] / "content" / "portrait.jpg"
+    doc.mark(portrait)
+    name_right = W - 170
 
-    # --- header ---
-    doc.text(name, ML, doc.y - 4, 28, "Display", MINT)
-    doc.y -= 36
+    doc.text(name, ML, doc.y - 2, 26, "Display", MINT)
+    doc.y -= 30
     if headline:
-        doc.text(headline, ML, doc.y, 11, "UI-Bold", INK)
-        doc.y -= 16
-
-    # NOW + interest
-    pill_h = doc.pill("NOW", ML, doc.y - 2, HOT, HexColor("#1A0610"), "UI-Bold", 7)
-    doc.text(interest, ML + pill_h + 10, doc.y, 8.5, "UI", MUTED)
-    doc.y -= 18
+        doc.text(headline, ML, doc.y, 10.5, "UI-Bold", INK)
+        doc.y -= 15
+    if interest:
+        doc.text(interest, ML, doc.y, 9, "UI", MINT)
+        doc.y -= 14
 
     loc = "Cape Town  ·  globally remote  ·  SAST"
-    doc.text("  ·  ".join(x for x in (loc, email, phone) if x), ML, doc.y, 8, "UI", FAINT)
+    doc.text("  ·  ".join(x for x in (loc, email, phone) if x), ML, doc.y, 7.5, "UI", FAINT)
     if email:
-        doc.link("mailto:" + email, ML, doc.y - 1, doc.inner, 10)
-    doc.y -= 13
-
+        doc.link("mailto:" + email, ML, doc.y - 1, min(doc.inner, name_right - ML), 10)
+    doc.y -= 12
     x = ML
     for label, url in ((site_u, site_url), (gh, gh_url), (li, li_url)):
         if not label:
             continue
-        tw = _sw(label, "UI-Italic", 8.5)
-        doc.text(label, x, doc.y, 8.5, "UI-Italic", MINT)
-        doc.link(url, x, doc.y - 1, tw, 11)
-        x += tw + 14
-    doc.y -= 18
+        tw = _sw(label, "UI-Italic", 8)
+        doc.text(label, x, doc.y, 8, "UI-Italic", MINT)
+        doc.link(url, x, doc.y - 1, tw, 10)
+        x += tw + 12
+    doc.y -= 12
+    doc.text("Open to globally remote Senior and Lead backend roles", ML, doc.y, 8, "UI-Italic", VIOLET_INK)
+    doc.y -= 16
 
-    # --- stats ---
-    gap = 8
-    n_stats = 4
-    plate_w = (doc.inner - gap * (n_stats - 1)) / n_stats
-    plate_h = 58
+    gap = 7
+    plate_w = (doc.inner - gap * 3) / 4
+    plate_h = 52
     top = doc.y
     stats = (
         ("8", "YEARS PRODUCTION", MINT),
@@ -290,45 +318,63 @@ def build_cv_pdf_void(site: dict[str, Any]) -> bytes:
     )
     for i, (val, lab, rail) in enumerate(stats):
         _stat(doc, ML + i * (plate_w + gap), top, plate_w, plate_h, val, lab, rail)
-    doc.y = top - plate_h - 16
+    doc.y = top - plate_h - 12
 
-    # --- featured SAWIS ---
     chips = (
-        ("MONTHLY", "Mapper to MySQL sync"),
-        ("2M+", "Rows in production tables"),
-        ("BACKEND", "Majority of the work myself"),
-        ("TEAM", "PM + Senior FE + Senior BE"),
+        ("MONTHLY", "Mapper to MySQL"),
+        ("2M+", "Production tables"),
+        ("RECOVERY", "Trace and restore"),
+        ("TEAM", "PM + Sr FE + Sr BE"),
     )
-    pad = 14
-    chip_gap = 8
-    chip_w = (doc.inner - pad * 2 - chip_gap) / 2
+    pad = 12
+    chip_gap = 6
+    chip_w = (doc.inner - pad * 2 - chip_gap * 3) / 4
     chip_h = 42
-    title = str(sawis.get("name") or "SAWIS BI")
-    role = str(sawis.get("role") or "Tech Lead")
-    outcome = "Annual feature phases. 2026 includes major domestic-data work."
-    header_h = 58
-    card_h = pad + header_h + chip_h * 2 + chip_gap + 22 + pad
+    header_h = 46
+    card_h = pad + header_h + chip_h + 22
     top = doc.y
     yb = top - card_h
-    doc.round_card(ML, yb, doc.inner, card_h, fill=ELEV, rail=MINT, radius=10)
+    doc.round_card(ML, yb, doc.inner, card_h, fill=ELEV, rail=MINT, radius=9)
     tx = ML + pad + 4
-    ty = top - 18
-    doc.text("FEATURED WORK", tx, ty, 7.5, "UI-Bold", MINT)
-    ty -= 18
-    doc.text(title, tx, ty, 16, "Display", INK)
-    ty -= 16
-    doc.text(role + "  ·  SA wine import, export, and domestic data", tx, ty, 8.5, "UI-Italic", VIOLET_INK)
-    cy = yb + pad + 22
+    ty = top - 16
+    doc.text("FEATURED  ·  SAWIS BI", tx, ty, 7, "UI-Bold", MINT)
+    ty -= 15
+    doc.text("Tech Lead  ·  SA wine import, export, and domestic data", tx, ty, 9, "UI-Italic", VIOLET_INK)
+    cy = yb + pad
     for i, (k, b) in enumerate(chips):
-        col = i % 2
-        row = i // 2
-        cx = tx + col * (chip_w + chip_gap)
-        chip_y = cy + (1 - row) * (chip_h + chip_gap)
-        _chip(doc, cx, chip_y, chip_w, chip_h, k, b)
-    doc.text(outcome, tx, yb + pad + 6, 8.5, "UI", MUTED)
-    doc.y = yb - 14
+        _chip(doc, tx + i * (chip_w + chip_gap), cy + 14, chip_w, chip_h, k, b)
+    doc.text(
+        "Failed months get a traced PHP/MySQL path. 2026 domestic-data is the current annual phase.",
+        tx,
+        yb + 8,
+        7.5,
+        "UI",
+        MUTED,
+    )
+    doc.y = yb - 12
 
-    # --- experience ---
+    lead = (
+        ("PLAN", "Estimate with the client"),
+        ("DECIDE", "Backend and data path"),
+        ("SHIP", "PHP / MySQL delivery"),
+        ("COORDINATE", "PM + Sr FE + Sr BE"),
+    )
+    doc.text("HOW I LEAD", ML, doc.y, 8, "UI-Bold", MINT)
+    doc.y -= 8
+    doc.c.setStrokeColor(MINT)
+    doc.c.setStrokeAlpha(0.35)
+    doc.c.setLineWidth(0.7)
+    doc.c.line(ML, doc.y, W - MR, doc.y)
+    doc.c.setStrokeAlpha(1)
+    doc.y -= 10
+    lead_h = 42
+    lead_gap = 6
+    lead_w = (doc.inner - lead_gap * 3) / 4
+    top = doc.y
+    for i, (k, b) in enumerate(lead):
+        _chip(doc, ML + i * (lead_w + lead_gap), top - lead_h, lead_w, lead_h, k, b)
+    doc.y = top - lead_h - 8
+
     doc.section("Experience")
     jobs = [
         {
@@ -336,9 +382,7 @@ def build_cv_pdf_void(site: dict[str, Any]) -> bytes:
             "meta": "Silicon Overdrive  ·  Cape Town",
             "dates": "Apr 2022 – Present",
             "bullets": [
-                "Tech Lead on SAWIS BI. Majority of the backend. Coordinate a project manager, a senior frontend engineer, and a senior backend engineer.",
-                "Own the monthly Mapper to MySQL sync. Some tables exceed two million rows. When a job fails, I trace the data path and restore it.",
-                "Own client-facing planning, estimation, technical decisions, and delivery. Annual phases; 2026 includes major domestic-data work.",
+                "Tech Lead on SAWIS BI. Coordinate a PM, senior frontend, and senior backend. Monthly Mapper to MySQL; tables over two million rows. When a job fails I trace the data path and restore the month.",
                 "Client owner for Indawo: spec through production, including a Docker restore after the on-prem host failed.",
             ],
         },
@@ -347,186 +391,105 @@ def build_cv_pdf_void(site: dict[str, Any]) -> bytes:
             "meta": "RogerWilco  ·  Cape Town",
             "dates": "Jun 2018 – Mar 2022",
             "bullets": [
-                "Production backends on Ubuntu and AWS: Laravel, Symfony, custom PHP. Owned Drupal and WordPress modules.",
-                "RBAC member dashboard (Global Self-Care Federation) and live JSE data graphs. Production support: compatibility, DNS/TLS, security reviews.",
+                "Production Laravel, Symfony, and custom PHP on Ubuntu and AWS. RBAC member dashboard and live JSE graphs.",
+                "Owned WordPress and Drupal modules. Production support: DNS/TLS, security reviews.",
             ],
         },
     ]
     for job in jobs:
-        doc.y -= 2
-        doc.text(job["title"], ML, doc.y, 11, "UI-Bold", INK)
-        doc.right(job["dates"], W - MR, doc.y, 8, "UI-Italic", FAINT)
-        doc.y -= 13
-        doc.text(job["meta"], ML, doc.y, 8.5, "UI", VIOLET_INK)
-        doc.y -= 14
+        doc.text(job["title"], ML, doc.y, 10, "UI-Bold", INK)
+        doc.right(job["dates"], W - MR, doc.y, 7.5, "UI-Italic", FAINT)
+        doc.y -= 11
+        doc.text(job["meta"], ML, doc.y, 8, "UI", VIOLET_INK)
+        doc.y -= 12
         for b in job["bullets"]:
-            lines = wrap(b, "UI", 9, doc.inner - 14)
-            doc.text("·", ML + 1, doc.y, 11, "UI-Bold", MINT)
+            lines = wrap(b, "UI", 8.5, doc.inner - 14)
+            doc.text("·", ML + 1, doc.y, 10, "UI-Bold", MINT)
             for line in lines:
-                doc.text(line, ML + 12, doc.y, 9, "UI", INK)
-                doc.y -= 12
-            doc.y -= 3
+                doc.text(line, ML + 12, doc.y, 8.5, "UI", INK)
+                doc.y -= 11
+            doc.y -= 2
+        doc.y -= 4
+
+    extras = [it for it in (indawo, fleet, homelab) if it]
+    if extras:
+        doc.text("ALSO", ML, doc.y, 8, "UI-Bold", MINT)
         doc.y -= 6
+        doc.c.setStrokeColor(MINT)
+        doc.c.setStrokeAlpha(0.35)
+        doc.c.setLineWidth(0.7)
+        doc.c.line(ML, doc.y, W - MR, doc.y)
+        doc.c.setStrokeAlpha(1)
+        doc.y -= 10
+        col_w = (doc.inner - 8 * (len(extras) - 1)) / max(len(extras), 1)
+        top = doc.y
+        max_h = 0
+        for i, it in enumerate(extras):
+            blurb = str(it.get("blurb") or "")
+            lines = wrap(blurb, "UI", 7.5, col_w - 22)
+            hgt = 44 + 11 * len(lines)
+            max_h = max(max_h, hgt)
+            x0 = ML + i * (col_w + 8)
+            y0 = top - hgt
+            rail = (MINT, VIOLET, HOT)[i % 3]
+            doc.round_card(x0, y0, col_w, hgt, fill=ELEV, rail=rail, radius=7)
+            doc.text(str(it.get("name") or ""), x0 + 12, top - 14, 9, "Display", INK)
+            doc.text(str(it.get("role") or ""), x0 + 12, top - 26, 7, "UI-Italic", MINT)
+            by = top - 38
+            for line in lines:
+                doc.text(line, x0 + 12, by, 7.5, "UI", INK)
+                by -= 10
+        doc.y = top - max_h - 12
 
-    # --- page 2 ---
-    doc.new_page()
-    col_gap = 14
-    col_w = (doc.inner - col_gap) / 2
-    left_x = ML
-    right_x = ML + col_w + col_gap
-    y_left = doc.y
-    y_right = doc.y
-
-    def work_card(x: float, top: float, w: float, it: dict, rail) -> float:
-        title = str(it.get("name") or "")
-        role = str(it.get("role") or "")
-        stack = str(it.get("stack") or "")
-        blurb = str(it.get("blurb") or "")
-        url = str(it.get("url") or "")
-        body_font, body_size = "UI", 8.5
-        lines = wrap(blurb, body_font, body_size, w - 28)
-        url_line = _short_url(url) if url else ""
-        h = 18 + 14 + (11 if stack else 0) + 12 * len(lines) + (12 if url_line else 0) + 16
-        y = top - h
-        doc.round_card(x, y, w, h, fill=ELEV, rail=rail, radius=8)
-        tx = x + 14
-        ty = top - 18
-        doc.text(title, tx, ty, 12, "Display", INK)
-        ty -= 14
-        doc.text(role, tx, ty, 8, "UI-Italic", MINT)
-        ty -= 12
-        if stack:
-            for sl in wrap(stack, "UI", 7.5, w - 28)[:2]:
-                doc.text(sl, tx, ty, 7.5, "UI", FAINT)
-                ty -= 10
-            ty -= 2
-        for line in lines:
-            doc.text(line, tx, ty, body_size, "UI", INK)
-            ty -= 12
-        if url_line:
-            doc.text(url_line, tx, ty, 8, "UI-Italic", MINT)
-            doc.link(url, x, y, w, h)
-        return y - 10
-
-    def kicker(x: float, y: float, title: str) -> float:
-        doc.text(title.upper(), x, y, 8, "UI-Bold", MINT)
-        c.setStrokeColor(MINT)
-        c.setStrokeAlpha(0.35)
-        c.setLineWidth(0.7)
-        c.line(x, y - 5, x + col_w, y - 5)
-        c.setStrokeAlpha(1)
-        return y - 16
-
-    y_left = kicker(left_x, y_left, "Also shipping")
-    if indawo:
-        y_left = work_card(left_x, y_left, col_w, indawo, MINT)
-    if fleet:
-        y_left = work_card(left_x, y_left, col_w, fleet, VIOLET)
-    if homelab:
-        y_left = work_card(left_x, y_left, col_w, homelab, HOT)
-
-    delivery = p.get("delivery") if isinstance(p.get("delivery"), list) else []
-    if delivery:
-        y_left = kicker(left_x, y_left - 4, "How I run a client")
-        box_h = 14 + 16 * len(delivery)
-        yb = y_left - box_h
-        doc.round_card(left_x, yb, col_w, box_h, fill=ELEV, rail=MINT, radius=8)
-        ty = y_left - 16
-        for step in delivery:
-            doc.text("·", left_x + 12, ty, 10, "UI-Bold", MINT)
-            for line in wrap(str(step), "UI", 8, col_w - 32)[:2]:
-                doc.text(line, left_x + 22, ty, 8, "UI", INK)
-                ty -= 12
-            ty -= 2
-        y_left = yb - 8
-
-    # right column
-    y_right = kicker(right_x, y_right, "Stack")
     pills = [
         "PHP / Laravel",
-        "Symfony",
-        "MySQL 2M+",
+        "MySQL",
         "Mapper sync",
-        "REST APIs",
         "Linux",
         "Docker",
-        "AWS",
+        "AWS DOP-C02",
         "CodePipeline",
         "Terraform",
         "k3s homelab",
-        "Cursor",
-        "Grok",
-        "Claude",
-        "Codex",
+        "Cursor / Grok / Claude / Codex",
     ]
-    px, py = right_x, y_right
-    row_h = 18
-    max_x = right_x + col_w
-    for label in pills:
-        tw = _sw(label, "UI-Bold", 7.5) + 16
-        if px + tw > max_x:
-            px = right_x
-            py -= row_h
-        fill = MINT_SOFT if label not in ("k3s homelab",) else VIOLET_SOFT
-        ink = MINT if label not in ("k3s homelab",) else VIOLET
-        doc.pill(label, px, py - 4, fill, ink)
-        px += tw + 5
-    y_right = py - 22
+    def _pills(labels: list[str], y: float, mint_only: bool = False) -> float:
+        px, py = ML, y
+        for label in labels:
+            tw = _sw(label, "UI-Bold", 7) + 15
+            if px + tw > W - MR:
+                px = ML
+                py -= 18
+            fill, ink = MINT_SOFT, MINT
+            if not mint_only and "k3s" in label:
+                fill, ink = VIOLET_SOFT, VIOLET
+            doc.pill(label, px, py - 3, fill, ink, size=7)
+            px += tw + 4
+        return py - 22
 
-    years = [
-        row
-        for row in (p.get("skill_years") if isinstance(p.get("skill_years"), list) else [])
-        if isinstance(row, dict) and "WordPress" not in str(row.get("label") or "")
-    ]
-    if years:
-        y_right = kicker(right_x, y_right, "Years")
-        for row in years:
-            val = str(row.get("years") or "")
-            lab = str(row.get("label") or "")
-            doc.text(val, right_x, y_right, 9, "UI-Bold", MINT)
-            body = wrap(lab, "UI", 8, col_w - 50)
-            for i, line in enumerate(body):
-                doc.text(line, right_x + 48, y_right - i * 11, 8, "UI", INK)
-            y_right -= 11 * max(len(body), 1) + 5
-        y_right -= 8
+    doc.text("STACK", ML, doc.y, 8, "UI-Bold", MINT)
+    doc.y = _pills(pills, doc.y - 14)
 
     certs = [str(c) for c in (p.get("certs") if isinstance(p.get("certs"), list) else [])]
     if certs:
-        y_right = kicker(right_x, y_right, "Certifications")
-        hero = certs[0]
-        hero_lines = wrap(hero, "UI-Bold", 8.5, col_w - 28)
-        hh = 18 + 12 * len(hero_lines)
-        yb = y_right - hh
-        doc.round_card(right_x, yb, col_w, hh, fill=ELEV, rail=HOT, radius=7)
-        ty = y_right - 16
-        for line in hero_lines:
-            doc.text(line, right_x + 14, ty, 8.5, "UI-Bold", INK)
-            ty -= 12
-        y_right = yb - 10
-        for cert in certs[1:]:
-            doc.text("·", right_x + 2, y_right, 9, "UI-Bold", VIOLET)
-            for line in wrap(cert, "UI", 8, col_w - 16):
-                doc.text(line, right_x + 12, y_right, 8, "UI", MUTED)
-                y_right -= 11
-            y_right -= 3
-        y_right -= 6
+        doc.text("CERTIFICATIONS", ML, doc.y, 8, "UI-Bold", MINT)
+        short = [
+            "DevOps Engineer Pro (DOP-C02)",
+            "Solutions Architect Assoc.",
+            "SysOps Assoc.",
+            "Developer Assoc.",
+            "Cloud Practitioner",
+        ]
+        doc.y = _pills(short[: len(certs)], doc.y - 14, mint_only=True)
 
     edu = [str(e) for e in (p.get("education") if isinstance(p.get("education"), list) else [])]
     if edu:
-        y_right = kicker(right_x, y_right, "Education")
-        for e in edu:
-            for line in wrap(e, "UI", 8, col_w):
-                doc.text(line, right_x, y_right, 8, "UI", MUTED)
-                y_right -= 11
-            y_right -= 4
-
-    band_h = 56
-    yb = min(y_left, y_right) - 18 - band_h
-    if yb < 36:
-        yb = 36
-    doc.round_card(ML, yb, doc.inner, band_h, fill=ELEV2, rail=VIOLET, radius=9)
-    doc.text("ettiene-wium.com", ML + 16, yb + 30, 16, "Display", MINT)
-    doc.text("Portfolio  ·  selected work  ·  this CV as a visual preview", ML + 16, yb + 14, 8, "UI", MUTED)
-    doc.link(site_url, ML, yb, doc.inner, band_h)
+        doc.text("EDUCATION", ML, doc.y, 8, "UI-Bold", MINT)
+        doc.y -= 14
+        for e in edu[:3]:
+            for line in wrap(e, "UI", 8, doc.inner):
+                doc.text(line, ML, doc.y, 8, "UI", MUTED)
+                doc.y -= 11
+            doc.y -= 2
 
     return doc.finish()

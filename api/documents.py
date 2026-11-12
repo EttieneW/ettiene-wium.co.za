@@ -551,7 +551,7 @@ def build_pdf(rows: list[tuple[str, str]]) -> bytes:
 
 
 def build_cv_pdf_void(site: dict[str, Any]) -> bytes:
-    """Dark Void Signal CV for local preview. Does not replace the ATS download."""
+    """Public Void Signal one-page CV."""
     from void_cv import build_cv_pdf_void as _build
 
     return _build(site)
@@ -626,7 +626,7 @@ def export_bytes(site: dict[str, Any], kind: str, fmt: str) -> tuple[bytes, str,
         data = (
             build_cover_pdf(site)
             if kind in ("cover", "cover-letter", "letter")
-            else build_cv_pdf(site)
+            else build_cv_pdf_void(site)
         )
         return data, f"{stem}.pdf", "application/pdf"
     if fmt in ("docx", "doc"):

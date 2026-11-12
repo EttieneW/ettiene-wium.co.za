@@ -30,33 +30,11 @@ def _cv_href(site: dict[str, Any]) -> str:
 
 def render_index(site: dict[str, Any]) -> str:
     p = site.get("profile") if isinstance(site.get("profile"), dict) else {}
-    c = site.get("cover_letter") if isinstance(site.get("cover_letter"), dict) else {}
     proj = site.get("projects") if isinstance(site.get("projects"), dict) else {}
     links = p.get("links") if isinstance(p.get("links"), dict) else {}
-    skills = p.get("skills") if isinstance(p.get("skills"), dict) else {}
     name = str(p.get("name") or "Ettiene Wium")
     headline = str(p.get("headline") or "Profile")
     location = str(p.get("location") or "")
-    skill_labels = [
-        ("lead", "Leadership"),
-        ("backend", "Backend"),
-        ("data", "Data"),
-        ("cloud", "Cloud / platform"),
-        ("ai", "AI tooling"),
-        ("languages", "Languages"),
-        ("ops", "Ops"),
-        ("other", "Also"),
-    ]
-    skill_html = []
-    for key, label in skill_labels:
-        items = skills.get(key) if isinstance(skills.get(key), list) else []
-        if not items:
-            continue
-        chips = "".join(f"<li>{h(i)}</li>" for i in items)
-        skill_html.append(
-            f'<article class="skill-card tilt reveal"><h3>{h(label)}</h3><ul class="chips">{chips}</ul></article>'
-        )
-
     jobs_html = []
     for job in p.get("experience") if isinstance(p.get("experience"), list) else []:
         if not isinstance(job, dict):
@@ -65,7 +43,7 @@ def render_index(site: dict[str, Any]) -> str:
             f"<li>{h(b)}</li>" for b in (job.get("bullets") if isinstance(job.get("bullets"), list) else [])
         )
         jobs_html.append(
-            '<article class="job tilt reveal">'
+            '<article class="job">'
             f'<p class="job-when">{h(job.get("dates", ""))}</p>'
             '<div class="job-body">'
             f"<h3>{h(job.get('company', ''))}</h3>"
@@ -81,7 +59,8 @@ def render_index(site: dict[str, Any]) -> str:
         f"<li>{h(item)}</li>" for item in (p.get("education") if isinstance(p.get("education"), list) else [])
     )
 
-    work_html = []
+    featured_html = []
+    compact_html = []
     for it in proj.get("items") if isinstance(proj.get("items"), list) else []:
         if not isinstance(it, dict):
             continue
@@ -103,19 +82,23 @@ def render_index(site: dict[str, Any]) -> str:
             val = str(it.get(key) or "").strip()
             if val:
                 steps.append(f"<div><h4>{lab}</h4><p>{h(val)}</p></div>")
+        compact = str(it.get("status") or "") in ("paused", "homelab") or not steps
         body = (
-            f'<div class="case-steps">{"".join(steps)}</div>'
-            if steps
-            else f"<p>{h(it.get('blurb', ''))}</p>"
+            f"<p>{h(it.get('blurb', ''))}</p>"
+            if compact
+            else f'<div class="case-steps">{"".join(steps)}</div>'
         )
-        private = "" if link else '<p class="meta">No public URL</p>'
-        work_html.append(
-            '<article class="work-card case tilt reveal">'
+        card = (
+            f'<article class="work-card case{" compact" if compact else ""}">'
             f'<p class="pill">{h(it.get("status", ""))}</p>'
             f"<h3>{h(it.get('name', ''))}</h3>"
             f'<p class="meta">{h(it.get("role", ""))}</p>{stack}'
-            f"{body}{private}{link}</article>"
+            f"{body}{link}</article>"
         )
+        (compact_html if compact else featured_html).append(card)
+    work_html = featured_html
+    if compact_html:
+        work_html.append(f'<div class="cases-compact">{"".join(compact_html)}</div>')
 
     years_html = []
     for row in p.get("skill_years") if isinstance(p.get("skill_years"), list) else []:
@@ -128,7 +111,7 @@ def render_index(site: dict[str, Any]) -> str:
             "</li>"
         )
     years_block = (
-        f'<ol class="years reveal">{"".join(years_html)}</ol>' if years_html else ""
+        f'<ol class="years">{"".join(years_html)}</ol>' if years_html else ""
     )
     steps = p.get("delivery") if isinstance(p.get("delivery"), list) else []
     steps_html = "".join(
@@ -136,7 +119,7 @@ def render_index(site: dict[str, Any]) -> str:
         for i, s in enumerate((x for x in steps if str(x).strip()), 1)
     )
     steps_block = (
-        f'<ol class="process reveal">{steps_html}</ol>' if steps_html else ""
+        f'<ol class="process">{steps_html}</ol>' if steps_html else ""
     )
     hired = str(p.get("hired_for") or "")
     leaning = str(p.get("leaning_into") or "")
@@ -145,12 +128,12 @@ def render_index(site: dict[str, Any]) -> str:
         split_block = (
             '<div class="path-grid">'
             + (
-                f'<article class="path-card tilt"><p class="kicker">Now</p><p>{h(hired)}</p></article>'
+                f'<article class="path-card"><p class="kicker">Now</p><p>{h(hired)}</p></article>'
                 if hired
                 else ""
             )
             + (
-                f'<article class="path-card tilt"><p class="kicker">Focus</p><p>{h(leaning)}</p></article>'
+                f'<article class="path-card"><p class="kicker">Focus</p><p>{h(leaning)}</p></article>'
                 if leaning
                 else ""
             )
@@ -161,19 +144,10 @@ def render_index(site: dict[str, Any]) -> str:
         p.get("status_line")
         or "Open to global remote Senior / Lead backend roles · Cape Town · SAST (UTC+2)"
     )
-    staff_items = p.get("toward_staff") if isinstance(p.get("toward_staff"), list) else []
-    staff_block = ""
-    if staff_items:
-        lis = "".join(f"<li>{h(x)}</li>" for x in staff_items if str(x).strip())
-        staff_block = f'<ul class="staff-gaps">{lis}</ul>'
-
     gh = str(links.get("github") or "")
     li = str(links.get("linkedin") or "")
     email = str(p.get("email") or "")
     phone = str(p.get("phone") or "")
-    cover_paras = "".join(
-        f"<p>{_nl(para.strip())}</p>" for para in str(c.get("body") or "").split("\n\n") if para.strip()
-    )
     gh_btn = _ext(gh, "GitHub") if gh else ""
     li_btn = _ext(li, "LinkedIn") if li else ""
     mail_btn = f'<a class="btn ghost" href="mailto:{h(email)}">Email</a>' if email else ""
@@ -181,7 +155,11 @@ def render_index(site: dict[str, Any]) -> str:
         f'<a class="contact-email" href="mailto:{h(email)}">{h(email)}</a>' if email else ""
     )
     cv_href = _cv_href(site)
-    cv_nav = _ext(cv_href, "Download CV", "btn btn-sm")
+    cv_nav = (
+        f'<a class="btn btn-sm cv-download" href="{h(cv_href)}" target="_blank" '
+        f'rel="noopener noreferrer"><span class="full">Download CV</span>'
+        f'<span class="short">CV</span></a>'
+    )
     cv_hero = _ext(cv_href, "Download CV (PDF)", "btn")
 
     return f"""<!DOCTYPE html>
@@ -248,7 +226,7 @@ def render_index(site: dict[str, Any]) -> str:
         </div>
       </div>
       {split_block}
-      <div class="prose reveal">{_nl(str(p.get("summary") or ""))}</div>
+      <div class="prose">{_nl(str(p.get("summary") or ""))}</div>
     </section>
     <section id="work">
       <div class="section-head">
@@ -263,10 +241,9 @@ def render_index(site: dict[str, Any]) -> str:
         <p class="section-index">02</p>
         <h2>Skills</h2>
       </div>
-      <p class="lede">Kubernetes (k3s) and Terraform are listed under skills as homelab / freelance.</p>
+      <p class="lede">Kubernetes (k3s) and Terraform are listed as homelab / freelance.</p>
       {years_block}
       {("<h3 class='kicker'>How I lead a client</h3>" + steps_block) if steps_block else ""}
-      <div class="grid">{"".join(skill_html)}</div>
     </section>
     <section id="experience">
       <div class="section-head">
@@ -291,22 +268,9 @@ def render_index(site: dict[str, Any]) -> str:
         </div>
       </div>
     </section>
-    <section id="letter">
-      <div class="section-head">
-        <p class="section-index">05</p>
-        <h2>{h(c.get("heading") or "Cover letter")}</h2>
-      </div>
-      <div class="letter-wrap tilt reveal">
-        <div class="letter">{cover_paras}</div>
-        <p class="actions">
-          <a class="btn ghost" href="/downloads/Ettiene-Wium-Cover-Letter.pdf">Letter (PDF)</a>
-          <a class="btn ghost" href="/downloads/Ettiene-Wium-Cover-Letter.docx">Letter (DOCX)</a>
-        </p>
-      </div>
-    </section>
     <section id="contact">
       <div class="section-head">
-        <p class="section-index">06</p>
+        <p class="section-index">05</p>
         <h2>Contact</h2>
       </div>
       <div class="contact-panel">
@@ -317,6 +281,7 @@ def render_index(site: dict[str, Any]) -> str:
           {mail_btn}
           {li_btn}
           {gh_btn}
+          <a class="btn ghost" href="/downloads/Ettiene-Wium-Cover-Letter.pdf" target="_blank" rel="noopener noreferrer">Letter (PDF)</a>
         </p>
       </div>
     </section>

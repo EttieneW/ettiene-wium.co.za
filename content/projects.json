@@ -8,11 +8,11 @@
       "url": "",
       "stack": "PHP, MySQL, legacy Mapper sync, import/export",
       "problem": "The South African wine industry needs import, export, and domestic data in one production system. Source of truth for a large cut of that data is a legacy Mapper system. The business depends on that data landing correctly every month, and on import/export jobs completing.",
-      "responsibility": "Tech Lead. I do the majority of the backend. I own the destination database and application path: monthly synchronisation from Mapper into our MySQL (tables over two million rows), import/export jobs, and recovery when a run fails. I own planning, estimation, technical decisions, and delivery, including annual feature phases (major domestic-data work in 2026).",
+      "responsibility": "Tech Lead. I own the destination database and application path: monthly synchronisation from Mapper into our MySQL (tables over two million rows), import/export jobs, and recovery when a run fails. I own planning, estimation, technical decisions, and delivery, including the 2026 domestic-data phase.",
       "decisions": "Treat Mapper as the client's legacy extractor; own load, schema, validation, and repair on our side so a failed month can be traced through PHP and MySQL instead of guessed.",
       "leadership": "I coordinate a project manager, a senior frontend engineer, and a senior backend engineer. I am the client-facing technical owner.",
-      "outcome": "Monthly Mapper syncs and wine-industry import/export continue in production on tables over two million rows. Failed jobs get a recovered data path. Annual phases, including 2026 domestic data, ship under this lead.",
-      "blurb": "Tech Lead. Monthly Mapper → MySQL sync. Tables over 2 million rows. Majority of backend. PM + senior FE + senior BE."
+      "outcome": "Failed months get a traced load, schema, and repair path in PHP and MySQL instead of a guessed one. Monthly Mapper sync still runs on tables over two million rows. 2026 domestic-data work is the current annual phase under this lead.",
+      "blurb": "Tech Lead. Monthly Mapper → MySQL sync. Tables over 2 million rows. PM + senior FE + senior BE."
     },
     {
       "name": "Indawo",
@@ -33,25 +33,25 @@
       "status": "paused",
       "url": "",
       "stack": "Terraform, EC2, RDS MySQL, CodePipeline",
-      "problem": "A production PHP fleet needed a rebuildable AWS environment.",
-      "responsibility": "Freelance with a friend. Terraform for the stack in af-south-1.",
-      "decisions": "Environment in code: compute, RDS, pipeline.",
-      "leadership": "Shared freelance delivery.",
-      "outcome": "Terraform for compute, RDS, and pipeline in af-south-1. Separate from Overdrive. Engagement paused; no public repo or live host.",
-      "blurb": "Freelance Terraform for a production PHP fleet. Separate from Overdrive. Paused."
+      "problem": "",
+      "responsibility": "",
+      "decisions": "",
+      "leadership": "",
+      "outcome": "",
+      "blurb": "Freelance Terraform for a production PHP fleet in af-south-1. Separate from Overdrive. Paused."
     },
     {
       "name": "Homelab",
-      "role": "Practice — k3s and uptime",
+      "role": "Practice — streaming, k3s, uptime",
       "status": "homelab",
       "url": "",
       "stack": "Linux, Docker, k3s",
-      "problem": "No industry Kubernetes cluster at work.",
-      "responsibility": "Private streaming stack; I treat uptime as my problem.",
-      "decisions": "Docker on Linux; k3s/k3d to practise cluster failure.",
-      "leadership": "Solo.",
-      "outcome": "Homelab only — not paid production Kubernetes.",
-      "blurb": "Homelab k3s. Practice, not production K8s."
+      "problem": "",
+      "responsibility": "",
+      "decisions": "",
+      "leadership": "",
+      "outcome": "",
+      "blurb": "Private streaming stack on Linux and Docker. Homelab k3s/k3d — practice, not production Kubernetes."
     }
   ]
 }

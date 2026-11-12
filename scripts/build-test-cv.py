@@ -1,4 +1,4 @@
-"""Write a local Void Signal _test CV. Does not replace the ATS download."""
+"""Write the public Void Signal one-page CV to Documents and _local."""
 from __future__ import annotations
 
 import sys
@@ -14,8 +14,10 @@ def main() -> None:
     site = load_site(ROOT / "content")
     pdf = build_cv_pdf_void(site)
     dests = [
+        Path.home() / "Documents" / "Ettiene-Wium CV.pdf",
         Path.home() / "Documents" / "Ettiene-Wium-CV_test.pdf",
         ROOT / "_local" / "Ettiene-Wium-CV_test.pdf",
+        ROOT / "public" / "downloads" / "Ettiene-Wium-CV.pdf",
     ]
     for path in dests:
         path.parent.mkdir(parents=True, exist_ok=True)

@@ -1,4 +1,4 @@
-/* Void Signal motion: 3D hero, hover tilt, click press. CSP-safe (no inline styles). */
+/* Void Signal motion: 3D hero, click press. CSP-safe (no inline styles). */
 (function () {
   "use strict";
 
@@ -59,24 +59,9 @@
       btn.addEventListener("pointerdown", function () { btn.classList.add("is-down"); });
       btn.addEventListener("pointerup", function () { btn.classList.remove("is-down"); });
       btn.addEventListener("pointerleave", function () { btn.classList.remove("is-down"); });
+      if (reduce) return;
       btn.addEventListener("click", function () {
         animate(btn, [{ transform: "scale(0.96)" }, { transform: "scale(1.03)" }, { transform: "scale(1)" }], 280);
-      });
-    });
-  }
-
-  function tilt() {
-    if (reduce || window.matchMedia("(pointer: coarse)").matches) return;
-    var cards = document.querySelectorAll(".tilt, .work-card, .path-card, .skill-card, .job, .letter-wrap");
-    cards.forEach(function (card) {
-      card.addEventListener("pointermove", function (ev) {
-        var r = card.getBoundingClientRect();
-        var px = (ev.clientX - r.left) / r.width - 0.5;
-        var py = (ev.clientY - r.top) / r.height - 0.5;
-        animate(card, { transform: "perspective(900px) rotateX(" + (-py * 8).toFixed(2) + "deg) rotateY(" + (px * 10).toFixed(2) + "deg) translateY(-4px)" }, 140);
-      });
-      card.addEventListener("pointerleave", function () {
-        animate(card, { transform: "perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0)" }, 320);
       });
     });
   }
@@ -84,7 +69,7 @@
   function stage3d() {
     var canvas = document.getElementById("stage3d");
     if (!canvas || reduce) return;
-    var gl = canvas.getContext("webgl", { antialias: true, alpha: true, preserveDrawingBuffer: true });
+    var gl = canvas.getContext("webgl", { antialias: true, alpha: true, preserveDrawingBuffer: false });
     if (!gl) return;
 
     function compile(type, src) {
@@ -301,6 +286,5 @@
   reveal();
   navSpy();
   press();
-  tilt();
   stage3d();
 })();

@@ -19,13 +19,17 @@ def test_site_loads():
 
 
 def test_pdf_and_docx_magic():
+    from pypdf import PdfReader
+    import io
+
     site = load_site(ROOT / "content")
     pdf, name, ctype = export_bytes(site, "cv", "pdf")
     assert pdf.startswith(b"%PDF")
     assert name.endswith(".pdf")
-    assert b"ettiene-wium.com" in pdf
     assert b"Siyabonwa" not in pdf
     assert b"tf-fleet-iac" not in pdf
+    text = "\n".join((p.extract_text() or "") for p in PdfReader(io.BytesIO(pdf)).pages)
+    assert "ettiene-wium.com" in text
     docx, name, _ = export_bytes(site, "cover", "docx")
     assert docx[:2] == b"PK"
     assert name.endswith(".docx")
@@ -40,6 +44,7 @@ def test_render_has_https_downloads():
     assert 'target="_blank"' in html
     assert html.count("/downloads/Ettiene-Wium-CV.pdf?v=") >= 2
     assert "Tech Lead" in html
+    assert "PHP and MySQL" in html
     assert "Mapper" in html
     assert "two million" in html or "2 million" in html
     assert "k3s" in html
@@ -64,6 +69,11 @@ def test_render_has_https_downloads():
     assert "Freelance AWS fleet" in html
     assert "tf-fleet-iac" not in html
     assert "github.com/EttieneW/tf-fleet" not in html
+    assert 'id="letter"' not in html
+    assert "Staff-track" not in html
+    assert "Letter (PDF)" in html
+    assert "cases-compact" in html
+    assert "follow the data" in html.lower()
 
 
 def test_api_has_no_login():
@@ -81,21 +91,36 @@ def test_api_has_no_login():
         assert data["ok"] is False
 
 
-def test_void_cv_is_local_preview_not_ats():
+def test_public_cv_is_void_one_pager():
     from pypdf import PdfReader
     import io
 
     site = load_site(ROOT / "content")
-    ats, _, _ = export_bytes(site, "cv", "pdf")
+    exported, name, _ = export_bytes(site, "cv", "pdf")
     void = build_cv_pdf_void(site)
+    ats = build_cv_pdf(site)
+    assert name.endswith(".pdf")
+    assert exported.startswith(b"%PDF")
     assert void.startswith(b"%PDF")
-    assert void != ats
-    assert ats == build_cv_pdf(site)
-    reader = PdfReader(io.BytesIO(void))
-    assert len(reader.pages) == 2
+    assert ats != void
+    reader = PdfReader(io.BytesIO(exported))
+    assert len(reader.pages) == 1
     text = "\n".join((p.extract_text() or "") for p in reader.pages).lower()
-    for needle in ("sawis", "2m+", "mapper", "ettiene-wium.com", "tech lead", "indawo"):
+    for needle in (
+        "sawis",
+        "2m+",
+        "mapper",
+        "ettiene-wium.com",
+        "tech lead",
+        "indawo",
+        "php",
+        "mysql",
+        "dop-c02",
+        "1 / 1",
+    ):
         assert needle in text, needle
     assert "siyabonwa" not in text
     assert "tf-fleet-iac" not in text
-    assert "local preview" in text
+    assert "local preview" not in text
+    assert "staff-track" not in text
+    assert "github.com/ettienew/tf-fleet" not in text
