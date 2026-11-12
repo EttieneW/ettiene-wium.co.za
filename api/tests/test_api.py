@@ -74,6 +74,7 @@ def test_render_has_https_downloads():
     assert "Letter (PDF)" in html
     assert "cases-compact" in html
     assert "follow the data" in html.lower()
+    assert "AWS Certified AI Practitioner" in html
 
 
 def test_api_has_no_login():
@@ -119,6 +120,7 @@ def test_public_cv_is_void_one_pager():
         "php",
         "mysql",
         "dop-c02",
+        "ai practitioner",
         "1 / 1",
     ):
         assert needle in text, needle

@@ -13,7 +13,7 @@
     "github": "https://github.com/EttieneW",
     "portfolio": "https://ettiene-wium.com"
   },
-  "summary": "Tech Lead and senior backend engineer with eight years in production PHP and MySQL. I lead SAWIS BI, the South African wine import, export, and domestic data system: monthly Mapper synchronisation into MySQL (tables over two million rows), coordinating a PM, senior frontend, and senior backend through delivery. When a sync or import fails I follow the data, not the ticket title.\n\nI also own Indawo as the client engineer, from spec through production, including restoring a failed host with Docker. AWS Certified DevOps Engineer – Professional. Cape Town; targeting globally remote Senior and Lead backend roles.",
+  "summary": "Tech Lead and senior backend engineer with eight years in production PHP and MySQL. I lead SAWIS BI, the South African wine import, export, and domestic data system: monthly Mapper synchronisation into MySQL (tables over two million rows), coordinating a PM, senior frontend, and senior backend through delivery. When a sync or import fails I follow the data, not the ticket title.\n\nI also own Indawo as the client engineer, from spec through production, including restoring a failed host with Docker. AWS Certified DevOps Engineer – Professional and AWS Certified AI Practitioner. Cape Town; targeting globally remote Senior and Lead backend roles.",
   "delivery": [
     "Client-facing planning and estimation",
     "Technical decisions on the backend and data path",
@@ -102,6 +102,7 @@
   ],
   "certs": [
     "AWS Certified DevOps Engineer – Professional (DOP-C02)",
+    "AWS Certified AI Practitioner",
     "AWS Certified Solutions Architect – Associate",
     "AWS Certified SysOps Administrator – Associate",
     "AWS Certified Developer – Associate",

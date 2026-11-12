@@ -475,6 +475,7 @@ def build_cv_pdf_void(site: dict[str, Any]) -> bytes:
         doc.text("CERTIFICATIONS", ML, doc.y, 8, "UI-Bold", MINT)
         short = [
             "DevOps Engineer Pro (DOP-C02)",
+            "AI Practitioner",
             "Solutions Architect Assoc.",
             "SysOps Assoc.",
             "Developer Assoc.",
