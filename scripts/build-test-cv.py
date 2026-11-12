@@ -12,8 +12,9 @@ from documents import build_cv_pdf_void, load_site  # noqa: E402
 
 def main() -> None:
     site = load_site(ROOT / "content")
-    pdf = build_cv_pdf_void(site)
+    pdf = build_cv_pdf_void(site, generate=True)
     dests = [
+        ROOT / "content" / "Ettiene-Wium-CV.pdf",
         Path.home() / "Documents" / "Ettiene-Wium CV.pdf",
         Path.home() / "Documents" / "Ettiene-Wium-CV_test.pdf",
         ROOT / "_local" / "Ettiene-Wium-CV_test.pdf",

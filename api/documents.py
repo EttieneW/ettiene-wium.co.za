@@ -550,8 +550,18 @@ def build_pdf(rows: list[tuple[str, str]]) -> bytes:
     return doc.footer_and_close()
 
 
-def build_cv_pdf_void(site: dict[str, Any]) -> bytes:
-    """Public Void Signal one-page CV."""
+PREBUILT_CV = ROOT / "content" / "Ettiene-Wium-CV.pdf"
+
+
+def build_cv_pdf_void(site: dict[str, Any], *, generate: bool = False) -> bytes:
+    """Public Void Signal one-page CV.
+
+    CodeBuild has no reportlab or Windows fonts, so deploy copies the
+    committed one-pager in content/Ettiene-Wium-CV.pdf. Regenerate locally
+    with scripts/build-test-cv.py (generate=True) and commit that file.
+    """
+    if not generate and PREBUILT_CV.is_file():
+        return PREBUILT_CV.read_bytes()
     from void_cv import build_cv_pdf_void as _build
 
     return _build(site)

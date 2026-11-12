@@ -98,11 +98,14 @@ def test_public_cv_is_void_one_pager():
     site = load_site(ROOT / "content")
     exported, name, _ = export_bytes(site, "cv", "pdf")
     void = build_cv_pdf_void(site)
+    generated = build_cv_pdf_void(site, generate=True)
     ats = build_cv_pdf(site)
     assert name.endswith(".pdf")
     assert exported.startswith(b"%PDF")
     assert void.startswith(b"%PDF")
+    assert generated.startswith(b"%PDF")
     assert ats != void
+    assert exported == void
     reader = PdfReader(io.BytesIO(exported))
     assert len(reader.pages) == 1
     text = "\n".join((p.extract_text() or "") for p in reader.pages).lower()
